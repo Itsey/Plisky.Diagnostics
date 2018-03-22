@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7eebc5cc-1f72-4d49-a29d-3a29af4acb6b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>BilgeListeners</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\AsyncTCPClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\ODSHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\FileSystemHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\LegacyFlimFlamFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StorageListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TCPClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\TCPHandler.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Plisky.Listeners</id>
+    <version>2.0.6.0</version>
+    <title>Plisky Trace Listeners</title>
+    <authors>Jim</authors>
+    <owners>Jim</owners>
+    <licenseUrl>https://opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>http://www.plisky.net/main/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Listeners to support the Plisky Diagnostic Library.</description>
+    <releaseNotes>Adding net standard 2.0 support.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>trace logger logging logs application app bilge plisky piffle error diagnostics</tags>    
+  </metadata>
+  <files>
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners40\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net40\"/>
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners40\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net40\"/>
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net452\"/>
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net452\"/>
+    <file src="..\..\Plisky.Diagnostics.Listeners\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net47\"/>
+    <file src="..\..\Plisky.Diagnostics.Listeners\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net47\"/>
+
+    <!-- Net Standard 2.0-->
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.ListenersStd2\Bin\$configuration$\netstandard2.0\Plisky.Diagnostics.Listeners.Dll" target="lib\netstandard2.0\"/>
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.ListenersStd2\Bin\$configuration$\netstandard2.0\Plisky.Diagnostics.Listeners.Pdb" target="lib\netstandard2.0\"/>
+  </files>
+</package>
+

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Plisky.Diagnostics.Listeners</AssemblyName>
+    <RootNamespace>Plisky.Diagnostics.Listeners</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;BILGE2</DefineConstants>
+  </PropertyGroup>
+
+  <Import Project="..\..\BilgeListeners\BilgeListeners.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Plisky.DiagnosticsStd2\Plisky.DiagnosticsStd2.csproj" />
+  </ItemGroup>
+
+</Project>

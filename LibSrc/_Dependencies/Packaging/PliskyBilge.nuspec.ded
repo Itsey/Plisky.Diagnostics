@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Plisky.Bilge</id>
+    <version>1.0.5</version>
+    <title>$title$</title>
+    <authors>Jim</authors>
+    <owners>Jim</owners>
+    <licenseUrl>https://opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>http://www.plisky.net/main/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Plisky Bilge Trace Library</description>
+    <releaseNotes>Initial release, onto Nuget.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Trace Bilge Plisky</tags>
+  </metadata>
+</package>

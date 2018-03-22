@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>Plisky</Word>
+      <Word>Initialise</Word>
+      <Word>Messagebox</Word>
+      <Word>Utils</Word>
+      <Word>Cleartext</Word>
+    </Recognized>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+
+      <Acronym>TCP</Acronym>
+      <Acronym>frm</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

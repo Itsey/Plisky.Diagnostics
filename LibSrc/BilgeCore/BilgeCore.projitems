@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>18c26c0c-4c5c-47d1-9872-cae3f5b2eca0</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Plisky.Plumbing</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeAssert.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter_Internals.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\ConfigSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\IMessageFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\PrettyReadableFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\SimpleTraceFileHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeRouter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\MessageMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\Bilge.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\IBilgeMessageHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEmergencyDiagnostics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageParts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageStructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InternalUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TraceContextInfo.cs" />
+  </ItemGroup>
+</Project>

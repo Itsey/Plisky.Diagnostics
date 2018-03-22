@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Plisky.Diagnostics</id>
+    <version>2.0.4.0</version>
+    <title>Plisky Diagnostics Library</title>
+    <authors>Jim</authors>
+    <owners>Jim</owners>
+    <licenseUrl>https://opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>http://www.plisky.net/main/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Plisky Diagnostics Library - featuring Bilge and Piffle, offering comprehensive trace and error handling facilities to applications.</description>
+    <releaseNotes>Adding net standard 2.0 support.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>trace logger logging logs application app bilge plisky piffle error diagnostics</tags>   
+  </metadata>
+  <files>
+  
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics40\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net40\"/>
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics40\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net40\"/>
+    
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net452\"/>
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net452\"/>
+    
+    <!-- Most recent version -->
+    <file src="..\..\Plisky.Diagnostics\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net47\"/>
+    <file src="..\..\Plisky.Diagnostics\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net47\"/>
+    
+    <!-- Net Standard 2.0-->
+    <file src="..\..\FrameworkVersions\Plisky.DiagnosticsStd2\Bin\$configuration$\netstandard2.0\Plisky.Diagnostics.Dll" target="lib\netstandard2.0\"/>
+    <file src="..\..\FrameworkVersions\Plisky.DiagnosticsStd2\Bin\$configuration$\netstandard2.0\Plisky.Diagnostics.Pdb" target="lib\netstandard2.0\"/>
+  
+  </files>
+ 
+</package>
