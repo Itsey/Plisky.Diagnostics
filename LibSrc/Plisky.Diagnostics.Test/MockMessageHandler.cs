@@ -132,5 +132,9 @@ namespace Plisky.Diagnostics.Test {
         public void Flush() {
             
         }
+
+        public void CleanUpResources() {
+            
+        }
     }
 }

@@ -31,6 +31,10 @@ namespace Plisky.Diagnostics.Listeners {
             // No caching, therefore flush not required.
         }
 
+        public void CleanUpResources() {
+            // No unmanaged resources.
+        }
+
         public ODSHandler() {
             Formatter = new LegacyFlimFlamFormatter();
         }

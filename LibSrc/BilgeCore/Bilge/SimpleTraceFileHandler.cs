@@ -7,7 +7,7 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Text;
     using System.Threading.Tasks;
 
-    public class SimpleTraceFileHandler : IBilgeMessageHandler, IDisposable {
+    public class SimpleTraceFileHandler : IBilgeMessageHandler {
         private WeakReference lastTask;
         private FileStream fs;
 
@@ -18,7 +18,7 @@ namespace Plisky.Diagnostics.Listeners {
 
 #if NET452 || NETSTANDARD2_0
         public async Task HandleMessageAsync(MessageMetadata[] msg) {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var v in msg) {
                 sb.Append(Formatter.ConvertToString(v));
             }
@@ -39,7 +39,13 @@ namespace Plisky.Diagnostics.Listeners {
 
 #endif
 
-        public void Dispose() {
+
+
+        public void Flush() {
+            fs.Flush();
+        }
+
+        public void CleanUpResources() {
             if ((lastTask != null) && (lastTask.IsAlive)) {
                 Task tsk = (Task)lastTask.Target;
                 if (tsk != null) {
@@ -49,10 +55,6 @@ namespace Plisky.Diagnostics.Listeners {
             if (fs != null) {
                 fs.Close();
             };
-        }
-
-        public void Flush() {
-            fs.Flush();
         }
 
         public string TraceFilename { get; private set; }

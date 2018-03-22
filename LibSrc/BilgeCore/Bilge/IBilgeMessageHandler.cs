@@ -13,5 +13,11 @@ namespace Plisky.Diagnostics {
         void HandleMessage40(MessageMetadata[] msg);
 #endif
         void Flush();
+
+        /// <summary>
+        /// This is a custom dispose implementation because the internals will call dispose but
+        /// that causes FxCop style rules therefore this method is used to clear resources instead.
+        /// </summary>
+        void CleanUpResources();
     }
 }

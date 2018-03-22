@@ -9,8 +9,8 @@ nuget pack PliskyListeners.nuspec -properties configuration=Debug
 ::echo disabled push
 ::goto eof
 
-::nuget push Plisky.Listeners.2.0.7.nupkg -Source https://www.nuget.org/api/v2/package
-nuget push Plisky.Diagnostics.2.0.4.nupkg -apiKey oy2guijbuix4bqf6i6mayp3vipctybpunopwgq3icvtlqy -Source https://www.nuget.org/api/v2/package
+nuget push Plisky.Listeners.2.0.8.nupkg -apiKey oy2guijbuix4bqf6i6mayp3vipctybpunopwgq3icvtlqy -Source https://www.nuget.org/api/v2/package
+::nuget push Plisky.Diagnostics.2.0.8.nupkg -apiKey oy2guijbuix4bqf6i6mayp3vipctybpunopwgq3icvtlqy -Source https://www.nuget.org/api/v2/package
 
 goto eof
 

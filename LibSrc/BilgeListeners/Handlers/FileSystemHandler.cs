@@ -6,7 +6,7 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Text;
     using System.Threading.Tasks;
 
-    public class FileSystemHandler : IBilgeMessageHandler, IDisposable {
+    public class FileSystemHandler : IBilgeMessageHandler {
         private FileStream fs;
 
         public LegacyFlimFlamFormatter Formatter { get; private set; }
@@ -39,42 +39,13 @@ namespace Plisky.Diagnostics.Listeners {
             fs = new FileStream(path, FileMode.Create);
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing) {
-            if (!disposedValue) {
-                if (disposing) {
-                    // TODO: dispose managed state (managed objects).
-
-                }
-
-                // As Per Template: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                if (fs != null) {
-                    fs.Close();
-                    fs = null;
-                }
-
-                // As Per Pattern: set large fields to null.
-
-                disposedValue = true;
+        public void CleanUpResources() {
+            if (fs != null) {
+                fs.Close();
+                fs = null;
             }
         }
-
-
-         ~FileSystemHandler() {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(false);
-        }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose() {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // As Per Pattern: uncomment the following line if the finalizer is overridden above.
-             GC.SuppressFinalize(this);
-        }
-        #endregion
+  
     }
 }
 
