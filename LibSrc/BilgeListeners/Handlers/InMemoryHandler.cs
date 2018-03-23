@@ -46,8 +46,6 @@ namespace Plisky.Diagnostics.Listeners {
             
 
         }
-
-
 #else
             public void HandleMessage40(MessageMetadata[] msg) {
             throw new NotImplementedException();
@@ -59,18 +57,14 @@ namespace Plisky.Diagnostics.Listeners {
         }
 
         public void Flush() {
-
         }
-
-
 
         public void CleanUpResources() {
-
         }
 
-        public InMemoryHandler() {
+        public InMemoryHandler(int maxDepth = 5000) {
             Formatter = new PrettyReadableFormatter();
-            MaxQueueDepth = 5000;
+            MaxQueueDepth = maxDepth;
         }
 
     }
