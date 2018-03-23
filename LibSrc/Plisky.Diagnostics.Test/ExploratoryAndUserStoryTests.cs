@@ -56,6 +56,21 @@ namespace Plisky.Diagnostics.Test {
             Assert.Equal(0, imh.GetMessageCount());
         }
 
+        [Fact(DisplayName = "InMemory_LimitWorks")]
+        [Trait("xunit", "fresh")]
+        public void InMemory_LimitMessages_Works() {
+            InMemoryHandler imh = new InMemoryHandler();
+            imh.MaxQueueDepth = 10;
+            var sut = TestHelper.GetBilge();
+            sut.AddHandler(imh);
+            for (int i = 0; i < 100; i++) {
+                sut.Info.Log("This is a message.");
+            }
+            sut.Flush();
+            Thread.Sleep(10);            
+            Assert.Equal(10, imh.GetMessageCount());
+        }
+
 
 
 

@@ -11,6 +11,8 @@ namespace Plisky.Diagnostics.Listeners {
         private int messageIndex;
         private Queue<string> messages = new Queue<string>();
 
+        public int MaxQueueDepth { get; set; }
+
         public string GetMessage() {
             return messages.Dequeue();
         }
@@ -36,6 +38,9 @@ namespace Plisky.Diagnostics.Listeners {
                 sb.Append($"{messageIndex++} - ");
                 sb.Append(Formatter.ConvertToString(v));
                 messages.Enqueue(sb.ToString());
+                if (messages.Count>MaxQueueDepth) {
+                    _ = messages.Dequeue();
+                }
                 sb.Clear();
             }
             
@@ -65,6 +70,7 @@ namespace Plisky.Diagnostics.Listeners {
 
         public InMemoryHandler() {
             Formatter = new PrettyReadableFormatter();
+            MaxQueueDepth = 5000;
         }
 
     }
