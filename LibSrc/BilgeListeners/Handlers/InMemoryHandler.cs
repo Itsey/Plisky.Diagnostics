@@ -15,10 +15,13 @@ namespace Plisky.Diagnostics.Listeners {
             return messages.Dequeue();
         }
 
-        public IEnumerable<string> GetAllMessages() {
-            while (messages.Count > 0) {
-                yield return messages.Dequeue();
+        public string[] GetAllMessages() {
+            int currentCount = messages.Count;
+            string[] result = new string[messages.Count];
+            for(int i=0; i< currentCount; i++) {
+                result[i] = GetMessage();
             }
+            return result;
         }
         public PrettyReadableFormatter Formatter { get; private set; }
 
@@ -32,16 +35,23 @@ namespace Plisky.Diagnostics.Listeners {
             foreach (var v in msg) {
                 sb.Append($"{messageIndex++} - ");
                 sb.Append(Formatter.ConvertToString(v));
+                messages.Enqueue(sb.ToString());
+                sb.Clear();
             }
-            messages.Enqueue(sb.ToString());
+            
 
         }
+
+
 #else
             public void HandleMessage40(MessageMetadata[] msg) {
             throw new NotImplementedException();
         }
 #endif
 
+        public int GetMessageCount() {
+            return messages.Count;
+        }
 
         public void Flush() {
 
@@ -51,6 +61,10 @@ namespace Plisky.Diagnostics.Listeners {
 
         public void CleanUpResources() {
 
+        }
+
+        public InMemoryHandler() {
+            Formatter = new PrettyReadableFormatter();
         }
 
     }

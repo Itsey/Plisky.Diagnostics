@@ -28,5 +28,36 @@ namespace Plisky.Diagnostics.Test {
             }
         }
 
+
+
+        [Fact(DisplayName ="InMemory_Works")]
+        [Trait("xunit", "fresh")]
+        public void InMemory_HoldsOntoMessages() {
+            InMemoryHandler imh = new InMemoryHandler();
+            var sut = TestHelper.GetBilge();
+            sut.AddHandler(imh);
+            sut.Info.Log("This is a message.");
+            sut.Flush();
+            Thread.Sleep(10);
+            Assert.Equal(1,imh.GetMessageCount());
+        }
+
+
+        [Fact(DisplayName ="InMemory_ClearWorks")]
+        [Trait("xunit", "fresh")]
+        public void InMemory_RetrieveClearsMessages() {
+            InMemoryHandler imh = new InMemoryHandler();
+            var sut = TestHelper.GetBilge();
+            sut.AddHandler(imh);
+            sut.Info.Log("This is a message.");
+            sut.Flush();
+            Thread.Sleep(10);
+            _ = imh.GetAllMessages();
+            Assert.Equal(0, imh.GetMessageCount());
+        }
+
+
+
+
     }
 }

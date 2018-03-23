@@ -3,8 +3,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 
-[assembly: AssemblyVersion("2.0.8.0")]
-[assembly: AssemblyInformationalVersion("2.0.8.0")]
+[assembly: AssemblyVersion("2.0.9.0")]
+[assembly: AssemblyInformationalVersion("2.0.9.0")]
 
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCulture("")]
