@@ -98,7 +98,6 @@
     <None Include="Packaging\PliskyDiagnostics.nuspec">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Packaging\PliskyBilge.nuspec.ded" />
     <None Include="TestData\BilgeTestData.xlsx" />
     <None Include="versioningrules.json" />
   </ItemGroup>

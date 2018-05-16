@@ -4,6 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Plisky.Diagnostics.Listeners</AssemblyName>
     <RootNamespace>Plisky.Diagnostics.Listeners</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>D:\Fsync\plisky_keyfile.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,6 +14,10 @@
   </PropertyGroup>
 
   <Import Project="..\..\BilgeListeners\BilgeListeners.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\..\Fsync\plisky_keyfile.snk" Link="plisky_keyfile.snk" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
