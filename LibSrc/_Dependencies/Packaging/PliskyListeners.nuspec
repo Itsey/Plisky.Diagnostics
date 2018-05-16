@@ -2,15 +2,15 @@
 <package >
   <metadata>
     <id>Plisky.Listeners</id>
-    <version>2.1.0.0</version>
+    <version>2.1.1.0</version>
     <title>Plisky Trace Listeners</title>
     <authors>Jim</authors>
     <owners>Jim</owners>
     <licenseUrl>https://opensource.org/licenses/MS-PL</licenseUrl>
-    <projectUrl>http://www.plisky.net/main/</projectUrl>
+    <projectUrl>https://github.com/Itsey/Plisky.Diagnostics/wiki</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Listeners to support the Plisky Diagnostic Library.</description>
-    <releaseNotes>Adding net standard 2.0 support.</releaseNotes>
+    <releaseNotes>Adding Github Project Url.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>trace logger logging logs application app bilge plisky piffle error diagnostics</tags>    
   </metadata>
