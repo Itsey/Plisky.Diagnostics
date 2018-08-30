@@ -136,5 +136,9 @@ namespace Plisky.Diagnostics.Test {
         public void CleanUpResources() {
             
         }
+
+        public string GetStatus() {
+            return "hello";
+        }
     }
 }

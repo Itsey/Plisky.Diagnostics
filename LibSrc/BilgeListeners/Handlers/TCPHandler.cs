@@ -7,10 +7,11 @@
     using System.Threading.Tasks;
 
     public class TCPHandler : IBilgeMessageHandler {
+        private string target;
+        private string status = "Untouched";
         public Exception LastFault { get; internal set; }
 
-        //private TCPClient client;
-        private AsyncTCPClient client2;
+        private AsyncTCPClient tcpClient;
 
         public LegacyFlimFlamFormatter Formatter { get; private set; }
 
@@ -21,9 +22,11 @@
         public async void HandleMessageAsync(MessageMetadata msgMeta) {
             try {
                 string msg = Formatter.ConvertToString(msgMeta);
-                await client2.Writestufftest(msg);
+                await tcpClient.Writestufftest(msg);
+                status = "ok";
             } catch (Exception ex) {
                 LastFault = ex;
+                status = ex.Message;
                 throw;
             }
         }
@@ -46,7 +49,8 @@
                 }
                 whatToWrite = sb.ToString();
                 Emergency.Diags.Log("Writing to tcp client " + whatToWrite);
-                await client2.Writestufftest(whatToWrite).ConfigureAwait(false);
+                await tcpClient.Writestufftest(whatToWrite).ConfigureAwait(false);
+                status = "ok";
             } catch (Exception ex) {
                 LastFault = ex;
                 throw;
@@ -59,7 +63,8 @@
 
         public TCPHandler(string targetIp, int targetPort) {
             try {
-                client2 = new AsyncTCPClient(targetIp, targetPort);
+                target = $"{targetIp}:{targetPort}";
+                tcpClient = new AsyncTCPClient(targetIp, targetPort);
                 //client.initialize();
                 Formatter = new LegacyFlimFlamFormatter();
             } catch (Exception ex) {
@@ -70,11 +75,15 @@
 
 
         public void CleanUpResources() {
-            if (client2 != null) {
-                client2.Dispose();
+            if (tcpClient != null) {
+                tcpClient.Dispose();
             }
         }
 
+        public string GetStatus() {
+            
+            return $"To: {target} status:{status} + {tcpClient.GetStatus()}.";
+        }
     }
 }
 

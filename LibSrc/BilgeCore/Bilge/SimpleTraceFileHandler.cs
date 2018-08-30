@@ -57,6 +57,10 @@ namespace Plisky.Diagnostics.Listeners {
             };
         }
 
+        public string GetStatus() {
+            return $"Writing to {TraceFilename}";
+        }
+
         public string TraceFilename { get; private set; }
         /// <summary>
         /// This will create a simple text file listener designed for reading by a person, not for importing into

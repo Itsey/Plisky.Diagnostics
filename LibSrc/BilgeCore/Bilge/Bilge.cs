@@ -1,7 +1,6 @@
 ﻿
 namespace Plisky.Diagnostics {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
 
@@ -79,6 +78,22 @@ namespace Plisky.Diagnostics {
 
         public void TriggerWrite() {
             BilgeRouter.Router.FailureOccuredForWrite = true;
+        }
+
+        /// <summary>
+        /// This method returns a string describing the current internal logging status of Bilge.  If there is no output going to your chosen
+        /// listener then this method can help track down what is wrong.
+        /// </summary>
+        /// <returns></returns>
+        public string GetDiagnosticStatus() {
+            StringBuilder result = new StringBuilder();
+            result.Append($" {nameof(Info)} Writing: {Info.IsWriting} \n");
+            result.Append($" {nameof(Verbose)} Writing: {Verbose.IsWriting} \n");
+            result.Append($" {nameof(Warning)} Writing: {Warning.IsWriting} \n");
+            result.Append($" {nameof(Error)} Writing: {Error.IsWriting} \n");
+
+            result.Append(BilgeRouter.Router.GetHandlerStatuses());
+            return result.ToString();
         }
 
         /// <summary>

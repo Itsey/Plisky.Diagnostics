@@ -4,8 +4,9 @@ namespace Plisky.Diagnostics {
 
     public interface IBilgeMessageHandler {
         int Priority { get; }
-        string Name { get;  }
-        //void HandleMessage(MessageMetadata msg);
+        string Name { get; }
+
+        string GetStatus();
 
 #if NET452 || NETSTANDARD2_0
         Task HandleMessageAsync(MessageMetadata[] msg);

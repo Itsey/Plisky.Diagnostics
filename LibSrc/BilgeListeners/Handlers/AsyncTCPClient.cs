@@ -7,11 +7,12 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Threading.Tasks;
 
     internal class AsyncTCPClient : IDisposable {
+        private string status;
 
         // If debugging then with stop on throw then this pops up all the time if its failing to connect, have therefore
         // dropped it right down such that it only retries once every 5 minutes.
         private const int SECONDS_NO_SOCKET_RETRY = 60;
-
+        private uint messagesWritten;
         private string m_ipAddress;
         private int m_port;
         private DateTime lastSocketException = DateTime.MinValue;
@@ -24,9 +25,15 @@ namespace Plisky.Diagnostics.Listeners {
         }
 
         public async Task Writestufftest(string whatToWrite) {
+
+            unchecked {
+                messagesWritten++;
+            }
+
             if ((socketCommunicationsDown) && (DateTime.Now - lastSocketException).TotalSeconds < SECONDS_NO_SOCKET_RETRY) {
-                Emergency.Diags.Log($"Socket coms down since {lastSocketException.ToString()}");
-                return; // Task.WhenAll();
+                status = $"Socket coms down since {lastSocketException.ToString()}";
+                Emergency.Diags.Log(status);
+                return; 
             }
             socketCommunicationsDown = false;
 
@@ -37,7 +44,8 @@ namespace Plisky.Diagnostics.Listeners {
                     m_tcpClient = new TcpClient(m_ipAddress, m_port);
                     m_stream = m_tcpClient.GetStream();
                 } catch (SocketException sox) {
-                    Emergency.Diags.Log("EXX >> " + sox.Message);
+                    status = "EXX >> " + sox.Message;
+                    Emergency.Diags.Log(status);
                     lastSocketException = DateTime.Now;
                     socketCommunicationsDown = true;
                     return;
@@ -50,7 +58,8 @@ namespace Plisky.Diagnostics.Listeners {
                 //m_stream.Write(data, 0, data.Length);
                 await m_stream.FlushAsync();
             } catch (IOException iox) {
-                Emergency.Diags.Log("EXX >> " + iox.Message);
+                status = "EXX >> " + iox.Message;
+                Emergency.Diags.Log(status);
                 lastSocketException = DateTime.Now;
                 socketCommunicationsDown = true;
                 return;
@@ -83,8 +92,11 @@ namespace Plisky.Diagnostics.Listeners {
             }
         }
 
+        internal string GetStatus() {
+            return status + $"tried {messagesWritten}";
+        }
 
-         ~AsyncTCPClient() {
+        ~AsyncTCPClient() {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(false);
         }

@@ -7,6 +7,8 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Threading.Tasks;
 
     public class FileSystemHandler : IBilgeMessageHandler {
+        private string filePath;
+        private string status;
         private FileStream fs;
 
         public LegacyFlimFlamFormatter Formatter { get; private set; }
@@ -16,12 +18,19 @@ namespace Plisky.Diagnostics.Listeners {
 
 #if NET452 || NETSTANDARD2_0
         public async Task HandleMessageAsync(MessageMetadata[] msg) {
-            StringBuilder sb = new StringBuilder();
-            foreach (var v in msg) {
-                sb.Append(Formatter.ConvertToString(v));
+            try {
+                StringBuilder sb = new StringBuilder();
+                foreach (var v in msg) {
+                    sb.Append(Formatter.ConvertToString(v));
+                }
+                byte[] txt = Encoding.UTF8.GetBytes(sb.ToString());
+                await fs.WriteAsync(txt, 0, txt.Length);
+                status = "ok";
+            } catch (Exception ex) {
+                status = ex.Message;
+                throw;
             }
-            byte[] txt = Encoding.UTF8.GetBytes(sb.ToString());
-            await fs.WriteAsync(txt, 0, txt.Length);
+            
         }
 #else
         public void HandleMessage40(MessageMetadata[] msg) {
@@ -35,8 +44,8 @@ namespace Plisky.Diagnostics.Listeners {
         }
 
         public FileSystemHandler(string path) {
-            path += "output.log";
-            fs = new FileStream(path, FileMode.Create);
+            filePath = path + "output.log";
+            fs = new FileStream(filePath, FileMode.Create);
         }
 
         public void CleanUpResources() {
@@ -45,7 +54,10 @@ namespace Plisky.Diagnostics.Listeners {
                 fs = null;
             }
         }
-  
+
+        public string GetStatus() {
+            return $"writing to {filePath} last status {status}";
+        }
     }
 }
 

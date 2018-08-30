@@ -6,14 +6,21 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Threading.Tasks;
 
     public class ODSHandler : IBilgeMessageHandler {
+        private string status;
         public LegacyFlimFlamFormatter Formatter { get; private set; }
 
         public int Priority => 5;
         public string Name => nameof(ODSHandler);
 
         public void HandleMessage(MessageMetadata msgMeta) {
-            string msg = Formatter.ConvertToString(msgMeta);
-            LegacyFlimFlamFormatter.internalOutputDebugString(msg);
+            try {
+                string msg = Formatter.ConvertToString(msgMeta);
+                LegacyFlimFlamFormatter.internalOutputDebugString(msg);
+                status = "ok";
+            } catch (Exception ex) {
+                status = "write failed "+ex.Message;
+                throw;
+            }
         }
 
 #if NET452 || NETSTANDARD2_0
@@ -33,6 +40,10 @@ namespace Plisky.Diagnostics.Listeners {
 
         public void CleanUpResources() {
             // No unmanaged resources.
+        }
+
+        public string GetStatus() {
+            return $"write status {status}";
         }
 
         public ODSHandler() {

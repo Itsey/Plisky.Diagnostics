@@ -21,9 +21,7 @@ namespace Plisky.Plumbing {
         public string SecondaryMessage;
         public string AdditionalLocationData;
         public string ProcessId;
-
-        // TODO : work out why this field causes a warning.
-        public bool Prepend;   // is prepend enabled   Wierdly this IS assigned to but still a warning
+        public bool Prepend;
 
         public MessageParts() {
             MachineName = ModuleName = ClassName = MethodName = lineNumber = osThreadId = netThreadId = MessageType = DebugMessage = SecondaryMessage = AdditionalLocationData = ProcessId = String.Empty;

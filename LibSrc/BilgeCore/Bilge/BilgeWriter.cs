@@ -166,7 +166,7 @@ namespace Plisky.Diagnostics {
         /// <param name="sectionName">The friendly name of the secion</param>
         [Conditional("TRACE")]
         public void EnterSection(string sectionName, [CallerMemberName]string meth = null, [CallerFilePath] string pth = null, [CallerLineNumber]int ln = 0) {
-            ActiveRouteMessage(TraceCommandTypes.SectionStart, "", null, meth, pth, ln);
+            ActiveRouteMessage(TraceCommandTypes.SectionStart, sectionName, null, meth, pth, ln);
         }
 
         /// <summary>

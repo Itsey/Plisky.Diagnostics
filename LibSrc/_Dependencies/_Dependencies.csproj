@@ -91,9 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Packaging\CreatePackLocal.cmd" />
-    <None Include="Packaging\PliskyLibrary.nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Packaging\PliskyListeners.nuspec" />
     <None Include="Packaging\PliskyDiagnostics.nuspec">
       <SubType>Designer</SubType>

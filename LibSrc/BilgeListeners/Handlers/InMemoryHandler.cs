@@ -62,6 +62,10 @@ namespace Plisky.Diagnostics.Listeners {
         public void CleanUpResources() {
         }
 
+        public string GetStatus() {
+            return $"writing ok, current depth {GetMessageCount()} maxDepth {MaxQueueDepth}";
+        }
+
         public InMemoryHandler(int maxDepth = 5000) {
             Formatter = new PrettyReadableFormatter();
             MaxQueueDepth = maxDepth;

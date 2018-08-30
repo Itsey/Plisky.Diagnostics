@@ -5,6 +5,7 @@ namespace Plisky.Diagnostics {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -139,6 +140,21 @@ namespace Plisky.Diagnostics {
                     }
                 }
             }
+        }
+
+        internal string GetHandlerStatuses() {
+            StringBuilder sb = new StringBuilder();
+           
+            sb.Append($"QueueDepth: {messageQueue.Count} Max: {messageQueueMaximum}\n");
+            sb.Append("___________________________\n");
+            if (handlers != null) {
+                foreach (var h in handlers) {
+                    sb.Append($"Handler {h.Name}\n");
+                    sb.Append(h.GetStatus());
+                    sb.Append("\n");
+                }
+            }
+            return sb.ToString();
         }
 
         /// <summary>
