@@ -46,6 +46,7 @@ namespace Plisky.Diagnostics {
                 BilgeRouter.Router.ClearEverything();
             }
 
+            Assert = new BilgeAssert(BilgeRouter.Router, activeConfig, selectedInstanceContext);
             Info = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Info);
             Verbose = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Verbose);
             Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Warning);

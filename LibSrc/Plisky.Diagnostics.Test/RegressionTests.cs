@@ -56,44 +56,6 @@
 
         [Fact]
         [Trait("xunit", "regression")]
-        public void Enter_WritesMethodName() {
-            Bilge sut = TestHelper.GetBilge();
-            var mmh = new MockMessageHandler();
-            sut.AddHandler(mmh);
-            sut.Info.E();
-
-            sut.Flush();
-
-            mmh.SetMustContainForBody(nameof(Enter_WritesMethodName));
-
-            // E generates more than one message, therefore we have to check that one of the messages had the name in it.
-            mmh.AssertAllConditionsMetForAllMessages(true, true);
-
-        }
-
-        [Fact]
-        [Trait("xunit", "regression")]
-        public void Exit_WritesMethodName() {
-            Bilge sut = TestHelper.GetBilge();
-            var mmh = new MockMessageHandler();
-            sut.AddHandler(mmh);
-            sut.Info.X();
-
-            sut.Flush();
-
-            mmh.SetMustContainForBody(nameof(Exit_WritesMethodName));
-
-            // E generates more than one message, therefore we have to check that one of the messages had the name in it.
-            mmh.AssertAllConditionsMetForAllMessages(true, true);
-
-        }
-
-
-
-
-
-        [Fact]
-        [Trait("xunit", "regression")]
         public void MockMessageHandlerStartsEmpty() {
             MockMessageHandler mmh = new MockMessageHandler();
             Assert.True(mmh.TotalMessagesRecieved == 0, "There should be no messages to start with");
@@ -195,19 +157,6 @@
             Assert.Equal<int>(0, mmh.TotalMessagesRecieved);
         }
 
-        [Fact]
-        [Trait("xunit", "regression")]
-        public void Flow_WritesMethodNameToMessage() {
-            MockMessageHandler mmh = new MockMessageHandler();
-            mmh.SetMustContainForBody(nameof(Flow_WritesMethodNameToMessage));
-            var sut = TestHelper.GetBilge();
-            sut.AddHandler(mmh);
-
-            sut.Info.Flow();
-
-            sut.Flush();
-            mmh.AssertAllConditionsMetForAllMessages(true);
-        }
 
         [Fact]
         [Trait("xunit", "regression")]

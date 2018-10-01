@@ -5,6 +5,8 @@ using Xunit;
 namespace Plisky.Diagnostics.Test {
     public class ExploratoryAndUserStoryTests {
 
+    
+
         [Fact]
         [Trait("XUnit", "usecase")]
         public void WriteToMex() {
@@ -32,9 +34,9 @@ namespace Plisky.Diagnostics.Test {
             sut.Info.Log("Hi");
             sut.Info.Log("Hi");
             sut.Flush();
-            
 
-            
+
+
             for (int i = 0; i < 10; i++) {
                 Thread.Sleep(300);
             }

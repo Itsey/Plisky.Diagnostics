@@ -18,6 +18,8 @@ namespace Plisky.Diagnostics.Test {
 
         public int Priority => 100;
         public string Name => nameof(MockMessageHandler);
+        public int AssertionMessageCount = 0;
+
         public MockMessageHandler() {
         }
 
@@ -119,6 +121,9 @@ namespace Plisky.Diagnostics.Test {
 
         public Task HandleMessageAsync(MessageMetadata[] msg) {
             foreach (var m in msg) {
+                if (m.CommandType==Plumbing.TraceCommandTypes.AssertionFailed) {
+                    AssertionMessageCount++;
+                }
                 TotalMessagesRecieved++;
                 lock (allMessagesRecieved) {
                     allMessagesRecieved.Add(m);

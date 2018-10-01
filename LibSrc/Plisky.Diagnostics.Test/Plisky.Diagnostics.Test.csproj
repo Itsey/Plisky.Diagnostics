@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="InMemoryHandlerTests.cs" />
     <Compile Include="MockEmergencyDiagnostics.cs" />
+    <Compile Include="BasicInterfaceTests.cs" />
     <Compile Include="RegressionTests.cs" />
     <Compile Include="ExploratoryAndUserStoryTests.cs" />
     <Compile Include="FileSystemHandlerTests.cs" />

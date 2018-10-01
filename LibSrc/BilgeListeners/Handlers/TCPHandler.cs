@@ -3,6 +3,7 @@
     using Plisky.Plumbing;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@
         public Exception LastFault { get; internal set; }
 
         private AsyncTCPClient tcpClient;
+        private bool failsAreHarsh;
 
         public LegacyFlimFlamFormatter Formatter { get; private set; }
 
@@ -41,16 +43,28 @@
             try {
                 // TODO : Be a bit smart here, dont do them ALL at once.
                 string whatToWrite = null;
-
+                bool assertFailFoud = false;
+                
+ 
                 var sb = new StringBuilder();
                 for (int i = 0; i < msg.Length; i++) {
                     sb.Append(Formatter.ConvertToString(msg[i]));
                     sb.Append(Constants.TCPEND_MARKERTAG);
+                    if (msg[i].CommandType == TraceCommandTypes.AssertionFailed) {
+                        assertFailFoud = true;
+                    }
                 }
                 whatToWrite = sb.ToString();
                 Emergency.Diags.Log("Writing to tcp client " + whatToWrite);
                 await tcpClient.Writestufftest(whatToWrite).ConfigureAwait(false);
                 status = "ok";
+                if ((assertFailFoud) && (failsAreHarsh)) {
+                    try {
+                        Process.GetCurrentProcess().Kill();
+                    } catch (NotSupportedException) {
+                    } catch (InvalidOperationException) {
+                    }
+                }
             } catch (Exception ex) {
                 LastFault = ex;
                 throw;
@@ -61,9 +75,10 @@
 
         }
 
-        public TCPHandler(string targetIp, int targetPort) {
+        public TCPHandler(string targetIp, int targetPort, bool harshFails = false) {
             try {
                 target = $"{targetIp}:{targetPort}";
+                failsAreHarsh = harshFails;
                 tcpClient = new AsyncTCPClient(targetIp, targetPort);
                 //client.initialize();
                 Formatter = new LegacyFlimFlamFormatter();
