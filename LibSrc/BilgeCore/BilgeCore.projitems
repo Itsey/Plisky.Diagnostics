@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\ConfigSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\IMessageFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\PrettyReadableFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\QueuedBilgeRouter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\SimpleTraceFileHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeRouter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\MessageMetadata.cs" />
