@@ -227,6 +227,18 @@
 
         [Fact]
         [Trait("xunit", "regression")]
+        public void HandlerAddedViaStatic_RecievesMessages() {
+            var mmh1 = new MockMessageHandler();
+            var sut = TestHelper.GetBilge();
+            Bilge.AddMessageHandler(mmh1);
+
+            sut.Info.Flow();
+            sut.Flush();
+            mmh1.AssertAllConditionsMetForAllMessages(true);
+        }
+
+        [Fact]
+        [Trait("xunit", "regression")]
         public void Context_IsAsDefinedOnConstructor() {
             MockMessageHandler mmh = new MockMessageHandler();
             string context = "xxCtxtxx";

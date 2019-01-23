@@ -117,6 +117,10 @@ namespace Plisky.Diagnostics {
         public static void CollapseRouter() {
             BilgeRouter.Router.Shutdown();
         }
+
+        public static void AddMessageHandler(IBilgeMessageHandler ibmh) {
+            BilgeRouter.Router.AddHandler(ibmh);
+        }
     }
 }
 
