@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Plisky.Diagnostics.Listeners</AssemblyName>
     <RootNamespace>Plisky.Diagnostics.Listeners</RootNamespace>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>D:\Fsync\plisky_keyfile.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
