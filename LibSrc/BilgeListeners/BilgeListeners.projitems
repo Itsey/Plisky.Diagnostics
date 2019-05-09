@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\InMemoryHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\ODSHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\FileSystemHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Handlers\LegacyFlimFlamFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StorageListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TCPClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\TCPHandler.cs" />

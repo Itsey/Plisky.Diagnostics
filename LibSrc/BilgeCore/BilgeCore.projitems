@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\IBilgeMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmergencyDiagnostics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LegacyFlimFlamFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageParts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageStructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InternalUtil.cs" />

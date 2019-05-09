@@ -14,6 +14,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>bin\Release\Plisky.Diagnostics.xml</DocumentationFile>
   </PropertyGroup>
 
   <Import Project="..\..\BilgeCore\BilgeCore.projitems" Label="Shared" />

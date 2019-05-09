@@ -2,15 +2,18 @@
 <package >
   <metadata>
     <id>Plisky.Listeners</id>
-    <version>2.2.2.0</version>
+    <version>2.2.3.0</version>
     <title>Plisky Trace Listeners</title>
     <authors>Jim</authors>
     <owners>Jim</owners>
-    <licenseUrl>https://opensource.org/licenses/MS-PL</licenseUrl>
+    <license type="expression">MS-PL</license>
     <projectUrl>https://github.com/Itsey/Plisky.Diagnostics/wiki</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Listeners to support the Plisky Diagnostic Library.</description>
-    <releaseNotes>Adding Github Project Url.</releaseNotes>
+    <releaseNotes>
+      2.2.3 - Moving Legacy Formatter to Bilge not Handlers to ease handler development.
+      2.2.2 - Adding Github Project Url.
+    </releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>trace logger logging logs application app bilge plisky piffle error diagnostics</tags>    
   </metadata>
