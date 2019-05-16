@@ -82,6 +82,9 @@ namespace Plisky.Diagnostics {
 
         public bool WriteToHandlerOnlyOnFail { get; set; }
 
+        public int MessageBatchCapacity { get; set; }
+        public int MessageBatchDelay { get; set; }
+
         internal bool IsClean() {
             return ActualIsClean();
         }

@@ -73,6 +73,16 @@ namespace Plisky.Diagnostics {
             }
         }
 
+        public void SetMessageBatching(int numberMessagesInABatch = 100, int millisecondsToWaitForBatch = 100) {
+            BilgeRouter.Router.MessageBatchCapacity = numberMessagesInABatch;
+            BilgeRouter.Router.MessageBatchDelay = millisecondsToWaitForBatch;
+        }
+
+        public void DisableMessageBatching() {
+            BilgeRouter.Router.MessageBatchDelay = 0;
+            BilgeRouter.Router.MessageBatchCapacity = 0;
+        }
+
         public void AddHandler(IBilgeMessageHandler ibmh) {
             BilgeRouter.Router.AddHandler(ibmh);
         }

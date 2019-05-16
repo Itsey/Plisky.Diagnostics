@@ -1,6 +1,7 @@
 ﻿namespace Plisky.Diagnostics.Test {
 
     using Plisky.Diagnostics;
+    //using Plisky.Test;
     using System.Threading;
     using Xunit;
 
@@ -12,6 +13,57 @@
             b.Verbose.Log("test message");
             b.Error.Log("Test message");
             b.Warning.Log("Test message");
+        }
+
+
+        [Fact(DisplayName = nameof(MessageBatching_Works_Default1))]
+       /// [Trait(Traits.Age, Traits.Fresh)]
+        //[Trait(Traits.Style, Traits.Unit)]
+        public void MessageBatching_Works_Default1() {
+            Bilge sut = TestHelper.GetBilge();
+            sut.CurrentTraceLevel = System.Diagnostics.TraceLevel.Info;
+            var mmh = new MockMessageHandler();
+            sut.AddHandler(mmh);
+
+
+            sut.Info.Log("Dummy Message");
+            sut.Flush();
+            sut.Info.Log("Dummy Message");
+            sut.Flush();
+            Assert.Equal(1, mmh.LastMessageBatchSize);
+
+        }
+
+        [Fact(DisplayName = nameof(MessageBatching_Works_Enabled))]
+        /// [Trait(Traits.Age, Traits.Fresh)]
+        //[Trait(Traits.Style, Traits.Unit)]
+        public void MessageBatching_Works_Enabled() {
+            const int MESSAGE_BATCHSIZE = 10;
+
+            Bilge sut = TestHelper.GetBilge();
+
+            sut.SetMessageBatching(MESSAGE_BATCHSIZE, 0);
+
+            sut.CurrentTraceLevel = System.Diagnostics.TraceLevel.Info;
+            var mmh = new MockMessageHandler();
+            sut.AddHandler(mmh);
+
+            for (int i = 0; i < 100; i++) {
+                sut.Info.Log("Dummy Message");
+
+                if (i%25==0) {
+                    // The flush forces the write, this is needed otherwise it bombs through
+                    // too fast for more than one write to the handler to occur.
+                    sut.Flush();
+                }
+
+                if (mmh.TotalMessagesRecieved > 0) {
+                    // Any time that we get a batch it must be at least MESSAGE_BATCHSIZE msgs.
+                    Assert.True(mmh.LastMessageBatchSize >= MESSAGE_BATCHSIZE);
+                }
+            }
+            
+
         }
 
 
@@ -119,7 +171,7 @@
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge();
             sut.AddHandler(mmh);
-            sut.Assert.False(true);
+            sut.Assert.True(false);
 
             for (int i = 0; i < 10; i++) {
                 Thread.Sleep(300);
@@ -135,7 +187,7 @@
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge();
             sut.AddHandler(mmh);
-            sut.Assert.False(false);
+            sut.Assert.True(true);
             Assert.Equal(0, mmh.AssertionMessageCount);
         }
 

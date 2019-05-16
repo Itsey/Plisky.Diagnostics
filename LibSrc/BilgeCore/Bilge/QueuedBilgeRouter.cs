@@ -38,7 +38,7 @@
             }
             return true;
         }
-
+        private Stopwatch elapsedTimer;
         private Thread s_dispatcherThread;
         private ConcurrentQueue<MessageMetadata> messageQueue;
         private volatile int messageQueueMaximum = -1;
@@ -64,6 +64,8 @@
 
             queuedMessageResetEvent = new AutoResetEvent(false);
             messageQueue = new ConcurrentQueue<MessageMetadata>();
+            elapsedTimer = new Stopwatch();
+            elapsedTimer.Start();
 
 #if DEBUG
             if (threadsActive == 1) {
@@ -106,7 +108,7 @@
                 }
             }
             messageQueue.Enqueue(mp);
-
+            elapsedTimer?.Reset();
             queuedMessageResetEvent.Set();
         }
 
@@ -207,6 +209,7 @@
                         }
                     }
 
+                    // WriteOnFail support.
                     if ((WriteToHandlerOnlyOnFail) && (!FailureOccuredForWrite)) {
                         // Not quite the same this, there are events but we dont want to deal with them
                         Thread.Sleep(THREADWAITWHENNOEVENTS);
@@ -216,10 +219,36 @@
                     // WriteOnFail means only write when failure occured-  at this point we reset.
                     if (FailureOccuredForWrite) { FailureOccuredForWrite = false; }
 
+                    //Message Batching support - group messages up together to send either by number or milliseconds or both
+                    if ((MessageBatchCapacity>0) || (MessageBatchDelay>0)) {
+                        bool notYetReady = false;
+
+                        if ( MessageBatchDelay<elapsedTimer?.ElapsedMilliseconds) {
+                            notYetReady = true;
+                        } else if (messageQueue.Count< MessageBatchCapacity) {
+                            notYetReady = true;
+                        }
+                        
+                        if (notYetReady) {
+                            // Either not long enough or not enough messages to warrant sending them.
+                            continue;
+                        }
+                    }
+                    
+
                     while ((messageQueue.Count > 0) && (!System.Environment.HasShutdownStarted)) {
-                        MessageMetadata mp;
-                        while (!messageQueue.TryDequeue(out mp)) ;
-                        activeTasks.Add(RouteMessage(mp));
+                        
+                        var copyOfCurrentMessages = messageQueue.ToArray();
+                        int countOfCopiedMessages = copyOfCurrentMessages.Length;
+                        while(countOfCopiedMessages>0) {
+                            if (messageQueue.Count == 0) {
+                                Emergency.Diags.Log("This shouldnt occur, we have already copied the items;");
+                                break;
+                            }
+                            while (!messageQueue.TryDequeue(out var mpp)) ;
+                            countOfCopiedMessages--;                            
+                        }
+                        activeTasks.Add(RouteMessage(copyOfCurrentMessages));
                     }
                 }
 
@@ -264,18 +293,18 @@
 
 #if NET452
 
-        private async Task RouteMessage(MessageMetadata mp) {
+        private async Task RouteMessage(MessageMetadata[] messagesToRoute) {
             if ((handlers == null) || (handlers.Length == 0)) { return; }
-            PrepareMessage(mp);
+            PrepareMessage(messagesToRoute);
 
-            Emergency.Diags.Log($"InternalRouteMessage >> " + mp.Body);
+            Emergency.Diags.Log($"InternalRouteMessage >> " + messagesToRoute.Length.ToString());
 
             var hndlr = handlers;
 
             Task[] tasks = new Task[hndlr.Length];
             for (int i = 0; i < hndlr.Length; i++) {
                 Emergency.Diags.Log($"Handler {i} routing message");
-                tasks[i] = hndlr[i].HandleMessageAsync(new MessageMetadata[] { mp });
+                tasks[i] = hndlr[i].HandleMessageAsync(messagesToRoute );
             }
             await Task.WhenAll(tasks);
 
@@ -307,14 +336,6 @@
 
 #endif
 
-
-
-
-
-
-
-
-
         protected override void ActualAddHandler(IBilgeMessageHandler ibmh) {
 #if ACTIVEDEBUG
             Emergency.Diags?.Log($"AddingHandler {ibmh.Name}");
@@ -338,15 +359,23 @@
             handlers = replacement;
         }
 
-        private void PrepareMessage(MessageMetadata msg) {
-            if (!string.IsNullOrEmpty(msg.Body)) {
-                msg.Body = PerformSupportedReplacements(msg, msg.Body);
+        private void PrepareMessage(MessageMetadata[] msg) {
+#if DEBUG
+            if (msg.Length==0) {
+                throw new InvalidOperationException("Should not be calling this with no data, that makes no sense");
             }
-            if (!string.IsNullOrEmpty(msg.FurtherDetails)) {
-                msg.FurtherDetails = PerformSupportedReplacements(msg, msg.FurtherDetails);
+#endif
+            for (int i = 0; i < msg.Length; i++ ) {
+
+                if (!string.IsNullOrEmpty(msg[i].Body)) {
+                    msg[i].Body = PerformSupportedReplacements(msg[i], msg[i].Body);
+                }
+                if (!string.IsNullOrEmpty(msg[i].FurtherDetails)) {
+                    msg[i].FurtherDetails = PerformSupportedReplacements(msg[i], msg[i].FurtherDetails);
+                }
+                msg[i].MachineName = this.MachineNameCache;
+                msg[i].ProcessId = this.ProcessIdCache;
             }
-            msg.MachineName = this.MachineNameCache;
-            msg.ProcessId = this.ProcessIdCache;
         }
 
 
