@@ -21,6 +21,7 @@
     <DefineConstants>TRACE;DEBUG;BILGE2;LISTENERS;NET40;NET452;NET47</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Plisky.Diagnostics.Listeners.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

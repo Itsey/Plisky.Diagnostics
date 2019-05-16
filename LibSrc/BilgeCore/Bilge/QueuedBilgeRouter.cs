@@ -108,7 +108,7 @@
                 }
             }
             messageQueue.Enqueue(mp);
-            elapsedTimer?.Reset();
+            elapsedTimer?.Restart();
             queuedMessageResetEvent.Set();
         }
 
@@ -220,33 +220,26 @@
                     if (FailureOccuredForWrite) { FailureOccuredForWrite = false; }
 
                     //Message Batching support - group messages up together to send either by number or milliseconds or both
-                    if ((MessageBatchCapacity>0) || (MessageBatchDelay>0)) {
-                        bool notYetReady = false;
+                    if ((MessageBatchCapacity > 0) || (MessageBatchDelay > 0)) {
 
-                        if ( MessageBatchDelay<elapsedTimer?.ElapsedMilliseconds) {
-                            notYetReady = true;
-                        } else if (messageQueue.Count< MessageBatchCapacity) {
-                            notYetReady = true;
-                        }
-                        
-                        if (notYetReady) {
-                            // Either not long enough or not enough messages to warrant sending them.
+                        if ((elapsedTimer?.ElapsedMilliseconds <= MessageBatchDelay) && (messageQueue.Count < MessageBatchCapacity)) {
                             continue;
                         }
+
                     }
-                    
+
 
                     while ((messageQueue.Count > 0) && (!System.Environment.HasShutdownStarted)) {
-                        
+
                         var copyOfCurrentMessages = messageQueue.ToArray();
                         int countOfCopiedMessages = copyOfCurrentMessages.Length;
-                        while(countOfCopiedMessages>0) {
+                        while (countOfCopiedMessages > 0) {
                             if (messageQueue.Count == 0) {
                                 Emergency.Diags.Log("This shouldnt occur, we have already copied the items;");
                                 break;
                             }
                             while (!messageQueue.TryDequeue(out var mpp)) ;
-                            countOfCopiedMessages--;                            
+                            countOfCopiedMessages--;
                         }
                         activeTasks.Add(RouteMessage(copyOfCurrentMessages));
                     }
@@ -274,10 +267,14 @@
             // This takes the current count of messages into msgs, and will run through processing
             // messages - until either there are none left
 
-            while ((msgs > 0) && (messageQueue.Count > 0)) {
+           /* while ((msgs > 0) && (messageQueue.Count > 0)) {
                 queuedMessageResetEvent.Set();
                 Thread.Sleep(10);
                 msgs--;
+            }*/
+            if (msgs>0) {
+                queuedMessageResetEvent.Set();
+                Thread.Sleep(10);
             }
 
             if (handlers != null) {
@@ -304,7 +301,7 @@
             Task[] tasks = new Task[hndlr.Length];
             for (int i = 0; i < hndlr.Length; i++) {
                 Emergency.Diags.Log($"Handler {i} routing message");
-                tasks[i] = hndlr[i].HandleMessageAsync(messagesToRoute );
+                tasks[i] = hndlr[i].HandleMessageAsync(messagesToRoute);
             }
             await Task.WhenAll(tasks);
 
@@ -316,17 +313,17 @@
 
         }
 
-        private Task RouteMessage(MessageMetadata mp) {
+        private Task RouteMessage(MessageMetadata[] messagesToReturn) {
             if ((handlers == null) || (handlers.Length == 0)) { return Task.Factory.StartNew(() => dosomethig()); }
-            PrepareMessage(mp);
+            PrepareMessage(messagesToReturn);
 
             var hndlr = handlers;
             Task[] tasks = new Task[hndlr.Length];
             for (int i = 0; i < hndlr.Length; i++) {
 #if NET452 || NETSTANDARD2_0
-                tasks[i] = hndlr[i].HandleMessageAsync(new MessageMetadata[] { mp });
+                tasks[i] = hndlr[i].HandleMessageAsync( messagesToReturn);
 #else
-                hndlr[i].HandleMessage40(new MessageMetadata[] { mp });
+                hndlr[i].HandleMessage40( messagesToReturn );
 #endif
             }
 
@@ -361,11 +358,11 @@
 
         private void PrepareMessage(MessageMetadata[] msg) {
 #if DEBUG
-            if (msg.Length==0) {
+            if (msg.Length == 0) {
                 throw new InvalidOperationException("Should not be calling this with no data, that makes no sense");
             }
 #endif
-            for (int i = 0; i < msg.Length; i++ ) {
+            for (int i = 0; i < msg.Length; i++) {
 
                 if (!string.IsNullOrEmpty(msg[i].Body)) {
                     msg[i].Body = PerformSupportedReplacements(msg[i], msg[i].Body);

@@ -1,6 +1,8 @@
 ﻿namespace Plisky.Diagnostics.Test {
 
     using Plisky.Diagnostics;
+    using System;
+    using System.Diagnostics;
     //using Plisky.Test;
     using System.Threading;
     using Xunit;
@@ -42,7 +44,7 @@
 
             Bilge sut = TestHelper.GetBilge();
 
-            sut.SetMessageBatching(MESSAGE_BATCHSIZE, 0);
+            sut.SetMessageBatching(MESSAGE_BATCHSIZE, 500000);
 
             sut.CurrentTraceLevel = System.Diagnostics.TraceLevel.Info;
             var mmh = new MockMessageHandler();
@@ -59,10 +61,59 @@
 
                 if (mmh.TotalMessagesRecieved > 0) {
                     // Any time that we get a batch it must be at least MESSAGE_BATCHSIZE msgs.
-                    Assert.True(mmh.LastMessageBatchSize >= MESSAGE_BATCHSIZE);
+                    Assert.True(mmh.LastMessageBatchSize >= MESSAGE_BATCHSIZE,$"Batch Size NotBig Enough at {i} bs {mmh.LastMessageBatchSize}");
+                }
+
+        
+            }
+            
+
+        }
+
+
+
+        [Fact(DisplayName = nameof(MessageBatching_Works_Timed))]
+        /// [Trait(Traits.Age, Traits.Fresh)]
+        //[Trait(Traits.Style, Traits.Unit)]
+        public void MessageBatching_Works_Timed() {
+            const int MESSAGE_BATCHSIZE = 10000;
+
+            Bilge sut = TestHelper.GetBilge();
+
+            sut.SetMessageBatching(MESSAGE_BATCHSIZE, 250);
+
+            sut.CurrentTraceLevel = System.Diagnostics.TraceLevel.Info;
+            var mmh = new MockMessageHandler();
+            sut.AddHandler(mmh);
+
+            sut.Info.Log("Dummy Message");
+
+            Stopwatch timeSoFar = new Stopwatch();
+            timeSoFar.Start();
+
+            bool writesFound = false;
+
+            while(timeSoFar.Elapsed.TotalMilliseconds<750) {
+                // This is not particularly precise because of threading and guarantees so we are using some generous margins for error.
+                // With the write time of not less than 250 we shouldnt see any writes for the first 175 MS.  If we do then its a test fail.
+                // Similarly if we reach 750 ms and havent seen any writes thats a test fail.
+
+                if (timeSoFar.ElapsedMilliseconds<175) {
+                    Assert.Equal(0, mmh.TotalMessagesRecieved);
+                } else {
+                    if (mmh.TotalMessagesRecieved>0) {
+                        writesFound = true;
+                        break;
+                    }
+                }
+                if (timeSoFar.ElapsedMilliseconds>350) {
+                    sut.Flush();
                 }
             }
             
+            if (!writesFound) {
+                throw new InvalidOperationException("The writes never hit the listener");
+            }
 
         }
 
