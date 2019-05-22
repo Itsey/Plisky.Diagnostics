@@ -165,8 +165,7 @@ namespace Plisky.Plumbing {
         /// </summary>
         /// <returns>String containing the newly created stack information</returns>
         static public string StackToString() {
-            string top;
-            return GetStackTrace(out top, false);
+            return GetStackTrace(out string top, false);
         }
 
         public static TraceLevel internalTraceLevel = TraceLevel.Off;     // Used Internally to write to event log.

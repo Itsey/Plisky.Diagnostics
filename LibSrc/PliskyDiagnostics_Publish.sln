@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics", "Plisky.Diagnostics\Plisky.Diagnostics.csproj", "{53C50174-FB06-4127-8E23-E077EBD5BD91}"
 EndProject
@@ -29,14 +29,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.Listener
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plisky.DiagnosticsStd2", "FrameworkVersions\Plisky.DiagnosticsStd2\Plisky.DiagnosticsStd2.csproj", "{BDED7CC7-FAF1-4455-8AC2-2B6BCC2AAA34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.ListenersStd2", "FrameworkVersions\Plisky.Diagnostics.ListenersStd2\Plisky.Diagnostics.ListenersStd2.csproj", "{C2F58962-F7E0-455F-85B2-ECEC2ED97942}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plisky.Diagnostics.ListenersStd2", "FrameworkVersions\Plisky.Diagnostics.ListenersStd2\Plisky.Diagnostics.ListenersStd2.csproj", "{C2F58962-F7E0-455F-85B2-ECEC2ED97942}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole452", "FrameworkVersions\TestConsole452\TestConsole452.csproj", "{5D25F9E6-04A2-4546-AB65-B44D878E668C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole450", "FrameworkVersions\TestConsole450\TestConsole450.csproj", "{10956870-334D-4812-9C1A-9D0300452CE4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestConsoleShared", "TestConsoleShared\TestConsoleShared.shproj", "{2F1BD31E-EA5D-4D8F-81C8-2B58AC0BD052}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TestConsoleShared\TestConsoleShared.projitems*{10956870-334d-4812-9c1a-9d0300452ce4}*SharedItemsImports = 4
 		BilgeCore\BilgeCore.projitems*{18c26c0c-4c5c-47d1-9872-cae3f5b2eca0}*SharedItemsImports = 13
 		BilgeCore\BilgeCore.projitems*{18c8ae86-c0d4-4878-8504-6ba9fd6139fe}*SharedItemsImports = 4
+		TestConsoleShared\TestConsoleShared.projitems*{2f1bd31e-ea5d-4d8f-81c8-2b58ac0bd052}*SharedItemsImports = 13
 		BilgeCore\BilgeCore.projitems*{4c7bf124-fd47-4799-8a50-f83f882a9483}*SharedItemsImports = 4
 		BilgeCore\BilgeCore.projitems*{53c50174-fb06-4127-8e23-e077ebd5bd91}*SharedItemsImports = 4
+		TestConsoleShared\TestConsoleShared.projitems*{5d25f9e6-04a2-4546-ab65-b44d878e668c}*SharedItemsImports = 4
 		BilgeListeners\BilgeListeners.projitems*{68d8a0d0-4e15-4b93-bd40-1b16e0b48b99}*SharedItemsImports = 4
 		BilgeListeners\BilgeListeners.projitems*{7eebc5cc-1f72-4d49-a29d-3a29af4acb6b}*SharedItemsImports = 13
 		BilgeListeners\BilgeListeners.projitems*{b2e59dac-b8cf-42ee-ad8d-6c210336c186}*SharedItemsImports = 4
@@ -114,6 +123,18 @@ Global
 		{C2F58962-F7E0-455F-85B2-ECEC2ED97942}.Develop|Any CPU.Build.0 = Debug|Any CPU
 		{C2F58962-F7E0-455F-85B2-ECEC2ED97942}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2F58962-F7E0-455F-85B2-ECEC2ED97942}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D25F9E6-04A2-4546-AB65-B44D878E668C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D25F9E6-04A2-4546-AB65-B44D878E668C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D25F9E6-04A2-4546-AB65-B44D878E668C}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D25F9E6-04A2-4546-AB65-B44D878E668C}.Develop|Any CPU.Build.0 = Debug|Any CPU
+		{5D25F9E6-04A2-4546-AB65-B44D878E668C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D25F9E6-04A2-4546-AB65-B44D878E668C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10956870-334D-4812-9C1A-9D0300452CE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10956870-334D-4812-9C1A-9D0300452CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10956870-334D-4812-9C1A-9D0300452CE4}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
+		{10956870-334D-4812-9C1A-9D0300452CE4}.Develop|Any CPU.Build.0 = Debug|Any CPU
+		{10956870-334D-4812-9C1A-9D0300452CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10956870-334D-4812-9C1A-9D0300452CE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +146,8 @@ Global
 		{CB8B3022-7E29-4D08-86D1-93FE2C2617A1} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
 		{BDED7CC7-FAF1-4455-8AC2-2B6BCC2AAA34} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
 		{C2F58962-F7E0-455F-85B2-ECEC2ED97942} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
+		{5D25F9E6-04A2-4546-AB65-B44D878E668C} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
+		{10956870-334D-4812-9C1A-9D0300452CE4} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7C82109-A367-4A89-83FB-D4187677A573}
