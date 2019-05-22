@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Plisky.Listeners</id>
-    <version>2.2.3.0</version>
+    <version>2.3.1.0</version>
     <title>Plisky Trace Listeners</title>
     <authors>Jim</authors>
     <owners>Jim</owners>
@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Listeners to support the Plisky Diagnostic Library.</description>
     <releaseNotes>
+      2.3.1 - Bugfix for Net40 support in both Bilge and Listeners.
       2.2.3 - Moving Legacy Formatter to Bilge not Handlers to ease handler development.
       2.2.2 - Adding Github Project Url.
     </releaseNotes>
