@@ -9,7 +9,7 @@ namespace Plisky.Diagnostics {
     using System.Threading;
     using System.Threading.Tasks;
     public abstract class BilgeRouter {
-        public static readonly BilgeRouter Router = new QueuedBilgeRouter(Process.GetCurrentProcess().Id.ToString(),Environment.MachineName);
+        public static BilgeRouter Router;
 
 
         protected string PerformSupportedReplacements(MessageMetadata mmd, string msg) {
@@ -23,6 +23,14 @@ namespace Plisky.Diagnostics {
         public BilgeRouter(string processId, string machineName) {
             this.ProcessIdCache = processId;
             this.MachineNameCache = machineName;
+            string mn = "Unknown";
+            try {
+                mn = Environment.MachineName;
+            } catch (InvalidOperationException) {
+                // Swallow this - on containers cant get machine name.
+            }
+            Router = new QueuedBilgeRouter(Process.GetCurrentProcess().Id.ToString(), mn);
+
         }
 
         private string mname = null;
