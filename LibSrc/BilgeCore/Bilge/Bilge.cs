@@ -51,6 +51,7 @@ namespace Plisky.Diagnostics {
             Verbose = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Verbose);
             Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Warning);
             Error = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Error);
+            Direct = new BilgeDirect(BilgeRouter.Router);
             SetTraceLevel(tl);
         }
 
@@ -61,6 +62,9 @@ namespace Plisky.Diagnostics {
         public BilgeWriter Error { get; private set; }
 
         public BilgeAssert Assert { get; private set; }
+
+
+        public BilgeDirect Direct { get; private set; }
 
         public bool WriteOnFail {
             get {

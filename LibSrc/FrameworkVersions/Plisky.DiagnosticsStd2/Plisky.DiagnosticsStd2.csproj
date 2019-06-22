@@ -10,7 +10,7 @@
     <FileVersion>2.6.0.0</FileVersion>
     <Description>Plisky Diagnostics - Net Standard Edition.</Description>
     <Product>-= Plisky Diagnostics =-</Product>
-    <Version>2.6.0.0</Version>
+    <Version>2.6.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

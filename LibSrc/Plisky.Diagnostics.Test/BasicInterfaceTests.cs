@@ -18,6 +18,26 @@
         }
 
 
+
+        [Fact(DisplayName = nameof(DirectWrite_IsPossible))]
+        //[Trait(Traits.Age, Traits.Fresh)]
+        //[Trait(Traits.Style, Traits.Unit)]
+        public void DirectWrite_IsPossible() {
+            Bilge sut = TestHelper.GetBilge();
+            sut.DisableMessageBatching();
+            sut.CurrentTraceLevel = TraceLevel.Verbose;
+
+            var mmh = new MockMessageHandler();
+            sut.AddHandler(mmh);
+
+            sut.Direct.Write("DirectMessage", "DirectFurther");
+            sut.Flush();
+
+            Assert.Equal(1, mmh.TotalMessagesRecieved);
+
+        }
+
+
         [Fact(DisplayName = nameof(MessageBatching_Works_Default1))]
        /// [Trait(Traits.Age, Traits.Fresh)]
         //[Trait(Traits.Style, Traits.Unit)]
@@ -53,15 +73,17 @@
             for (int i = 0; i < 100; i++) {
                 sut.Info.Log("Dummy Message");
 
+                
                 if (i%25==0) {
+                    Thread.Sleep(100);
                     // The flush forces the write, this is needed otherwise it bombs through
                     // too fast for more than one write to the handler to occur.
-                    sut.Flush();
+                    //sut.Flush();
                 }
 
                 if (mmh.TotalMessagesRecieved > 0) {
                     // Any time that we get a batch it must be at least MESSAGE_BATCHSIZE msgs.
-                    Assert.True(mmh.LastMessageBatchSize >= MESSAGE_BATCHSIZE,$"Batch Size NotBig Enough at {i} bs {mmh.LastMessageBatchSize}");
+                    Assert.True(mmh.LastMessageBatchSize >= MESSAGE_BATCHSIZE,$"Batch Size NotBig Enough at {i} batch Size {mmh.LastMessageBatchSize}");
                 }
 
         
