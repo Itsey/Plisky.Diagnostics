@@ -5,5 +5,6 @@ namespace Plisky.Diagnostics {
         public TraceLevel activeTraceLevel { get; internal set; }
         public string InstanceContext { get; internal set; }
         public bool AddTimingsToEnterExit { get; internal set; }
+        public string SessionContext { get; internal set; }
     }
 }

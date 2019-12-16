@@ -22,6 +22,11 @@ namespace Plisky.Diagnostics {
 
         internal ConfigSettings BilgeConfig { get; private set; }
         internal bool IsWriting { get; set; }
+
+        /// <summary>
+        /// Key value additional context items.
+        /// </summary>
+        public Dictionary<string,string> ContextMeta { get; set; }
         public string ContextCache { get; private set; }
 
 
@@ -589,7 +594,7 @@ namespace Plisky.Diagnostics {
             // Some methods pass all this context around so the can call this directly.  All of the shared routing info should be done her
             // with the other overload only used to call this one.
             if (IsWriting) {
-                router.PrepareMetaData(mmd, ContextCache);
+                router.PrepareMetaData(mmd, ContextMeta);
                 router.QueueMessage(mmd);
             }
         }

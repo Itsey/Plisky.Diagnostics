@@ -49,10 +49,11 @@ namespace Plisky.Diagnostics {
         internal abstract void ActualReInitialise();
         internal abstract void ActualShutdown();
 
-        internal void PrepareMetaData(MessageMetadata mmd, string ctxt) {
-            mmd.NetThreadId = Thread.CurrentThread.ManagedThreadId.ToString();
+        internal void PrepareMetaData(MessageMetadata mmd, Dictionary<string,string> contextKeys) {
+            //JIM: Move this context to be used 
+            mmd.NetThreadId = Thread.CurrentThread.ManagedThreadId.ToString(); 
             mmd.OSThreadId = "0"; // TODO ! HArdcoded
-            mmd.Context = ctxt;
+            mmd.Context = contextKeys[Bilge.BILGE_INSTANCE_CONTEXT_STR];
         }
 
         public void ReInitialise() {

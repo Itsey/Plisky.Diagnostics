@@ -1,11 +1,15 @@
 ﻿
 namespace Plisky.Diagnostics {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
 
     public class Bilge {
+        protected Dictionary<string, string> metaContexts { get; set; }
         private ConfigSettings activeConfig;
+
+
         /// <summary>
         /// gets or Sets the current level for tracing - this will use the TraceLevel enum to determine which of the logging functions
         /// will write data out.  The order of increasing data is off, error, warning, info, verbose.
@@ -37,9 +41,17 @@ namespace Plisky.Diagnostics {
             this.Verbose.IsWriting = (activeConfig.activeTraceLevel >= TraceLevel.Verbose);
         }
 
-        public Bilge(string selectedInstanceContext = "default", TraceLevel tl = TraceLevel.Info, bool resetDefaults = false) {
+        /// <summary>
+        /// Bilge provides developer level trace to provide runtime diagnostics to developers.  
+        /// </summary>
+        /// <param name="selectedInstanceContext">The context for this particular instance of bilge, usually used to identify a subsystem</param>
+        /// <param name="sessionContext">The context for a session, usually used to identify the user request</param>
+        /// <param name="tl">The trace level to set this instance of bilge to</param>
+        /// <param name="resetDefaults">Reset all pf the internal context of Bilge</param>
+        public Bilge(string selectedInstanceContext = "-",string sessionContext = "-", TraceLevel tl = TraceLevel.Info, bool resetDefaults = false) {
             activeConfig = new ConfigSettings();
             activeConfig.InstanceContext = selectedInstanceContext;
+            activeConfig.SessionContext = sessionContext;
             string procId = Process.GetCurrentProcess().Id.ToString();
 
             if (resetDefaults) {
@@ -97,6 +109,17 @@ namespace Plisky.Diagnostics {
             return result.ToString();
         }
 
+
+        public const string BILGE_INSTANCE_CONTEXT_STR = "bc-ctxt";
+
+        /// <summary>
+        /// Adds a context name value pair to every singe message that is routed through this instance of bilge.
+        /// </summary>
+        /// <param name="context">Context Name - e.g. userSession</param>
+        /// <param name="value">Context Value - e.g. 123456</param>
+        public void  AddContext(string context, string value) {
+
+        }
         /// <summary>
         /// This method shuts down bilge but it is the only way to be sure that all of your messages have left the
         /// internal queuing system.  Once this method has run Bilge is completely broken and no more trace can be
