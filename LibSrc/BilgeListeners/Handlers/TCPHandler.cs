@@ -34,7 +34,7 @@
         }
 #else
         public void HandleMessage40(MessageMetadata[] msg) {
-            throw new NotImplementedException();
+            HandleMessageAsync(msg).Wait();            
         }
 #endif
 

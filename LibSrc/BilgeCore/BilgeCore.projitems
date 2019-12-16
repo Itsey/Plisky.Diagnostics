@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeAssert.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeDirect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter_Net40.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter_Internals.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\ConfigSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\IMessageFormatter.cs" />
@@ -23,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\IBilgeMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEmergencyDiagnostics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LegacyFlimFlamFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageParts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageStructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InternalUtil.cs" />

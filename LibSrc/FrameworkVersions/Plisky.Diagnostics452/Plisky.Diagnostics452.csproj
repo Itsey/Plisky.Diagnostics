@@ -20,6 +20,7 @@
     <DefineConstants>TRACE;DEBUG;NET40;NET452;BILGE2</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Plisky.Diagnostics.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE;NET40;NET452;BILGE2</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Plisky.Diagnostics.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>

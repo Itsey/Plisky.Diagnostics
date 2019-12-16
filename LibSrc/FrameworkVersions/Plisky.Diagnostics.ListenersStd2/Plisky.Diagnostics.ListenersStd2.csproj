@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,10 +7,19 @@
     <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>D:\Fsync\plisky_keyfile.snk</AssemblyOriginatorKeyFile>
+    <Description>Plisky Diagnostic Listeners - Net Standard Edition.</Description>
+    <AssemblyVersion>2.6.0.0</AssemblyVersion>
+    <FileVersion>2.6.0.0</FileVersion>
+    <Version>2.6.0.0</Version>
+    <Product>-= Plisky Diagnostics Listeners =-</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;BILGE2</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Files\Code\git\PliskyDiagnostics\LibSrc\FrameworkVersions\Plisky.Diagnostics.ListenersStd2\Plisky.Diagnostics.Listeners.xml</DocumentationFile>
   </PropertyGroup>
 
   <Import Project="..\..\BilgeListeners\BilgeListeners.projitems" Label="Shared" />
@@ -20,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
   <ItemGroup>

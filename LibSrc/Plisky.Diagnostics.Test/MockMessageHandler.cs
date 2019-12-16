@@ -11,6 +11,8 @@ namespace Plisky.Diagnostics.Test {
         private string ContextMustBe = null;
         private string MethodNameMustBe = null;
 
+        public int LastMessageBatchSize { get; set; }
+
         public volatile int TotalMessagesRecieved;
         public string BodyMustContain { get; private set; }
         public string ProcessIdMustBe { get; private set; }
@@ -21,6 +23,7 @@ namespace Plisky.Diagnostics.Test {
         public int AssertionMessageCount = 0;
 
         public MockMessageHandler() {
+            LastMessageBatchSize = 0;
         }
 
         public void HandleMessage(MessageMetadata md) {
@@ -120,6 +123,7 @@ namespace Plisky.Diagnostics.Test {
         }
 
         public Task HandleMessageAsync(MessageMetadata[] msg) {
+            LastMessageBatchSize = msg.Length;
             foreach (var m in msg) {
                 if (m.CommandType==Plumbing.TraceCommandTypes.AssertionFailed) {
                     AssertionMessageCount++;

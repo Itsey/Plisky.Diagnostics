@@ -9,9 +9,7 @@
     public class LegacyFlimFlamFormatter : IMessageFormatter {
         private static string truncationCache = Constants.MESSAGETRUNCATE + "[" + Environment.MachineName + "][{0}" + Constants.TRUNCATE_DATAENDMARKER;
 
-        [SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api", Justification = "Want to send to ODS not to a debugger")]
-        [DllImport("kernel32.dll", EntryPoint = "OutputDebugStringA", SetLastError = false)]
-        public static extern void OutputDebugString(String s);
+        
 
         /// <summary>
         /// This will take a single long string and return it as a series of truncated strings with the length that is
@@ -61,38 +59,17 @@
             }
 #endif
 
+            string truncJoinIdentifier = Thread.CurrentThread.GetHashCode().ToString();
+            string truncateStartIdentifier = string.Format(truncationCache, truncJoinIdentifier);
+            result[0] = result[0] + Constants.MESSAGETRUNCATE + truncJoinIdentifier + Constants.MESSAGETRUNCATE;
+            for (int i=1; i < result.Length-1; i++) {
+                result[i] = truncateStartIdentifier + result[i] + Constants.MESSAGETRUNCATE;
+            }
+            result[result.Length - 1] = truncateStartIdentifier + result[result.Length - 1];
             return result;
         }
 
-        public static void internalOutputDebugString(string thisMsg) {
-            try {
-                // The output debug string API seems to be a little strange when it comes to handeling large amounts of
-                // data and does not seem to be able to handle long strings properly.  It is likely that it is my code
-                // that is at fault but untill I can get to the bottom of it this listener will chop long strings up
-                // into chunks and send them as separate chunks of 1024 bytes in each.  It is then the viewers job
-                // to reassemble them, however in order to help the viewer specialist string truncated identifiers will
-                // be sent as the markers to the extended strings.
-                if (thisMsg.Length > Constants.LIMIT_OUTPUT_DATA_TO) {
-                    string truncJoinIdentifier = Thread.CurrentThread.GetHashCode().ToString();
-                    string[] messageParts = MakeManyStrings(thisMsg, Constants.LIMIT_OUTPUT_DATA_TO);
-                    // Truncation identifier is #TNK#[MACHINENAME][TRUNCJOINID]XEX
-                    string truncateStartIdentifier = string.Format(truncationCache, truncJoinIdentifier);
-
-                    OutputDebugString(messageParts[0] + Constants.MESSAGETRUNCATE + truncJoinIdentifier + Constants.MESSAGETRUNCATE);
-                    for (int partct = 1; partct < messageParts.Length - 1; partct++) {
-                        OutputDebugString(truncateStartIdentifier + messageParts[partct] + Constants.MESSAGETRUNCATE); //+truncJoinIdentifier+Constants.MESSAGETRUNCATE);
-                    }
-                    OutputDebugString(truncateStartIdentifier + messageParts[messageParts.Length - 1]);  // The last one has no endswith
-
-                    return;
-                }
-
-                OutputDebugString(thisMsg);
-            } catch (Exception ex) {
-                InternalUtil.LogInternalError(InternalUtil.InternalErrorCodes.ODSListenerError, "There was an error trying to send data to outputdebugstring. " + ex.Message);
-                throw;
-            }
-        }
+   
 
         public string ConvertToString(MessageMetadata msg) {
             string result;

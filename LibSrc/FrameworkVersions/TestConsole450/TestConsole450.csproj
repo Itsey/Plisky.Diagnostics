@@ -4,40 +4,32 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53C50174-FB06-4127-8E23-E077EBD5BD91}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Plisky.Diagnostics</RootNamespace>
-    <AssemblyName>Plisky.Diagnostics</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <ProjectGuid>{10956870-334D-4812-9C1A-9D0300452CE4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TestConsole450</RootNamespace>
+    <AssemblyName>TestConsole450</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;BILGE2;NET452;NET40;NET47;ACTIVEDEBUGX</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\Plisky.Diagnostics.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;BILGE2;NET452;NET40;NET47;ACTIVEDEBUGX</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Plisky.Diagnostics.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\..\..\..\Fsync\plisky_keyfile.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,20 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\_Dependencies\versions\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\_Dependencies\versions\CommonInfoDiags.cs">
-      <Link>Properties\CommonInfoDiags.cs</Link>
-    </Compile>
-    <Compile Include="Bilge\ConfigSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\Fsync\plisky_keyfile.snk">
-      <Link>plisky_keyfile.snk</Link>
-    </None>
+    <None Include="App.config" />
   </ItemGroup>
-  <Import Project="..\BilgeCore\BilgeCore.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\Plisky.Diagnostics.Listeners40\Plisky.Diagnostics.Listeners40.csproj">
+      <Project>{cb8b3022-7e29-4d08-86d1-93fe2c2617a1}</Project>
+      <Name>Plisky.Diagnostics.Listeners40</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plisky.Diagnostics40\Plisky.Diagnostics40.csproj">
+      <Project>{4c7bf124-fd47-4799-8a50-f83f882a9483}</Project>
+      <Name>Plisky.Diagnostics40</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\..\TestConsoleShared\TestConsoleShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

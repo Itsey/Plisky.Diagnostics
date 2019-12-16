@@ -36,6 +36,7 @@ namespace Plisky.Plumbing {
         ResourceCount = 0x00100000,
         Standard = 0x00200000,
         CommandXML = 0x00400000,
+        Custom = 0x00800000,
         Unknown = 0x00000000
     };
 
@@ -108,6 +109,8 @@ namespace Plisky.Plumbing {
                 case TraceCommandTypes.ResourcePuke: return Constants.RESOURCEPUKE;
                 case TraceCommandTypes.ResourceCount: return Constants.RESOURCECOUNT;
                 case TraceCommandTypes.CommandXML: return Constants.MSGFMT_XMLCOMMAND;
+                case TraceCommandTypes.Custom: return Constants.MSGFMT_CUSTOM;
+                
             }
 
             throw new ArgumentException("Unreachable Code, the value of the parameter is invalid, this code should not be executed.", "theCommand");
@@ -136,6 +139,7 @@ namespace Plisky.Plumbing {
                 case Constants.RESOURCEEAT: return TraceCommandTypes.ResourceEat;
                 case Constants.RESOURCEPUKE: return TraceCommandTypes.ResourcePuke;
                 case Constants.RESOURCECOUNT: return TraceCommandTypes.ResourceCount;
+                case Constants.MSGFMT_CUSTOM: return TraceCommandTypes.Custom;
             }
 
             throw new ArgumentException("Unreachable Code, the value of the parameter is invalid, this code should not be executed.", "theCmdText");
@@ -172,6 +176,7 @@ namespace Plisky.Plumbing {
                 case TraceCommandTypes.ResourcePuke: return "Resource DeAllocation";
                 case TraceCommandTypes.ResourceCount: return "Resource Value Setting";
                 case TraceCommandTypes.CommandXML: return "XML Command";
+                case TraceCommandTypes.Custom: return "Custom Command";
                 default: throw new ArgumentException("Invalid Trace Command Type selected in TraceCommandToReadableString", "tct");
             }
         }
@@ -206,6 +211,7 @@ namespace Plisky.Plumbing {
                 case "Resource DeAllocation": return TraceCommandTypes.ResourcePuke;
                 case "Resource Value Setting": return TraceCommandTypes.ResourceCount;
                 case "XML Command": return TraceCommandTypes.CommandXML;
+                case "Custom Command": return TraceCommandTypes.Custom;
                 default: throw new ArgumentException("Invalid String passed to ReadableStringToTraceCommand", "tctstring invalid: " + tcstring);
             }
         }
@@ -242,6 +248,7 @@ namespace Plisky.Plumbing {
         public const string MOREINFO = "#MOR#";
         public const string COMMANDONLY = "#CMD#";
         public const string MSGFMT_XMLCOMMAND = "#XCM#";
+        public const string MSGFMT_CUSTOM = "#CUS#";
         public const string ERRORMSG = "#ERR#";
         public const string WARNINGMSG = "#WRN#";
         public const string EXCEPTIONBLOCK = "#EXC#";

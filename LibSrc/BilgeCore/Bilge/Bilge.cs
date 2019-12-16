@@ -63,6 +63,7 @@ namespace Plisky.Diagnostics {
             Verbose = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Verbose);
             Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Warning);
             Error = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Error);
+            Direct = new BilgeDirect(BilgeRouter.Router);
             SetTraceLevel(tl);
         }
 
@@ -74,6 +75,9 @@ namespace Plisky.Diagnostics {
 
         public BilgeAssert Assert { get; private set; }
 
+
+        public BilgeDirect Direct { get; private set; }
+
         public bool WriteOnFail {
             get {
                 return BilgeRouter.Router.WriteToHandlerOnlyOnFail;
@@ -83,6 +87,16 @@ namespace Plisky.Diagnostics {
                     BilgeRouter.Router.WriteToHandlerOnlyOnFail = value;
                 }
             }
+        }
+
+        public void SetMessageBatching(int numberMessagesInABatch = 100, int millisecondsToWaitForBatch = 100) {
+            BilgeRouter.Router.MessageBatchCapacity = numberMessagesInABatch;
+            BilgeRouter.Router.MessageBatchDelay = millisecondsToWaitForBatch;
+        }
+
+        public void DisableMessageBatching() {
+            BilgeRouter.Router.MessageBatchDelay = 0;
+            BilgeRouter.Router.MessageBatchCapacity = 0;
         }
 
         public void AddHandler(IBilgeMessageHandler ibmh) {

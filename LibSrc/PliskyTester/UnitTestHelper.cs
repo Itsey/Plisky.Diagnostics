@@ -342,7 +342,7 @@ namespace Plisky.Helpers {
                     nextFile = s;
                     File.Delete(nextFile);
                 }
-            } catch (IOException iox) {
+            } catch (IOException) {
                 //Bilge.Dump(iox, "Exception trying to clear up file:" + nextFile);
             }
         }
