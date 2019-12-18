@@ -4,9 +4,10 @@ namespace Plisky.Diagnostics {
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
+    using System.Threading;
 
     public class Bilge {
-        protected Dictionary<string, string> metaContexts { get; set; }
+        
         private ConfigSettings activeConfig;
 
 
@@ -58,12 +59,12 @@ namespace Plisky.Diagnostics {
                 BilgeRouter.Router.ClearEverything();
             }
 
-            Assert = new BilgeAssert(BilgeRouter.Router, activeConfig, selectedInstanceContext);
+            Assert = new BilgeAssert(BilgeRouter.Router, activeConfig);
             Info = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Info);
             Verbose = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Verbose);
             Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Warning);
             Error = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Error);
-            Direct = new BilgeDirect(BilgeRouter.Router);
+            Direct = new BilgeDirect(BilgeRouter.Router, activeConfig);
             SetTraceLevel(tl);
         }
 
@@ -75,7 +76,10 @@ namespace Plisky.Diagnostics {
 
         public BilgeAssert Assert { get; private set; }
 
-
+        /// <summary>
+        /// Provides direct writing to the output debug stream using your own values for methods.  This always writes, irrespective of the trace level
+        /// but it is sitll subject to settings such as write on fail and queueing.
+        /// </summary>
         public BilgeDirect Direct { get; private set; }
 
         public bool WriteOnFail {
@@ -125,6 +129,7 @@ namespace Plisky.Diagnostics {
 
 
         public const string BILGE_INSTANCE_CONTEXT_STR = "bc-ctxt";
+        public const string BILGE_SESSION_CONTEXT_STR = "bc-sess-ctxt";
 
         /// <summary>
         /// Adds a context name value pair to every singe message that is routed through this instance of bilge.
@@ -149,7 +154,10 @@ namespace Plisky.Diagnostics {
         }
 
         public void Flush() {
+            Thread.Sleep(1);
             BilgeRouter.Router.FlushMessages();
+            Thread.Sleep(1);
+
         }
 
         public static void CollapseRouter() {

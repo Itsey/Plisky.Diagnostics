@@ -14,27 +14,11 @@ namespace Plisky.Diagnostics {
     using System.Text;
     using System.Threading;
 
-    public partial class BilgeWriter {
+    public partial class BilgeWriter : BilgeConditionalRoutedBase {
         private BilgeRouter router;
         private enum StreamDumpUptions { Hex, Tex, Workitout }; // TODO : Seriously?
 
-        protected TraceLevel ActiveTraceLevel;
-
-        internal ConfigSettings BilgeConfig { get; private set; }
-        internal bool IsWriting { get; set; }
-
-        /// <summary>
-        /// Key value additional context items.
-        /// </summary>
-        public Dictionary<string,string> ContextMeta { get; set; }
-        public string ContextCache { get; private set; }
-
-
-        internal BilgeWriter(BilgeRouter router, ConfigSettings config, TraceLevel yourTraceLevel) {
-            this.router = router;
-            this.BilgeConfig = config;
-            this.ContextCache = config.InstanceContext;
-            this.ActiveTraceLevel = yourTraceLevel;
+        internal BilgeWriter(BilgeRouter router, ConfigSettings config, TraceLevel yourTraceLevel) :base(router,config,yourTraceLevel) {
         }
 
 
@@ -520,7 +504,7 @@ namespace Plisky.Diagnostics {
         internal void InternalE(MessageMetadata mmd, string theMessage) {
             string timeString = null;
 
-            if (BilgeConfig.AddTimingsToEnterExit) {
+            if (sets.AddTimingsToEnterExit) {
                 DateTime dt = DateTime.Now;
                 timeString = ">TRCTMR<|SRT|" + dt.Day + "|" + dt.Month + "|" + dt.Year + "|" + dt.Hour + "|" + dt.Minute + "|" + dt.Second + "|" + dt.Millisecond + "|";
             }
@@ -547,7 +531,7 @@ namespace Plisky.Diagnostics {
             // previously the lookup was done on enter and the data pushed into a stack.  This did not work for multiple
             // threads, each of which can be in a different method.
             string timeString = null;
-            if (BilgeConfig.AddTimingsToEnterExit) {
+            if (sets.AddTimingsToEnterExit) {
                 DateTime dt = DateTime.Now;
                 timeString = ">TRCTMR<|END|" + dt.Day + "|" + dt.Month + "|" + dt.Year + "|" + dt.Hour + "|" + dt.Minute + "|" + dt.Second + "|" + dt.Millisecond + "|";
             }
@@ -589,33 +573,6 @@ namespace Plisky.Diagnostics {
 
 
 
-
-        private void ActiveRouteMessage(MessageMetadata mmd) {
-            // Some methods pass all this context around so the can call this directly.  All of the shared routing info should be done her
-            // with the other overload only used to call this one.
-            if (IsWriting) {
-                router.PrepareMetaData(mmd, ContextMeta);
-                router.QueueMessage(mmd);
-            }
-        }
-
-        private void ActiveRouteMessage(TraceCommandTypes tct, string messageBody, string furtherInfo=null, string methodName=null, string fileName=null, int lineNumber=0) {
-            if (IsWriting) {
-                MessageMetadata mmd = new MessageMetadata() {
-                    CommandType = tct,
-                    MethodName = methodName,
-                    FileName = fileName,
-                    LineNumber = lineNumber.ToString(),
-                    Body = messageBody,
-                    FurtherDetails = furtherInfo
-                };
-                ActiveRouteMessage(mmd);
-
-            } else {
-            }
-        }
-
-
         internal bool IncludeThisMethodInOutput(Switch callSwitch, TraceLevel methodsLevel) {
             if (callSwitch == null) { return false; }
 
@@ -628,8 +585,8 @@ namespace Plisky.Diagnostics {
         }
 
         internal bool IncludeThisMethodInOutputFromSwitch(TraceLevel methodLevel, TraceLevel switchLevel) {
-            TraceLevel targetLevel = ActiveTraceLevel;
-            if (switchLevel < ActiveTraceLevel) {
+            TraceLevel targetLevel = activeTraceLevel;
+            if (switchLevel < activeTraceLevel) {
                 targetLevel = switchLevel;
             }
 
@@ -641,11 +598,11 @@ namespace Plisky.Diagnostics {
         /// </para></summary>>
         internal bool IncludeThisMethodInOutput(TraceLevel methodsLevel) {
 #if DEBUG
-            int ctl = (int)ActiveTraceLevel;
+            int ctl = (int)activeTraceLevel;
             if ((ctl < 0) || (ctl > 4)) { throw new InvalidOperationException("The code was written using the definition of the Trace enum which has ranges from 0..4"); }
 #endif
 
-            return (int)methodsLevel <= (int)ActiveTraceLevel;
+            return (int)methodsLevel <= (int)activeTraceLevel;
         }
 
     }

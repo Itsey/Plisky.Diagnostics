@@ -99,7 +99,6 @@
             Assert.Equal<int>(0, mmh.TotalMessagesRecieved);
         }
 
-        [Fact(Skip ="this doesnt work on the build server, no idea why")]
         [Trait("xunit", "regression")]
         public void QueuedMessagesWritten_AfterFlush() {
             MockMessageHandler mmh = new MockMessageHandler();
@@ -168,38 +167,46 @@
             sut.AddHandler(mmh2);
 
             sut.Info.Flow();
-
+            Thread.Sleep(1);
             sut.Flush();
+
             mmh1.AssertAllConditionsMetForAllMessages(true);
             mmh2.AssertAllConditionsMetForAllMessages(true);
         }
 
+
+
         [Fact]
-        [Trait("xunit", "regression")]
-        public void Context_IsAsDefinedOnConstructor() {
+        [Trait("age", "regression")]
+        public void Context_FromConstructorReachesMessage() {
             MockMessageHandler mmh = new MockMessageHandler();
             string context = "xxCtxtxx";
             mmh.AssertContextIs(context);
             Bilge sut = TestHelper.GetBilge(context);
             sut.AddHandler(mmh);
+
             sut.Info.Log("Message should have context");
             sut.Flush();
+            Thread.Sleep(1);
+
             mmh.AssertAllConditionsMetForAllMessages(true);
+            
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait("age", "regression")]
         public void ProcessId_IsCorrectProcessId() {
             int testProcId = Process.GetCurrentProcess().Id;
 
             MockMessageHandler mmh = new MockMessageHandler();
             mmh.AssertProcessId(testProcId);
             mmh.AssertManagedThreadId(Thread.CurrentThread.ManagedThreadId);
-            Bilge sut = TestHelper.GetBilge("xxCtxtxx");
+            Bilge sut = TestHelper.GetBilge();
 
             sut.AddHandler(mmh);
-            sut.Info.Log("Message should have context");
+            sut.Info.Log("Message Written");
             sut.Flush();
+            Thread.Sleep(1);
 
             mmh.AssertAllConditionsMetForAllMessages(true);
         }

@@ -21,21 +21,23 @@ namespace Plisky.Diagnostics {
             MessageMetadata mmd = new MessageMetadata(meth, pth, ln);
             mmd.CommandType = Plumbing.TraceCommandTypes.Custom;
             mmd.Body = body;
-            mmd.FurtherDetails = further;                 
+            mmd.FurtherDetails = further;
             mmd.Body = body;
-         
+            
 
             if (IsWriting) {
-                router.PrepareMetaData(mmd, Context);
+                router.PrepareMetaData(mmd, config.metaContexts);
                 router.QueueMessage(mmd);
             }
         }
 
+        protected ConfigSettings config;
 
-
-
-        public BilgeDirect(BilgeRouter r) {
+       
+        
+        internal BilgeDirect(BilgeRouter r, ConfigSettings activeConfig) {
             router = r;
+            config = activeConfig;
         }
     }
 

@@ -160,16 +160,16 @@
         [Fact]
         [Trait("xunit", "regression")]
         public void Exit_WritesMethodName() {
-            Bilge sut = TestHelper.GetBilge();
+           
             var mmh = new MockMessageHandler();
+            mmh.SetMethodNameMustContain(nameof(Exit_WritesMethodName));
+            Bilge sut = TestHelper.GetBilge();
             sut.AddHandler(mmh);
             sut.Info.X();
 
             sut.Flush();
 
-            mmh.SetMustContainForBody(nameof(Exit_WritesMethodName));
-
-            // E generates more than one message, therefore we have to check that one of the messages had the name in it.
+            // X generates more than one message, therefore we have to check that one of the messages had the name in it.
             mmh.AssertAllConditionsMetForAllMessages(true, true);
 
         }
@@ -182,11 +182,9 @@
             Bilge sut = new Bilge();
             sut.AddHandler(mmh);
             mmh.SetMethodNameMustContain("monkeyfish");
-            sut.Info.EnterSection("monkeyfish");
-
-            for (int i = 0; i < 10; i++) {
-                Thread.Sleep(300);
-            }
+            sut.Info.EnterSection("random sectiion","monkeyfish");
+            sut.Flush();
+          
 
             mmh.AssertAllConditionsMetForAllMessages(true, true);
 
@@ -197,14 +195,14 @@
         public void Bilge_LeaveSection_TracesSection() {
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge();
+            
             sut.AddHandler(mmh);
 
             mmh.SetMethodNameMustContain("bannanaball");
             sut.Info.LeaveSection("bannanaball");
 
-            for (int i = 0; i < 10; i++) {
-                Thread.Sleep(300);
-            }
+     
+            sut.Flush();
 
             mmh.AssertAllConditionsMetForAllMessages(true, true);
 
@@ -270,13 +268,14 @@
         [Trait("xunit", "regression")]
         public void Flow_WritesMethodNameToMessage() {
             MockMessageHandler mmh = new MockMessageHandler();
+            mmh.SetMethodNameMustContain(nameof(Flow_WritesMethodNameToMessage));
             mmh.SetMustContainForBody(nameof(Flow_WritesMethodNameToMessage));
             var sut = TestHelper.GetBilge();
             sut.AddHandler(mmh);
 
             sut.Info.Flow();
-
             sut.Flush();
+
             mmh.AssertAllConditionsMetForAllMessages(true);
         }
 
