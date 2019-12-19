@@ -173,6 +173,8 @@
             EnableQueuedMessages();
         }
 
+        List<Task> activeTasks = new List<Task>();
+
         private void DispatcherThreadMethod() {
 #if DEBUG
             // As this is static and uses a lot of static data it should never be shared with another one of these threads. We put this check
@@ -186,17 +188,10 @@
                 Thread.CurrentThread.Name = "Bilge>>RouterQueueDispatcher";
                 Thread.CurrentThread.IsBackground = true;
 
-                List<Task> activeTasks = new List<Task>();
+                
 
                 while ((!shutdownRequested) && (!System.Environment.HasShutdownStarted)) {
-                    int i = 0;  // Clear down any tasks that have completed.
-                    while (i < activeTasks.Count) {
-                        if (activeTasks[i].IsCompleted) {
-                            activeTasks.RemoveAt(i);
-                        } else {
-                            i++;
-                        }
-                    }
+                    ClearCompletedActiveTasks();
 
                     if (messageQueue.Count == 0) {
                         // If the thread has nothing to do it waits for the next message or 5 seconds in case theres a message that
@@ -232,6 +227,8 @@
                     while ((messageQueue.Count > 0) && (!System.Environment.HasShutdownStarted)) {
 
                         var copyOfCurrentMessages = messageQueue.ToArray();
+                        activeTasks.Add(RouteMessage(copyOfCurrentMessages));
+
                         int countOfCopiedMessages = copyOfCurrentMessages.Length;
                         while (countOfCopiedMessages > 0) {
                             if (messageQueue.Count == 0) {
@@ -241,7 +238,7 @@
                             while (!messageQueue.TryDequeue(out var mpp)) ;
                             countOfCopiedMessages--;
                         }
-                        activeTasks.Add(RouteMessage(copyOfCurrentMessages));
+                        
                     }
                 }
 
@@ -258,23 +255,42 @@
             s_dispatcherThread = null;
         }
 
+        private void ClearCompletedActiveTasks() {
+            int i = 0; // Clear down any tasks that have completed.
+            while (i < activeTasks.Count) {
+                if (activeTasks[i].IsCompleted) {
+                    activeTasks.RemoveAt(i);
+                } else {
+                    i++;
+                }
+            }
+        }
+
         protected override void ActualFlushMessages() {
             int msgs = messageQueue.Count;
-
+            if (msgs == 0) {
+                return;
+            }
 
             Emergency.Diags.Log($"Flush, messages {msgs}");
+
+            Task.WaitAll(activeTasks.ToArray());
 
             // This takes the current count of messages into msgs, and will run through processing
             // messages - until either there are none left
 
-           /* while ((msgs > 0) && (messageQueue.Count > 0)) {
+            int looopProtect = 0;
+            while (messageQueue.Count > 0) {
                 queuedMessageResetEvent.Set();
-                Thread.Sleep(10);
-                msgs--;
-            }*/
-            if (msgs>0) {
-                queuedMessageResetEvent.Set();
-                Thread.Sleep(10);
+                Thread.Sleep(1);
+                looopProtect++;
+                if (looopProtect > 100) {
+                    Emergency.Diags.Log($"Level Two Flush Occurs, Waiting Longer");
+                    Thread.Sleep(10);
+                    if (looopProtect > 110) {
+                        break;
+                    }
+                }
             }
 
             if (handlers != null) {
@@ -282,6 +298,8 @@
                     h.Flush();
                 }
             }
+
+            Task.WaitAll(activeTasks.ToArray());
 
             Emergency.Diags.Log($"Flush, done ");
 

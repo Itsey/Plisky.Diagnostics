@@ -167,7 +167,6 @@
             sut.AddHandler(mmh2);
 
             sut.Info.Flow();
-            Thread.Sleep(1);
             sut.Flush();
 
             mmh1.AssertAllConditionsMetForAllMessages(true);
@@ -206,7 +205,7 @@
             sut.AddHandler(mmh);
             sut.Info.Log("Message Written");
             sut.Flush();
-            Thread.Sleep(1);
+        
 
             mmh.AssertAllConditionsMetForAllMessages(true);
         }

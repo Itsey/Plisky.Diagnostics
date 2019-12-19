@@ -14,7 +14,7 @@ namespace Plisky.Diagnostics {
     using System.Text;
     using System.Threading;
 
-    public partial class BilgeWriter {
+    public partial class BilgeWriter  {
 
 #if NET452 || NETSTANDARD2_0
         /// <summary>

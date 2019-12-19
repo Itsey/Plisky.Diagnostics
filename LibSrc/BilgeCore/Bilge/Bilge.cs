@@ -154,9 +154,9 @@ namespace Plisky.Diagnostics {
         }
 
         public void Flush() {
-            Thread.Sleep(1);
+         
             BilgeRouter.Router.FlushMessages();
-            Thread.Sleep(1);
+      
 
         }
 

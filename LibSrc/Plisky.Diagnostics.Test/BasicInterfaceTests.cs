@@ -75,10 +75,10 @@
 
                 
                 if (i%25==0) {
-                    Thread.Sleep(100);
+                    //Thread.Sleep(100);
                     // The flush forces the write, this is needed otherwise it bombs through
                     // too fast for more than one write to the handler to occur.
-                    //sut.Flush();
+                    sut.Flush();
                 }
 
                 if (mmh.TotalMessagesRecieved > 0) {

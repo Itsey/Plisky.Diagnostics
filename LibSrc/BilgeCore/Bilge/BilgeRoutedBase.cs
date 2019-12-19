@@ -1,10 +1,11 @@
-﻿using Plisky.Plumbing;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-
+﻿
 namespace Plisky.Diagnostics {
+    using Plisky.Plumbing;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Text;
+
 
     public abstract class BilgeConditionalRoutedBase : BilgeRoutedBase {
         protected TraceLevel activeTraceLevel;
@@ -37,10 +38,8 @@ namespace Plisky.Diagnostics {
         protected ConfigSettings sets;
 
         public BilgeRoutedBase(BilgeRouter rt, ConfigSettings cs) {
-            if (rt==null ) { throw new ArgumentNullException(nameof(rt)); }
-            if (cs==null) { throw new ArgumentNullException(nameof(cs)); }
-            router = rt;
-            sets = cs;
+            router = rt ?? throw new ArgumentNullException(nameof(rt));
+            sets = cs ?? throw new ArgumentNullException(nameof(cs));
         }
 
 
