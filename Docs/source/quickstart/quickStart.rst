@@ -1,20 +1,28 @@
 
-Quick Start Guide To Diagnostics
-==============================================
+==================
+Quick Start Guide.
+==================
 
 Bilge is a class designed to add trace to your code.  
 
 1 - Add a nuget reference to Plisky.Diagnostics and Plisky.Diagnostics.Listeners.
 
-2 - Add the code to initialise Bilge.
+2 - Add the code to initialise Bilge
 
-'Bilge b = new Bilge(tl:System.TraceLevel.Verbose);
-'b.AddListener(new TCPListener("127.0.0.1",9060));
-'b.Info.Log("Hello World!");
-'// Do some real code or just...
-'Thread.Sleep(1);
+.. code-block:: shell
+    
+    Bilge b = new Bilge(tl:TraceLevel.Verbose);
+    b.AddListener(new TCPListener("127.0.0.1",9060));
+    b.Info.Log("Hello World!");
+    // Do some real code or just...
+    Thread.Sleep(1);
+    // This is not needed, but for this example we'll include it
+    b.Flush();
+
 
 3 - Open Up FlimFlam
+
+Flim Flam is a windows application deisgned to intercept your trace messages at run time. 
 
 4 - Run your Program!
 

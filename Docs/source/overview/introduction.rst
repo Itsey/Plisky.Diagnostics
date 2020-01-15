@@ -1,5 +1,5 @@
 
-Quick Start Guide To Diagnostics
+Introduction to Bilge and FlimFlam
 ==============================================
 
 Plisky.Diagnostics is a nuget package hosting Bilge - an advanced trace library designed for adding developer trace to .net applications.  Bilge uses a system of

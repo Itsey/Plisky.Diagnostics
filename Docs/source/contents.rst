@@ -3,19 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Plisky.Diagnostics's - The Docs
+Doc
 ==============================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   /overview/introduction.rst
-   /overview/quickStart.rst
-
    
 
-Indices and tables
+Contents!
 ==================
 
 * :ref:`genindex`
