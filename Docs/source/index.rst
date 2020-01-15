@@ -10,8 +10,8 @@ Plisky.Diagnostics's - The Docs
    :maxdepth: 2
    :caption: Contents:
 
-   /overview/introduction
-   /overview/quickStart
+   /overview/introduction.rst
+   /overview/quickStart.rst
 
    
 
