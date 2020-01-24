@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Plisky.Plumbing {
+namespace Plisky.Diagnostics {
 
     /// <summary>
     /// Holds all of the parts that are used to create messages.

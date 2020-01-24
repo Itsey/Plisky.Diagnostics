@@ -3,7 +3,7 @@
  * of the text that is to be output with additional information on the front that is specific to the viewer.  In this way not only
  can messages be attributed to their application and thread but also viewer commands such as clearscreen and line can be sent */
 
-namespace Plisky.Plumbing {
+namespace Plisky.Diagnostics {
 
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -408,5 +408,9 @@ namespace Plisky.Plumbing {
 
         //internal const string RESNAMEDELIMPAIR = RESNAMEDELIMITER + RESVALUEDELIMITER;
         internal const int RESNAMEDELIMITERLENGTH = 7;
+
+
+        internal const string PROCNAMEIDENT_PREFIX = "ProcessName(";
+        internal const string PROCNAMEIDENT_POSTFIX = ")";
     }
 }

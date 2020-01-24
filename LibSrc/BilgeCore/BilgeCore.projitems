@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeAssert.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeDirect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeRoutedBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter_Net40.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter_Internals.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\ConfigSettings.cs" />

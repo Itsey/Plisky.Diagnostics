@@ -19,7 +19,7 @@ namespace Plisky.Diagnostics {
         public void Write(string body, string further, string meth = null,  string pth = null, int ln = 0) {
 #endif
             MessageMetadata mmd = new MessageMetadata(meth, pth, ln);
-            mmd.CommandType = Plumbing.TraceCommandTypes.Custom;
+            mmd.CommandType = TraceCommandTypes.Custom;
             mmd.Body = body;
             mmd.FurtherDetails = further;
             mmd.Body = body;

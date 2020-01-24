@@ -5,7 +5,24 @@ using Xunit;
 namespace Plisky.Diagnostics.Test {
     public class ExploratoryAndUserStoryTests {
 
-    
+
+        [Fact(DisplayName = nameof(TestProcessStart))]
+      
+        public void TestProcessStart() {
+            TCPHandler h = new TCPHandler("127.0.0.1", 9060);
+            Bilge sut = TestHelper.GetBilge();
+            sut.AddHandler(h);
+
+            sut.Util.Online("Tester");
+            sut.Info.Log("Hello");
+
+            for (int i = 0; i < 10; i++) {
+                Thread.Sleep(100);
+            }
+            sut.Flush();
+        }
+
+
 
         [Fact]
         [Trait("XUnit", "usecase")]

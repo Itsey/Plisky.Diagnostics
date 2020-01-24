@@ -125,7 +125,7 @@ namespace Plisky.Diagnostics.Test {
         public Task HandleMessageAsync(MessageMetadata[] msg) {
             LastMessageBatchSize = msg.Length;
             foreach (var m in msg) {
-                if (m.CommandType==Plumbing.TraceCommandTypes.AssertionFailed) {
+                if (m.CommandType==TraceCommandTypes.AssertionFailed) {
                     AssertionMessageCount++;
                 }
                 TotalMessagesRecieved++;

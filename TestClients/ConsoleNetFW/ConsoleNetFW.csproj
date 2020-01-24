@@ -32,11 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Plisky.Diagnostics, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fa048162fdc8ec66, processorArchitecture=MSIL">
-      <HintPath>C:\Users\Jim\AppData\Roaming\NuGet\packages\Plisky.Diagnostics.2.1.1\lib\net47\Plisky.Diagnostics.dll</HintPath>
+    <Reference Include="Plisky.Diagnostics, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plisky.Diagnostics.2.6.1\lib\net47\Plisky.Diagnostics.dll</HintPath>
     </Reference>
-    <Reference Include="Plisky.Diagnostics.Listeners, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fa048162fdc8ec66, processorArchitecture=MSIL">
-      <HintPath>C:\Users\Jim\AppData\Roaming\NuGet\packages\Plisky.Listeners.2.1.1\lib\net47\Plisky.Diagnostics.Listeners.dll</HintPath>
+    <Reference Include="Plisky.Diagnostics.Listeners, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plisky.Listeners.2.6.0\lib\net47\Plisky.Diagnostics.Listeners.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

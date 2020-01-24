@@ -11,7 +11,7 @@ namespace ConsoleNetFW {
         static void Main(string[] args) {
             var b = new Bilge(tl: System.Diagnostics.TraceLevel.Verbose);
             b.AddHandler(new TCPHandler("127.0.0.1", 9060));
-
+            b.
             b.Info.Log("Application Online");
 
             ExampleSubsystem.Run(b);

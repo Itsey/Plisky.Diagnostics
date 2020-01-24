@@ -65,9 +65,11 @@ namespace Plisky.Diagnostics {
             Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Warning);
             Error = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Error);
             Direct = new BilgeDirect(BilgeRouter.Router, activeConfig);
+            Util = new BilgeUtil(BilgeRouter.Router, activeConfig);
             SetTraceLevel(tl);
         }
 
+        public BilgeUtil Util { get; private set; }
         public BilgeWriter Info { get; private set; }
         public BilgeWriter Verbose { get; private set; }
 

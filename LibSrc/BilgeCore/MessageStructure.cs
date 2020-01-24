@@ -1,4 +1,5 @@
-namespace Plisky.Plumbing {
+namespace Plisky.Diagnostics {
+    
     using System;
     using System.Text.RegularExpressions;
 
