@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Plisky.Diagnostics</id>
-    <version>2.6.1.0</version>
+    <version>2.6.2.0</version>
     <title>Plisky Diagnostics Library</title>
     <authors>Jim</authors>
     <owners>Jim</owners>
@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plisky Diagnostics Library - featuring Bilge and Piffle, offering comprehensive trace and error handling facilities to applications.</description>
     <releaseNotes>
+      2.6.2 - Adding Process Name support in.
       2.6.0 - Remove signing accross Plisky
       2.4.0 - Version harmonisation, correcting fault in net standard version.
       2.3.3 - Fix for containers not being able to get machine name. (Critical fix for 2.3.2).
