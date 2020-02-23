@@ -35,8 +35,8 @@
     <Reference Include="Plisky.Diagnostics, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Plisky.Diagnostics.2.7.0\lib\net47\Plisky.Diagnostics.dll</HintPath>
     </Reference>
-    <Reference Include="Plisky.Diagnostics.Listeners, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plisky.Listeners.2.6.0\lib\net47\Plisky.Diagnostics.Listeners.dll</HintPath>
+    <Reference Include="Plisky.Diagnostics.Listeners, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plisky.Listeners.2.7.0\lib\net47\Plisky.Diagnostics.Listeners.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
