@@ -1,7 +1,7 @@
 ﻿using Plisky.Diagnostics;
 using System.Threading;
 
-namespace ConsoleNetFW {
+namespace Plisky.Diagnostics.Test {
     internal class VerySlowRepository :ARepositry {
         
 

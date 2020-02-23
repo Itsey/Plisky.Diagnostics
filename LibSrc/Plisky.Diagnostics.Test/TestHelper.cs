@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Plisky.Diagnostics.Test {
     public class TestHelper {
-        public static Bilge GetBilge(string context = null) {
+        public static Bilge GetBilge(string context = null, bool setTrace = true) {
             Bilge result;
             if (context != null) {
                 result = new Bilge(context, resetDefaults: true);
@@ -16,6 +16,9 @@ namespace Plisky.Diagnostics.Test {
             }
 
             Assert.True(result.IsCleanInitialise(), "Unclean!");
+            if (setTrace) {
+                result.CurrentTraceLevel = System.Diagnostics.TraceLevel.Info;
+            }
             return result;
         }
 

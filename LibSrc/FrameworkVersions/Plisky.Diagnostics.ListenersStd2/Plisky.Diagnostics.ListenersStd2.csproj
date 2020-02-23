@@ -15,11 +15,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;BILGE2</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;BILGE2;LISTENERS</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>C:\Files\Code\git\PliskyDiagnostics\LibSrc\FrameworkVersions\Plisky.Diagnostics.ListenersStd2\Plisky.Diagnostics.Listeners.xml</DocumentationFile>
+    <DefineConstants>TRACE;NETSTANDARD2_0;BILGE2;LISTENERS</DefineConstants>
   </PropertyGroup>
 
   <Import Project="..\..\BilgeListeners\BilgeListeners.projitems" Label="Shared" />

@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AF70393A-C98C-4B4B-B30A-512200D3A421}</ProjectGuid>
+    <ProjectGuid>{BF9BF520-D1B8-41C0-B57E-128FC7BCDCFD}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ConsoleNetFW</RootNamespace>
-    <AssemblyName>ConsoleNetFW</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <RootNamespace>Plisky.Diagnostics.Test</RootNamespace>
+    <AssemblyName>ConsoleNetFW451</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,11 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Plisky.Diagnostics, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plisky.Diagnostics.2.6.1\lib\net47\Plisky.Diagnostics.dll</HintPath>
+    <Reference Include="Plisky.Diagnostics, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plisky.Diagnostics.2.7.0\lib\net40\Plisky.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="Plisky.Diagnostics.Listeners, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Plisky.Listeners.2.6.0\lib\net47\Plisky.Diagnostics.Listeners.dll</HintPath>
+      <HintPath>..\packages\Plisky.Listeners.2.6.0\lib\net40\Plisky.Diagnostics.Listeners.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,16 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ARepositry.cs" />
-    <Compile Include="ExampleSubsystem.cs" />
-    <Compile Include="FastRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VerySlowRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <Import Project="..\TestConsoleCode\TestConsoleCode.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

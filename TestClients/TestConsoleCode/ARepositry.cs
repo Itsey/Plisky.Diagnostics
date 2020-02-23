@@ -1,6 +1,6 @@
 ﻿using Plisky.Diagnostics;
 
-namespace ConsoleNetFW {
+namespace Plisky.Diagnostics.Test {
     internal abstract class ARepositry {
         protected string repoName;
         protected Bilge b;

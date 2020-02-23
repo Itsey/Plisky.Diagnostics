@@ -2,7 +2,7 @@
 using System.Threading;
 using Plisky.Diagnostics;
 
-namespace ConsoleNetFW {
+namespace Plisky.Diagnostics.Test {
     internal class ExampleSubsystem {
         private static ARepositry vsr1;
         private static ARepositry vsr2;

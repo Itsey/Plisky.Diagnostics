@@ -63,17 +63,17 @@
 
         [Fact]
         [Trait("xunit", "regression")]
-        public void Default_TraceLevelIsInfo() {
+        public void Default_TraceLevelIsOff() {
             MockMessageHandler mmh = new MockMessageHandler();
-            Bilge b = TestHelper.GetBilge();
-            Assert.Equal<TraceLevel>(TraceLevel.Info, b.CurrentTraceLevel);
+            Bilge b = TestHelper.GetBilge(setTrace:false);
+            Assert.Equal<TraceLevel>(TraceLevel.Off, b.CurrentTraceLevel);
         }
 
         [Fact]
         [Trait("xunit", "regression")]
         public void VerboseNotLogged_IfNotVerbose() {
             MockMessageHandler mmh = new MockMessageHandler();
-            Bilge b = TestHelper.GetBilge();
+            Bilge b = TestHelper.GetBilge(setTrace: false);
             b.CurrentTraceLevel = TraceLevel.Info;
             b.AddHandler(mmh);
             b.Verbose.Log("Msg");

@@ -1,6 +1,6 @@
 ﻿using Plisky.Diagnostics;
 
-namespace ConsoleNetFW {
+namespace Plisky.Diagnostics.Test {
     internal class FastRepository : ARepositry {
 
         public FastRepository() {

@@ -7,7 +7,7 @@ namespace Plisky.Diagnostics {
     using System.Threading;
 
     public class Bilge {
-        
+
         private ConfigSettings activeConfig;
 
 
@@ -42,6 +42,7 @@ namespace Plisky.Diagnostics {
             this.Verbose.IsWriting = (activeConfig.activeTraceLevel >= TraceLevel.Verbose);
         }
 
+ 
         /// <summary>
         /// Bilge provides developer level trace to provide runtime diagnostics to developers.  
         /// </summary>
@@ -49,7 +50,7 @@ namespace Plisky.Diagnostics {
         /// <param name="sessionContext">The context for a session, usually used to identify the user request</param>
         /// <param name="tl">The trace level to set this instance of bilge to</param>
         /// <param name="resetDefaults">Reset all pf the internal context of Bilge</param>
-        public Bilge(string selectedInstanceContext = "-",string sessionContext = "-", TraceLevel tl = TraceLevel.Info, bool resetDefaults = false) {
+        public Bilge(string selectedInstanceContext = "-", string sessionContext = "-", TraceLevel tl = TraceLevel.Off, bool resetDefaults = false) {
             activeConfig = new ConfigSettings();
             activeConfig.InstanceContext = selectedInstanceContext;
             activeConfig.SessionContext = sessionContext;
@@ -138,7 +139,7 @@ namespace Plisky.Diagnostics {
         /// </summary>
         /// <param name="context">Context Name - e.g. userSession</param>
         /// <param name="value">Context Value - e.g. 123456</param>
-        public void  AddContext(string context, string value) {
+        public void AddContext(string context, string value) {
 
         }
         /// <summary>
@@ -156,9 +157,9 @@ namespace Plisky.Diagnostics {
         }
 
         public void Flush() {
-         
+
             BilgeRouter.Router.FlushMessages();
-      
+
 
         }
 
