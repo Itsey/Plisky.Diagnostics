@@ -8,23 +8,25 @@
     using System.Threading.Tasks;
 
     public class TCPHandler : IBilgeMessageHandler {
-        private string target;
-        private string status = "Untouched";
+        internal string target;
+        internal string status = "Untouched";
+        internal AsyncTCPClient tcpClient;
+        internal bool failsAreHarsh;
+
+
         public Exception LastFault { get; internal set; }
 
-        private AsyncTCPClient tcpClient;
-        private bool failsAreHarsh;
-
+        
         public LegacyFlimFlamFormatter Formatter { get; private set; }
 
         public int Priority => 1;
         public string Name => nameof(TCPHandler);
 
-#if NET452
+
         public async void HandleMessageAsync(MessageMetadata msgMeta) {
             try {
                 string msg = Formatter.ConvertToString(msgMeta);
-                await tcpClient.Writestufftest(msg);
+                await tcpClient.WriteToExternalSocket(msg);
                 status = "ok";
             } catch (Exception ex) {
                 LastFault = ex;
@@ -32,11 +34,11 @@
                 throw;
             }
         }
-#else
+
         public void HandleMessage40(MessageMetadata[] msg) {
             HandleMessageAsync(msg).Wait();            
         }
-#endif
+
 
 
         public async Task HandleMessageAsync(MessageMetadata[] msg) {
@@ -56,7 +58,7 @@
                 }
                 whatToWrite = sb.ToString();
                 Emergency.Diags.Log("Writing to tcp client " + whatToWrite);
-                await tcpClient.Writestufftest(whatToWrite).ConfigureAwait(false);
+                await tcpClient.WriteToExternalSocket(whatToWrite).ConfigureAwait(false);
                 status = "ok";
                 if ((assertFailFoud) && (failsAreHarsh)) {
                     try {

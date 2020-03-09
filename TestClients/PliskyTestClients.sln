@@ -7,14 +7,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleNetFW471", "ConsoleN
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestConsoleCode", "TestConsoleCode\TestConsoleCode.shproj", "{E0BF128D-23D8-42FA-98AA-65D0A330DDA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleNetCore31", "ConsoleNetCore\ConsoleNetCore31.csproj", "{E7F57BED-1D0B-4913-A433-9A94B388573C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleNetCore31", "ConsoleNetCore\ConsoleNetCore31.csproj", "{E7F57BED-1D0B-4913-A433-9A94B388573C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleNetFW35", "ConsoleNetFW35\ConsoleNetFW35.csproj", "{EF9F4047-F458-46E5-BBAF-A92C1E1E9E0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleNetFW451", "ConsoleNetFW451\ConsoleNetFW451.csproj", "{BF9BF520-D1B8-41C0-B57E-128FC7BCDCFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleNetFW452", "ConsoleNetFW452\ConsoleNetFW452.csproj", "{19210233-EFBE-4DD0-B790-31C6CE593897}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TestConsoleCode\TestConsoleCode.projitems*{19210233-efbe-4dd0-b790-31c6ce593897}*SharedItemsImports = 4
 		TestConsoleCode\TestConsoleCode.projitems*{af70393a-c98c-4b4b-b30a-512200d3a421}*SharedItemsImports = 4
 		TestConsoleCode\TestConsoleCode.projitems*{bf9bf520-d1b8-41c0-b57e-128fc7bcdcfd}*SharedItemsImports = 4
 		TestConsoleCode\TestConsoleCode.projitems*{e0bf128d-23d8-42fa-98aa-65d0a330dda4}*SharedItemsImports = 13
@@ -40,6 +43,10 @@ Global
 		{BF9BF520-D1B8-41C0-B57E-128FC7BCDCFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF9BF520-D1B8-41C0-B57E-128FC7BCDCFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF9BF520-D1B8-41C0-B57E-128FC7BCDCFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19210233-EFBE-4DD0-B790-31C6CE593897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19210233-EFBE-4DD0-B790-31C6CE593897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19210233-EFBE-4DD0-B790-31C6CE593897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19210233-EFBE-4DD0-B790-31C6CE593897}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 ﻿using Plisky.Diagnostics.Listeners;
+using System.Diagnostics;
 using System.Threading;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace Plisky.Diagnostics.Test {
     public class FullUseCaseTests {
         private Bilge b;
         public FullUseCaseTests() {
-            b = new Bilge(tl:System.Diagnostics.TraceLevel.Verbose);
+            b = new Bilge(tl:SourceLevels.Verbose);
             b.AddHandler(new TCPHandler("127.0.0.1", 9060));
         }
 

@@ -16,7 +16,7 @@ namespace Plisky.Diagnostics.Listeners {
         public int Priority => 5;
         public string Name => nameof(SimpleTraceFileHandler);
 
-#if NET452 || NETSTANDARD2_0
+
         public async Task HandleMessageAsync(MessageMetadata[] msg) {
             var sb = new StringBuilder();
             foreach (var v in msg) {
@@ -27,7 +27,7 @@ namespace Plisky.Diagnostics.Listeners {
             lastTask.Target = tsk;
             await tsk;
         }
-#else
+
         public void HandleMessage40(MessageMetadata[] msg) {
             StringBuilder sb = new StringBuilder();
             foreach (var v in msg) {
@@ -37,7 +37,6 @@ namespace Plisky.Diagnostics.Listeners {
             fs.Write(txt, 0, txt.Length);
         }
 
-#endif
 
 
 

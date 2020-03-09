@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole450", "Framework
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestConsoleShared", "TestConsoleShared\TestConsoleShared.shproj", "{2F1BD31E-EA5D-4D8F-81C8-2B58AC0BD052}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleCore31", "TestConsoleCore\TestConsoleCore31.csproj", "{64730EF2-7780-4896-8F40-A6DB4298C283}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TestConsoleShared\TestConsoleShared.projitems*{10956870-334d-4812-9c1a-9d0300452ce4}*SharedItemsImports = 4
@@ -135,6 +137,12 @@ Global
 		{10956870-334D-4812-9C1A-9D0300452CE4}.Develop|Any CPU.Build.0 = Debug|Any CPU
 		{10956870-334D-4812-9C1A-9D0300452CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10956870-334D-4812-9C1A-9D0300452CE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64730EF2-7780-4896-8F40-A6DB4298C283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64730EF2-7780-4896-8F40-A6DB4298C283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64730EF2-7780-4896-8F40-A6DB4298C283}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
+		{64730EF2-7780-4896-8F40-A6DB4298C283}.Develop|Any CPU.Build.0 = Debug|Any CPU
+		{64730EF2-7780-4896-8F40-A6DB4298C283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64730EF2-7780-4896-8F40-A6DB4298C283}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +156,7 @@ Global
 		{C2F58962-F7E0-455F-85B2-ECEC2ED97942} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
 		{5D25F9E6-04A2-4546-AB65-B44D878E668C} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
 		{10956870-334D-4812-9C1A-9D0300452CE4} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
+		{64730EF2-7780-4896-8F40-A6DB4298C283} = {AA57BA54-892A-4F5B-B4DF-397A51FE3133}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7C82109-A367-4A89-83FB-D4187677A573}

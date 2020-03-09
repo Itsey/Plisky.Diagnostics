@@ -8,7 +8,7 @@ namespace Plisky.Diagnostics {
 
 
     public abstract class BilgeConditionalRoutedBase : BilgeRoutedBase {
-        protected TraceLevel activeTraceLevel;
+        protected SourceLevels activeTraceLevel;
 
         /// <summary>
         /// Determines whether this conditional router is actually writing to the stream.
@@ -28,7 +28,7 @@ namespace Plisky.Diagnostics {
             }
         }
 
-        public BilgeConditionalRoutedBase(BilgeRouter rt, ConfigSettings cs, TraceLevel yourTraceLevel) : base(rt, cs) {
+        public BilgeConditionalRoutedBase(BilgeRouter rt, ConfigSettings cs, SourceLevels yourTraceLevel) : base(rt, cs) {
             activeTraceLevel = yourTraceLevel;
         }
     }

@@ -30,7 +30,6 @@ namespace Plisky.Diagnostics.Listeners {
         public int Priority => 5;
         public string Name => nameof(InMemoryHandler);
 
-#if NET452 || NETSTANDARD2_0
         public async Task HandleMessageAsync(MessageMetadata[] msg) {
 
             var sb = new StringBuilder();
@@ -46,11 +45,10 @@ namespace Plisky.Diagnostics.Listeners {
             
 
         }
-#else
+
             public void HandleMessage40(MessageMetadata[] msg) {
             throw new NotImplementedException();
         }
-#endif
 
         public int GetMessageCount() {
             return messages.Count;

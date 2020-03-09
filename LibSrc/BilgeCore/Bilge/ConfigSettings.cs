@@ -9,7 +9,7 @@ namespace Plisky.Diagnostics {
     /// </summary>
     public class ConfigSettings {
         public Dictionary<string, string> metaContexts { get; set; }
-        public TraceLevel activeTraceLevel { get; internal set; }
+        public SourceLevels activeTraceLevel { get; internal set; }
 
         public string InstanceContext { 
             get {
@@ -33,6 +33,26 @@ namespace Plisky.Diagnostics {
                 }
                 metaContexts[Bilge.BILGE_SESSION_CONTEXT_STR] = value;
             }
+        }
+
+        internal TraceLevel GetLegacyTraceLevel() {
+            if ((activeTraceLevel & SourceLevels.Verbose) == SourceLevels.Verbose) {
+                return TraceLevel.Verbose;
+            }
+
+            if ((activeTraceLevel & SourceLevels.Information) == SourceLevels.Information) {
+                return TraceLevel.Info;
+            }
+
+            if ((activeTraceLevel & SourceLevels.Error) == SourceLevels.Verbose) {
+                return TraceLevel.Error;
+            }
+
+            if ((activeTraceLevel & SourceLevels.Critical) == SourceLevels.Verbose) {
+                return TraceLevel.Error;
+            }
+
+            return TraceLevel.Off;
         }
 
         public ConfigSettings() {

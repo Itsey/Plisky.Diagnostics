@@ -135,8 +135,8 @@
         [Fact]
         [Trait("xunit", "regression")]
         public void TraceLevel_Constructor_GetsSet() {
-            Bilge b = new Bilge(tl: TraceLevel.Error);
-            Assert.Equal<TraceLevel>(TraceLevel.Error, b.CurrentTraceLevel);
+            Bilge b = new Bilge(tl: SourceLevels.Error);
+            Assert.Equal<SourceLevels>(SourceLevels.Error, b.ActiveTraceLevel);
         }
 
         [Fact]

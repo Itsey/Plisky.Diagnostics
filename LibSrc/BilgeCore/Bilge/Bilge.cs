@@ -8,6 +8,26 @@ namespace Plisky.Diagnostics {
 
     public class Bilge {
 
+        private static Func<string, SourceLevels, SourceLevels> levelResolver = DefaultLevelResolver;
+
+        private static SourceLevels DefaultLevelResolver(string source, SourceLevels beforeModification) {
+
+            SourceLevels result = beforeModification;
+#if NETSTD2
+            
+#else
+
+#endif
+
+            return result;
+        }
+
+
+        public static void SetConfigurationResolver(Func<string, SourceLevels, SourceLevels> lr){
+            levelResolver = lr;
+        }
+
+
         private ConfigSettings activeConfig;
 
 
@@ -17,10 +37,15 @@ namespace Plisky.Diagnostics {
         /// </summary>
         /// <exception cref="ArgumentException">Thrown if the trace level is set outside of the defined ranges.</exception>
         public TraceLevel CurrentTraceLevel {
-            get { return activeConfig.activeTraceLevel; }
+            get { return activeConfig.GetLegacyTraceLevel(); }
             set {
                 SetTraceLevel(value);
             }
+        }
+
+        public SourceLevels ActiveTraceLevel {
+            get { return activeConfig.activeTraceLevel; }
+            set { SetTraceLevel(value); }
         }
 
         public bool IsCleanInitialise() {
@@ -30,19 +55,38 @@ namespace Plisky.Diagnostics {
             return true;
         }
 
-        private void SetTraceLevel(TraceLevel value) {
+        private void SetTraceLevel(SourceLevels value) {
             if (activeConfig.activeTraceLevel == value) { return; }
-            if (!Enum.IsDefined(typeof(TraceLevel), value)) {
+            if (!Enum.IsDefined(typeof(SourceLevels), value)) {
                 throw new ArgumentException($"The value passed to {nameof(CurrentTraceLevel)} property must be one of the TraceLevel enum values", "value");
             }
+
             activeConfig.activeTraceLevel = value;
-            this.Error.IsWriting = (activeConfig.activeTraceLevel >= TraceLevel.Error);
-            this.Warning.IsWriting = (activeConfig.activeTraceLevel >= TraceLevel.Warning);
-            this.Info.IsWriting = (activeConfig.activeTraceLevel >= TraceLevel.Info);
-            this.Verbose.IsWriting = (activeConfig.activeTraceLevel >= TraceLevel.Verbose);
+            this.Error.IsWriting = (activeConfig.activeTraceLevel & SourceLevels.Error) == SourceLevels.Error;
+            this.Warning.IsWriting = (activeConfig.activeTraceLevel & SourceLevels.Warning) == SourceLevels.Warning;
+            this.Info.IsWriting = (activeConfig.activeTraceLevel & SourceLevels.Information) == SourceLevels.Information;
+            this.Verbose.IsWriting = (activeConfig.activeTraceLevel & SourceLevels.Verbose) == SourceLevels.Verbose;
+        }
+        private void SetTraceLevel(TraceLevel value) {
+            SetTraceLevel(Bilge.ConvertTraceLevel(value));            
         }
 
- 
+        public static SourceLevels ConvertTraceLevel(TraceLevel value) {
+
+            SourceLevels result = SourceLevels.Off;
+
+            switch (value) {
+                case TraceLevel.Off: result = SourceLevels.Off; break;
+                case TraceLevel.Error: result = SourceLevels.Error | SourceLevels.Critical; break;
+                case TraceLevel.Warning: result = SourceLevels.Error | SourceLevels.Critical | SourceLevels.Warning; break;
+                case TraceLevel.Info: result = SourceLevels.Error | SourceLevels.Critical | SourceLevels.Warning | SourceLevels.Information; break;
+                case TraceLevel.Verbose: result = SourceLevels.Error | SourceLevels.Critical | SourceLevels.Warning | SourceLevels.Information | SourceLevels.Verbose | SourceLevels.Information; break;
+            }
+
+            return result;
+        }
+
+
         /// <summary>
         /// Bilge provides developer level trace to provide runtime diagnostics to developers.  
         /// </summary>
@@ -50,7 +94,7 @@ namespace Plisky.Diagnostics {
         /// <param name="sessionContext">The context for a session, usually used to identify the user request</param>
         /// <param name="tl">The trace level to set this instance of bilge to</param>
         /// <param name="resetDefaults">Reset all pf the internal context of Bilge</param>
-        public Bilge(string selectedInstanceContext = "-", string sessionContext = "-", TraceLevel tl = TraceLevel.Off, bool resetDefaults = false) {
+        public Bilge(string selectedInstanceContext = "-", string sessionContext = "-", SourceLevels tl = SourceLevels.Off, bool resetDefaults = false) {
             activeConfig = new ConfigSettings();
             activeConfig.InstanceContext = selectedInstanceContext;
             activeConfig.SessionContext = sessionContext;
@@ -61,21 +105,47 @@ namespace Plisky.Diagnostics {
             }
 
             Assert = new BilgeAssert(BilgeRouter.Router, activeConfig);
-            Info = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Info);
-            Verbose = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Verbose);
-            Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Warning);
-            Error = new BilgeWriter(BilgeRouter.Router, activeConfig, TraceLevel.Error);
+            Info = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Information | SourceLevels.Error | SourceLevels.Critical );
+            Verbose = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.All);
+            Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Warning | SourceLevels.Error | SourceLevels.Critical);
+            Error = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Error | SourceLevels.Critical );
+            Critical = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Critical);
             Direct = new BilgeDirect(BilgeRouter.Router, activeConfig);
             Util = new BilgeUtil(BilgeRouter.Router, activeConfig);
-            SetTraceLevel(tl);
+            
+            var level = levelResolver(selectedInstanceContext, tl);
+            SetTraceLevel(level);
         }
 
         public BilgeUtil Util { get; private set; }
+
+        /// <summary>
+        /// Informational logging, designed for program flow and basic debugging.  Provides a good detailed level of logging without going into
+        /// immense details.
+        /// </summary>
         public BilgeWriter Info { get; private set; }
+
+        /// <summary>
+        /// The fullest level of most detailed logging, includes additional data and secondary messages to really help get detailed information on
+        /// the execution of the code. This is the most detailed and therefore slowest level of logging.
+        /// </summary>
         public BilgeWriter Verbose { get; private set; }
 
+        /// <summary>
+        /// Allows warning level logging, used for concerning elements of the code that do not necesarily result in errors.  
+        /// </summary>
         public BilgeWriter Warning { get; private set; }
+
+        /// <summary>
+        /// Errors that are recoverable from, indicates non fatal problems in the code execution paths.
+        /// </summary>
         public BilgeWriter Error { get; private set; }
+
+        /// <summary>
+        /// Fatal log events, the program is in a bad state and about to terminate or should be terminated.  The critical logging levels are designed to give
+        /// an overview of why a program failed.
+        /// </summary>
+        public BilgeWriter Critical { get; private set; }
 
         public BilgeAssert Assert { get; private set; }
 

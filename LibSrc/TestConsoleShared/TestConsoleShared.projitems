@@ -9,6 +9,8 @@
     <Import_RootNamespace>TestConsoleShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DirectWriting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModularWriting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Program.cs" />
   </ItemGroup>
 </Project>

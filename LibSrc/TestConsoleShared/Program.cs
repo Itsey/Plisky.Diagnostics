@@ -8,45 +8,122 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TestConsole {
+#if CORE
+using Microsoft.Extensions.Configuration;
+#endif
+
+namespace Plisky.Diagnostics.Test {
     class Program {
         static void Main(string[] args) {
-            Bilge b = new Bilge(tl:TraceLevel.Verbose);
-            b.AddHandler(new TCPHandler("127.0.0.1", 9060));
-            //b.Info.Log("Info");
-            //b.Verbose.Log("Verbose");
-            //b.Warning.Log("Warning");
-            //b.Error.Log("Error");
 
-            for (int j = 0; j < 10; j++) {              
-                b.Direct.Write("Direct", $"Direct {j} > {DateTime.Now.ToString()}");
-                Thread.Sleep(500);
-            }
+#if CORE
+            // Due to the dependency on configurations and the different ways that you can configure a core service this is not
+            // implemented within Bilge even as a default but is documented instead.
+            Bilge.SetConfigurationResolver((s, lvl) => {
+                var configuration = new ConfigurationBuilder()
+                  .AddJsonFile("appsettings.json", false, true)
+                 .Build();
 
-            if (true) {
-                for (int i = 0; i < 1000; i++) {
-                    Console.WriteLine("Senidng");
-                    Thread.Sleep(50);
-                    string mid = "X";
-                    switch (i % 10) {
-                        case 1: mid = "X         "; break;
-                        case 2: mid = " X        "; break;
-                        case 3: mid = "  X       "; break;
-                        case 4: mid = "   X      "; break;
-                        case 5: mid = "    X     "; break;
-                        case 6: mid = "     X    "; break;
-                        case 7: mid = "      X   "; break;
-                        case 8: mid = "       X  "; break;
-                        case 9: mid = "        X "; break;
-                        case 0: mid = "         X"; break;
+                SourceLevels result = lvl;
+                string defaultValue = configuration["logging:loglevel:default"];
+                string specificForThisInstance = configuration[$"logging:loglevel:{s}"];                
+
+                if (Enum.TryParse<SourceLevels>(specificForThisInstance, out SourceLevels slSpecific)) {
+                    result = slSpecific;                    
+                } else {
+                    if (Enum.TryParse<SourceLevels>(defaultValue, out SourceLevels slDefault)) {
+                        result = slDefault;                        
                     }
-                    string msg = $"XXXXXXXXXX|XXXXXXXXXX|XXX    XXX|{mid}|XXX    XXX|XXXXXXXXXX";
-                    b.Direct.Write("[GRID][Map]", msg);
-                    b.Direct.Write("[STAT][Loop1]", $"{i}");
-                    b.Direct.Write("[STAT][Loop2]", $"{i*10}");
-                    Console.WriteLine(msg);
                 }
+
+                return result;
+
+            });
+
+#else 
+            Bilge.SetConfigurationResolver((instanceName, lvl) => {
+
+                // Logic -> Try Source Switch, Failing that Trace Switch, failing that SourceSwitch + Switch, Failing that TraceSwitch+Switch.
+
+                SourceLevels result = lvl;
+                bool tryTraceSwitches = true;
+
+                try {
+                    SourceSwitch ss = new SourceSwitch(instanceName);
+                    if (ss.Level == SourceLevels.Off) {
+                        ss = new SourceSwitch($"{instanceName}Switch");
+                        if (ss.Level == SourceLevels.Off) {
+
+                        } else {
+                            tryTraceSwitches = false;
+                            result = ss.Level;
+                        }
+                    } else {
+                        tryTraceSwitches = false;
+                        result = ss.Level;
+                    }
+
+                } catch(SystemException) {
+                    // This is the higher level exception of a ConfigurationErrorsException but that one requires a separate reference
+                    // This occurs when a TraceSwitch has the same name as the source switch with a value that is not supported by source switch e.g. Info
+                    
+                }
+
+                if (tryTraceSwitches) {
+                    TraceSwitch ts = new TraceSwitch(instanceName, "");
+                    if (ts.Level == TraceLevel.Off) {
+                        ts = new TraceSwitch($"{instanceName}Switch", "");
+                        if (ts.Level != TraceLevel.Off) {
+                            result = Bilge.ConvertTraceLevel(ts.Level);
+                        }
+                    } else {
+                        result = Bilge.ConvertTraceLevel(ts.Level);
+                    }
+                }
+
+                return result;
+
+            });
+
+#endif
+
+            Bilge b = new Bilge("PliskyConsoleTestApp");
+            b.AddHandler(new TCPHandler("127.0.0.1", 9060));
+
+            Console.WriteLine("Actual Trace Level : "+b.ActiveTraceLevel.ToString());
+
+            try {
+                TraceSource ts = new TraceSource("monkeySwitch", SourceLevels.Off);
+                TraceSwitch tx = new TraceSwitch("monkey2Switch", "test", "Off");
+
+                SourceSwitch sw = new SourceSwitch("boner", "off");
+
+
+                Console.WriteLine($"{ts.Switch.Level} >> {tx.Level} >> {sw.Level}");
+
+                Console.ReadLine();
+            } catch (Exception ex) {
+                
             }
+            return;
+
+            bool doDirectWriting = false;
+
+            if (args.Length > 0) {
+                if (args[0] == "direct") {
+                    doDirectWriting = true;
+                }
+
+            }
+
+            if (doDirectWriting) {
+                var dr = new DirectWriting(b);
+                dr.DoDirectWrites();
+            }
+            
+
+            ModularWriting mr = new ModularWriting();
+            mr.DoWrite();
             b.Flush();
             Console.WriteLine("Readline");
             Console.ReadLine();

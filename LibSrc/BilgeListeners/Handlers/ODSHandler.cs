@@ -59,16 +59,16 @@ namespace Plisky.Diagnostics.Listeners {
             }
         }
 
-#if NET452 || NETSTANDARD2_0
+
         public Task HandleMessageAsync(MessageMetadata[] msg) {
             throw new NotImplementedException();
         }
 
-#else
+
         public void HandleMessage40(MessageMetadata[] msg) {
             throw new NotImplementedException();
         }
-#endif
+
 
         public void Flush() {
             // No caching, therefore flush not required.

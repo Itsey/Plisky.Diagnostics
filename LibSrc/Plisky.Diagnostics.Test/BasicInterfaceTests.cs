@@ -39,7 +39,7 @@
 
 
         [Fact(DisplayName = nameof(MessageBatching_Works_Default1))]
-       /// [Trait(Traits.Age, Traits.Fresh)]
+        /// [Trait(Traits.Age, Traits.Fresh)]
         //[Trait(Traits.Style, Traits.Unit)]
         public void MessageBatching_Works_Default1() {
             Bilge sut = TestHelper.GetBilge();
@@ -73,8 +73,8 @@
             for (int i = 0; i < 100; i++) {
                 sut.Info.Log("Dummy Message");
 
-                
-                if (i%25==0) {
+
+                if (i % 25 == 0) {
                     //Thread.Sleep(100);
                     // The flush forces the write, this is needed otherwise it bombs through
                     // too fast for more than one write to the handler to occur.
@@ -83,12 +83,12 @@
 
                 if (mmh.TotalMessagesRecieved > 0) {
                     // Any time that we get a batch it must be at least MESSAGE_BATCHSIZE msgs.
-                    Assert.True(mmh.LastMessageBatchSize >= MESSAGE_BATCHSIZE,$"Batch Size NotBig Enough at {i} batch Size {mmh.LastMessageBatchSize}");
+                    Assert.True(mmh.LastMessageBatchSize >= MESSAGE_BATCHSIZE, $"Batch Size NotBig Enough at {i} batch Size {mmh.LastMessageBatchSize}");
                 }
 
-        
+
             }
-            
+
 
         }
 
@@ -115,24 +115,24 @@
 
             bool writesFound = false;
 
-            while(timeSoFar.Elapsed.TotalMilliseconds<750) {
+            while (timeSoFar.Elapsed.TotalMilliseconds < 750) {
                 // This is not particularly precise because of threading and guarantees so we are using some generous margins for error.
                 // With the write time of not less than 250 we shouldnt see any writes for the first 175 MS.  If we do then its a test fail.
                 // Similarly if we reach 750 ms and havent seen any writes thats a test fail.
 
-                if (timeSoFar.ElapsedMilliseconds<175) {
+                if (timeSoFar.ElapsedMilliseconds < 175) {
                     Assert.Equal(0, mmh.TotalMessagesRecieved);
                 } else {
-                    if (mmh.TotalMessagesRecieved>0) {
+                    if (mmh.TotalMessagesRecieved > 0) {
                         writesFound = true;
                         break;
                     }
                 }
-                if (timeSoFar.ElapsedMilliseconds>350) {
+                if (timeSoFar.ElapsedMilliseconds > 350) {
                     sut.Flush();
                 }
             }
-            
+
             if (!writesFound) {
                 throw new InvalidOperationException("The writes never hit the listener");
             }
@@ -141,7 +141,7 @@
 
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait("age", "regression")]
         public void Enter_WritesMethodName() {
             Bilge sut = TestHelper.GetBilge();
             var mmh = new MockMessageHandler();
@@ -160,7 +160,7 @@
         [Fact]
         [Trait("xunit", "regression")]
         public void Exit_WritesMethodName() {
-           
+
             var mmh = new MockMessageHandler();
             mmh.SetMethodNameMustContain(nameof(Exit_WritesMethodName));
             Bilge sut = TestHelper.GetBilge();
@@ -179,12 +179,12 @@
         [Trait("xunit", "regression")]
         public void Bilge_EnterSection_TracesSection() {
             var mmh = new MockMessageHandler();
-            Bilge sut = new Bilge();
+            Bilge sut = new Bilge(tl:SourceLevels.Verbose);
             sut.AddHandler(mmh);
             mmh.SetMethodNameMustContain("monkeyfish");
-            sut.Info.EnterSection("random sectiion","monkeyfish");
+            sut.Info.EnterSection("random sectiion", "monkeyfish");
             sut.Flush();
-          
+
 
             mmh.AssertAllConditionsMetForAllMessages(true, true);
 
@@ -194,14 +194,14 @@
         [Trait("xunit", "regression")]
         public void Bilge_LeaveSection_TracesSection() {
             var mmh = new MockMessageHandler();
-            Bilge sut = new Bilge();
-            
+            Bilge sut = new Bilge(tl:SourceLevels.Verbose);
+
             sut.AddHandler(mmh);
 
             mmh.SetMethodNameMustContain("bannanaball");
             sut.Info.LeaveSection("bannanaball");
 
-     
+
             sut.Flush();
 
             mmh.AssertAllConditionsMetForAllMessages(true, true);
@@ -220,7 +220,6 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
         public void Assert_True_DoesFailsIfFalse() {
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge();
@@ -228,10 +227,8 @@
 
             sut.Assert.True(false);
 
-            for (int i = 0; i < 10; i++) {
-                Thread.Sleep(300);
-            }
-
+            sut.Flush();
+            
 
             Assert.True(mmh.AssertionMessageCount > 0);
         }
@@ -244,10 +241,7 @@
             sut.AddHandler(mmh);
             sut.Assert.True(false);
 
-            for (int i = 0; i < 10; i++) {
-                Thread.Sleep(300);
-            }
-
+            sut.Flush();
 
             Assert.True(mmh.AssertionMessageCount > 0);
         }

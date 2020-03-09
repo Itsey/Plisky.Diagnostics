@@ -19,13 +19,19 @@ namespace Plisky.Diagnostics.Listeners {
         private bool socketCommunicationsDown;
         private TcpClient m_tcpClient;
         private NetworkStream m_stream;
+        private Action<string> logger = null;
 
+        public void SetLogger(Action<string> act) {
+            logger = act;
+        }
+
+        
         public AsyncTCPClient(string ip, int port) {
             m_ipAddress = ip; m_port = port;
         }
 
-        public async Task Writestufftest(string whatToWrite) {
-
+        public async Task WriteToExternalSocket(string whatToWrite) {
+            
             unchecked {
                 messagesWritten++;
             }
@@ -55,7 +61,6 @@ namespace Plisky.Diagnostics.Listeners {
             // Should now have reconnected or at least tried to connect.
             try {
                 await m_stream.WriteAsync(data, 0, data.Length);
-                //m_stream.Write(data, 0, data.Length);
                 await m_stream.FlushAsync();
             } catch (IOException iox) {
                 status = "EXX >> " + iox.Message;

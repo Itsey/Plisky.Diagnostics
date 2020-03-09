@@ -8,11 +8,11 @@ namespace Plisky.Diagnostics {
 
         string GetStatus();
 
-#if NET452 || NETSTANDARD2_0
+
         Task HandleMessageAsync(MessageMetadata[] msg);
-#else
+
         void HandleMessage40(MessageMetadata[] msg);
-#endif
+
         void Flush();
 
         /// <summary>

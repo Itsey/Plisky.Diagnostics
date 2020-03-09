@@ -18,7 +18,7 @@ namespace Plisky.Diagnostics {
         private BilgeRouter router;
         private enum StreamDumpUptions { Hex, Tex, Workitout }; // TODO : Seriously?
 
-        internal BilgeWriter(BilgeRouter router, ConfigSettings config, TraceLevel yourTraceLevel) :base(router,config,yourTraceLevel) {
+        internal BilgeWriter(BilgeRouter router, ConfigSettings config, SourceLevels yourTraceLevel) :base(router,config,yourTraceLevel) {
         }
 
 
@@ -26,7 +26,7 @@ namespace Plisky.Diagnostics {
         /// Dumps a secure string to the trace structure as a plaintext string.  This is usefull to see your secure
         /// strings without causing them to be seen in release code.
         /// </summary>
-        /// <remarks>BE CAREFULL, this could render your entire secure string thingamajig useless.</remarks>
+        /// <remarks>BE CAREFULL, this could render your entire secure string approach useless.</remarks>
         /// <param name="ss">The secure string to dump</param>
         /// <param name="message">The message representing the secure string</param>
         /// <param name="secondaryMessage">More information relating to the dump</param>
@@ -572,6 +572,8 @@ namespace Plisky.Diagnostics {
         }
 
 
+        // TODO: SOURCELEVELS
+#if false
 
         internal bool IncludeThisMethodInOutput(Switch callSwitch, TraceLevel methodsLevel) {
             if (callSwitch == null) { return false; }
@@ -592,6 +594,7 @@ namespace Plisky.Diagnostics {
 
             return (int)methodLevel <= (int)targetLevel;
         }
+#endif
 
         /// <summary><para>
         /// Called within each trace method to determine whether or not the call should be included within the trace stream.
