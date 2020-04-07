@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole450", "Framework
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestConsoleShared", "TestConsoleShared\TestConsoleShared.shproj", "{2F1BD31E-EA5D-4D8F-81C8-2B58AC0BD052}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleCore31", "TestConsoleCore\TestConsoleCore31.csproj", "{64730EF2-7780-4896-8F40-A6DB4298C283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsoleCore31", "TestConsoleCore\TestConsoleCore31.csproj", "{64730EF2-7780-4896-8F40-A6DB4298C283}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -48,9 +48,12 @@ Global
 		BilgeCore\BilgeCore.projitems*{4c7bf124-fd47-4799-8a50-f83f882a9483}*SharedItemsImports = 4
 		BilgeCore\BilgeCore.projitems*{53c50174-fb06-4127-8e23-e077ebd5bd91}*SharedItemsImports = 4
 		TestConsoleShared\TestConsoleShared.projitems*{5d25f9e6-04a2-4546-ab65-b44d878e668c}*SharedItemsImports = 4
+		TestConsoleShared\TestConsoleShared.projitems*{64730ef2-7780-4896-8f40-a6db4298c283}*SharedItemsImports = 5
 		BilgeListeners\BilgeListeners.projitems*{68d8a0d0-4e15-4b93-bd40-1b16e0b48b99}*SharedItemsImports = 4
 		BilgeListeners\BilgeListeners.projitems*{7eebc5cc-1f72-4d49-a29d-3a29af4acb6b}*SharedItemsImports = 13
 		BilgeListeners\BilgeListeners.projitems*{b2e59dac-b8cf-42ee-ad8d-6c210336c186}*SharedItemsImports = 4
+		BilgeCore\BilgeCore.projitems*{bded7cc7-faf1-4455-8ac2-2b6bcc2aaa34}*SharedItemsImports = 5
+		BilgeListeners\BilgeListeners.projitems*{c2f58962-f7e0-455f-85b2-ecec2ed97942}*SharedItemsImports = 5
 		BilgeListeners\BilgeListeners.projitems*{cb8b3022-7e29-4d08-86d1-93fe2c2617a1}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

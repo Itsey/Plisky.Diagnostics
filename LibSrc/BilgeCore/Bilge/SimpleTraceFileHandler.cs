@@ -24,7 +24,7 @@ namespace Plisky.Diagnostics.Listeners {
             }
             byte[] txt = Encoding.UTF8.GetBytes(sb.ToString());
             var tsk = fs.WriteAsync(txt, 0, txt.Length);
-            lastTask.Target = tsk;
+            lastTask = new WeakReference(tsk);
             await tsk;
         }
 

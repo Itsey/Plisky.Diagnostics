@@ -88,27 +88,35 @@ namespace Plisky.Diagnostics.Test {
 #endif
 
             Bilge b = new Bilge("PliskyConsoleTestApp");
+            b.ActiveTraceLevel = SourceLevels.All;
             b.AddHandler(new TCPHandler("127.0.0.1", 9060));
+            b.AddHandler(new SimpleTraceFileHandler(@"c:\temp\"));
 
-            Console.WriteLine("Actual Trace Level : "+b.ActiveTraceLevel.ToString());
-
-            try {
-                TraceSource ts = new TraceSource("monkeySwitch", SourceLevels.Off);
-                TraceSwitch tx = new TraceSwitch("monkey2Switch", "test", "Off");
-
-                SourceSwitch sw = new SourceSwitch("boner", "off");
-
-
-                Console.WriteLine($"{ts.Switch.Level} >> {tx.Level} >> {sw.Level}");
-
-                Console.ReadLine();
-            } catch (Exception ex) {
+            b.Verbose.Log("Hello Cruel World");
                 
+            bool traceSwitchTests = false;
+           
+
+            if (traceSwitchTests) {
+                Console.WriteLine("Actual Trace Level : " + b.ActiveTraceLevel.ToString());
+
+                try {
+                    TraceSource ts = new TraceSource("monkeySwitch", SourceLevels.Off);
+                    TraceSwitch tx = new TraceSwitch("monkey2Switch", "test", "Off");
+
+                    SourceSwitch sw = new SourceSwitch("boner", "off");
+
+
+                    Console.WriteLine($"{ts.Switch.Level} >> {tx.Level} >> {sw.Level}");
+
+                    Console.ReadLine();
+                } catch (Exception ex) {
+
+                }
             }
-            return;
 
-            bool doDirectWriting = false;
-
+         bool doDirectWriting = false;
+            
             if (args.Length > 0) {
                 if (args[0] == "direct") {
                     doDirectWriting = true;
@@ -120,6 +128,7 @@ namespace Plisky.Diagnostics.Test {
                 var dr = new DirectWriting(b);
                 dr.DoDirectWrites();
             }
+            
             
 
             ModularWriting mr = new ModularWriting();
