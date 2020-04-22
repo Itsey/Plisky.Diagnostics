@@ -3,6 +3,7 @@ using Plisky.Diagnostics.Listeners;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -63,10 +64,10 @@ namespace Plisky.Diagnostics.Test {
                         result = ss.Level;
                     }
 
-                } catch(SystemException) {
+                } catch (SystemException) {
                     // This is the higher level exception of a ConfigurationErrorsException but that one requires a separate reference
                     // This occurs when a TraceSwitch has the same name as the source switch with a value that is not supported by source switch e.g. Info
-                    
+
                 }
 
                 if (tryTraceSwitches) {
@@ -88,15 +89,21 @@ namespace Plisky.Diagnostics.Test {
 #endif
 
             Bilge b = new Bilge("PliskyConsoleTestApp");
-            b.ActiveTraceLevel = SourceLevels.All;
-            b.AddHandler(new TCPHandler("127.0.0.1", 9060));
-            b.AddHandler(new SimpleTraceFileHandler(@"c:\temp\"));
+            b.CurrentTraceLevel = TraceLevel.Verbose;
+
 
             b.Verbose.Log("Hello Cruel World");
-                
-            bool traceSwitchTests = false;
-           
 
+            bool traceSwitchTests = false;
+            bool bulkFileWriteTests = true;
+
+            if (bulkFileWriteTests) {
+                ProductionLoggingTest(b);
+            }
+            b.Flush();
+            return;
+            b.AddHandler(new TCPHandler("127.0.0.1", 9060));
+            b.AddHandler(new SimpleTraceFileHandler(@"c:\temp\"));
             if (traceSwitchTests) {
                 Console.WriteLine("Actual Trace Level : " + b.ActiveTraceLevel.ToString());
 
@@ -115,8 +122,8 @@ namespace Plisky.Diagnostics.Test {
                 }
             }
 
-         bool doDirectWriting = false;
-            
+            bool doDirectWriting = false;
+
             if (args.Length > 0) {
                 if (args[0] == "direct") {
                     doDirectWriting = true;
@@ -128,14 +135,46 @@ namespace Plisky.Diagnostics.Test {
                 var dr = new DirectWriting(b);
                 dr.DoDirectWrites();
             }
-            
-            
+
+
 
             ModularWriting mr = new ModularWriting();
             mr.DoWrite();
             b.Flush();
             Console.WriteLine("Readline");
             Console.ReadLine();
+        }
+
+        private static int runCount=0;
+        private static void ProductionLoggingTest(Bilge b) {
+            string fn = $"Log{DateTime.Now.Day}{DateTime.Now.Month}{DateTime.Now.Year}.Log";
+            fn = Path.Combine(@"D:\Temp\_DelWorking\", fn);
+               
+                
+            b.AddHandler(new FileSystemHandler(new FSHandlerOptions(fn)));
+
+            for (int t = 0; t < 9; t++) {
+                ThreadPool.QueueUserWorkItem(o => {
+                    Interlocked.Increment(ref runCount);
+                    for (int i = 0; i < 100000; i++) {
+                        b.Info.Log($"hello world number {i}");
+                        for (int j = 0; j < 10; j++) {
+                            b.Verbose.Log($"hello verbose world {j}");
+                        }
+                    }
+                    Interlocked.Decrement(ref runCount);
+                });
+            }
+
+            for (int i = 0; i < 100000; i++) {
+                b.Info.Log($"hello world number {i}");
+                for (int j = 0; j < 10; j++) {
+                    b.Verbose.Log($"hello verbose world {j}");
+                }
+            }
+            while (runCount > 0) {
+                Thread.Sleep(0);
+            }
         }
     }
 }

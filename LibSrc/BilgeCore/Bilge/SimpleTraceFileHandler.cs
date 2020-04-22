@@ -38,13 +38,25 @@ namespace Plisky.Diagnostics.Listeners {
         }
 
 
-
+    
 
         public void Flush() {
-            fs.Flush();
+
+            Task tsk = (Task)lastTask.Target;
+            if (tsk != null) {
+                tsk.Wait();
+            }
+
+            if (fs != null) {
+                fs.Flush();
+
+            }
+
+
         }
 
         public void CleanUpResources() {
+            
             if ((lastTask != null) && (lastTask.IsAlive)) {
                 Task tsk = (Task)lastTask.Target;
                 if (tsk != null) {
@@ -54,6 +66,7 @@ namespace Plisky.Diagnostics.Listeners {
             if (fs != null) {
                 fs.Close();
             };
+            
         }
 
         public string GetStatus() {
@@ -67,7 +80,7 @@ namespace Plisky.Diagnostics.Listeners {
         /// </summary>
         /// <param name="pathForLog">The directory to place the file in (Defaults to %TEMP%)</param>
         /// <param name="overwriteEachTime">If set to true the same filename will be used, if false the current time will be appended</param>
-        public SimpleTraceFileHandler(string pathForLog=null,bool overwriteEachTime=true) {
+        public SimpleTraceFileHandler(string pathForLog = null, bool overwriteEachTime = true) {
             string fn;
             if (string.IsNullOrEmpty(pathForLog)) {
                 fn = Path.GetTempPath();

@@ -268,31 +268,31 @@
 
         protected override void ActualFlushMessages() {
             int msgs = messageQueue.Count;
-            if (msgs == 0) {
-                return;
-            }
+            if (msgs != 0) {
 
-            Emergency.Diags.Log($"Flush, messages {msgs}");
 
-            Task.WaitAll(activeTasks.ToArray());
 
-            // This takes the current count of messages into msgs, and will run through processing
-            // messages - until either there are none left
+                Emergency.Diags.Log($"Flush, messages {msgs}");
 
-            int looopProtect = 0;
-            while (messageQueue.Count > 0) {
-                queuedMessageResetEvent.Set();
-                Thread.Sleep(1);
-                looopProtect++;
-                if (looopProtect > 100) {
-                    Emergency.Diags.Log($"Level Two Flush Occurs, Waiting Longer");
-                    Thread.Sleep(10);
-                    if (looopProtect > 110) {
-                        break;
+                Task.WaitAll(activeTasks.ToArray());
+
+                // This takes the current count of messages into msgs, and will run through processing
+                // messages - until either there are none left
+
+                int looopProtect = 0;
+                while (messageQueue.Count > 0) {
+                    queuedMessageResetEvent.Set();
+                    Thread.Sleep(1);
+                    looopProtect++;
+                    if (looopProtect > 100) {
+                        Emergency.Diags.Log($"Level Two Flush Occurs, Waiting Longer");
+                        Thread.Sleep(10);
+                        if (looopProtect > 110) {
+                            break;
+                        }
                     }
                 }
             }
-
             if (handlers != null) {
                 foreach (var h in handlers) {
                     h.Flush();
