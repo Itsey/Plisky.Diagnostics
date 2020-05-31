@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Plisky.Listeners</id>
     <version>2.8.2</version>
@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Listeners to support the Plisky Diagnostic Library.</description>
     <releaseNotes>
+      XXX-VERSION-XXX - Synchronsised with Bilge.
       2.8.2 - Adding new FileSystemHandler
       2.8.1 - Removing broken FileSystemHandler
       2.8.0 - Compatibility with new feature release for Bilge, Added skeleton DebugTCPHandler.

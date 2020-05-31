@@ -2,6 +2,7 @@
 **/LibSrc/**/CommonAssembly*.cs|NetFile
 **/LibSrc/**/CommonAssembly*.cs|NetInformational
 **/LibSrc/**/*.nuspec|Nuspec
+**/LibSrc/**/*.nuspec|TextFile
 **/LibSrc/**/Plisky.DiagnosticsStd2.csproj|StdAssembly
 **/LibSrc/**/Plisky.DiagnosticsStd2.csproj|StdInformational
 **/LibSrc/**/Plisky.DiagnosticsStd2.csproj|StdFile
