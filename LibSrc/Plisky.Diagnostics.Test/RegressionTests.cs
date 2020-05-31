@@ -1,6 +1,7 @@
 ﻿namespace Plisky.Diagnostics.Test {
 
     using Plisky.Diagnostics;
+    using Plisky.Diagnostics.Copy;
     using Plisky.Diagnostics.Listeners;
     using System.Diagnostics;
     using System.Threading;
@@ -55,14 +56,14 @@
 
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void MockMessageHandlerStartsEmpty() {
             MockMessageHandler mmh = new MockMessageHandler();
             Assert.True(mmh.TotalMessagesRecieved == 0, "There should be no messages to start with");
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Default_TraceLevelIsOff() {
             MockMessageHandler mmh = new MockMessageHandler();
             Bilge b = TestHelper.GetBilge(setTrace:false);
@@ -70,7 +71,7 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void VerboseNotLogged_IfNotVerbose() {
             MockMessageHandler mmh = new MockMessageHandler();
             Bilge b = TestHelper.GetBilge(setTrace: false);
@@ -81,14 +82,14 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void WriteOnFail_DefaultsFalse() {
             Bilge b = TestHelper.GetBilge();
             Assert.False(b.WriteOnFail, "The write on fail must default to false");
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void QueuedMessagesNotWrittenIfWriteOnFailSet() {
             MockMessageHandler mmh = new MockMessageHandler();
             Bilge b = TestHelper.GetBilge();
@@ -99,7 +100,7 @@
             Assert.Equal<int>(0, mmh.TotalMessagesRecieved);
         }
 
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void QueuedMessagesWritten_AfterFlush() {
             MockMessageHandler mmh = new MockMessageHandler();
             Bilge sut = TestHelper.GetBilge();
@@ -118,7 +119,7 @@
       
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void InfoNotLogged_IfNotInfo() {
             MockMessageHandler mmh = new MockMessageHandler();
             Bilge b = TestHelper.GetBilge();
@@ -133,14 +134,14 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void TraceLevel_Constructor_GetsSet() {
             Bilge b = new Bilge(tl: SourceLevels.Error);
             Assert.Equal<SourceLevels>(SourceLevels.Error, b.ActiveTraceLevel);
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void NothingWrittenWhenTraceOff() {
             MockMessageHandler mmh = new MockMessageHandler();
             var sut = TestHelper.GetBilge();
@@ -158,7 +159,7 @@
 
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void MultiHandlers_RecieveMultiMessages() {
             var mmh1 = new MockMessageHandler();
             var mmh2 = new MockMessageHandler();
@@ -213,7 +214,7 @@
         
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void MethodName_MatchesThisMethodName() {
             MockMessageHandler mmh = new MockMessageHandler();
             mmh.SetMethodNameMustContain(nameof(MethodName_MatchesThisMethodName));

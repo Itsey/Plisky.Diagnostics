@@ -105,6 +105,9 @@ namespace Plisky.Diagnostics {
         /// </remarks>
         /// <exception cref="System.ArgumentNullException">Thrown when timerTitle is null or a zero length string.</exception>
         /// <param name="timerTitle">The unique title for the timer that is being started.</param>
+        /// <param name="meth">The Method Name</param>
+        /// <param name="pth">The caller path</param>
+        /// <param name="ln">The Line Number</param>
         [Conditional("TRACE")]
         public void TimeStop(string timerTitle, [CallerMemberName]string meth = null, [CallerFilePath] string pth = null, [CallerLineNumber]int ln = 0) {
 
@@ -134,6 +137,9 @@ namespace Plisky.Diagnostics {
         /// <exception cref="System.ArgumentNullException">Thrown when timerTitle is null or a zero length string.</exception>
         /// <param name="timerTitle">The unique title for the timer that is being started.</param>
         /// <param name="timerCategoryName">A category describing a collection of related timings.</param>
+        /// <param name="meth">The Method Name</param>
+        /// <param name="pth">The caller path</param>
+        /// <param name="ln">The Line Number</param>
         public void TimeStop(string timerTitle, string timerCategoryName, [CallerMemberName]string meth = null, [CallerFilePath] string pth = null, [CallerLineNumber]int ln = 0) {
 
         #region entry code
@@ -164,6 +170,9 @@ namespace Plisky.Diagnostics {
         /// <para>This method is dependant on the TRACE preprosessing identifier.</para>
         /// </remarks>
         /// <param name="sectionName">The friendly name of the secion</param>
+        /// <param name="meth">The Method Name</param>
+        /// <param name="pth">The caller path</param>
+        /// <param name="ln">The Line Number</param>
         [Conditional("TRACE")]
         public void EnterSection(string sectionName, [CallerMemberName]string meth = null, [CallerFilePath] string pth = null, [CallerLineNumber]int ln = 0) {
             ActiveRouteMessage(TraceCommandTypes.SectionStart, sectionName, null, meth, pth, ln);

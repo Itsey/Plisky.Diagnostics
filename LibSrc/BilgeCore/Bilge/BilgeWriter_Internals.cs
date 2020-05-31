@@ -15,7 +15,7 @@ namespace Plisky.Diagnostics {
     using System.Threading;
 
     public partial class BilgeWriter : BilgeConditionalRoutedBase {
-        private BilgeRouter router;
+        
         private enum StreamDumpUptions { Hex, Tex, Workitout }; // TODO : Seriously?
 
         internal BilgeWriter(BilgeRouter router, ConfigSettings config, SourceLevels yourTraceLevel) :base(router,config,yourTraceLevel) {
@@ -30,6 +30,9 @@ namespace Plisky.Diagnostics {
         /// <param name="ss">The secure string to dump</param>
         /// <param name="message">The message representing the secure string</param>
         /// <param name="secondaryMessage">More information relating to the dump</param>
+        /// <param name="meth">The Method Name</param>
+        /// <param name="pth">The caller path</param>
+        /// <param name="ln">The Line Number</param>
         private void InternalDumpSecureString(SecureString ss, string message, string secondaryMessage,string meth, string pth, int ln) {
 
 #region entry code
@@ -54,6 +57,9 @@ namespace Plisky.Diagnostics {
         /// <param name="arr">The array to be examined</param>
         /// <param name="limitSearchTo">Stop dumping the array after this many results, if set to -1 the full array will be dumped</param>
         /// <param name="message">A context message describing the dump</param>
+        /// <param name="meth">The Method Name</param>
+        /// <param name="pth">The caller path</param>
+        /// <param name="ln">The Line Number</param>
         private void InternalDumpArray(Array arr, string message, int limitSearchTo, string meth, string pth, int ln) {
 
 #region entry code
@@ -101,6 +107,9 @@ namespace Plisky.Diagnostics {
         /// </summary>
         /// <param name="ien">Enumerable object</param>
         /// <param name="message">Associated Context</param>
+        /// <param name="meth">The Method Name</param>
+        /// <param name="pth">The caller path</param>
+        /// <param name="ln">The Line Number</param>
         private void InternalDumpEnumerable(IEnumerable ien, string message, string meth, string pth, int ln) {
             ActiveRouteMessage(TraceCommandTypes.LogMessage, "Dump Enumerable type.", message, meth, pth, ln);
             int count = 0;
@@ -117,6 +126,9 @@ namespace Plisky.Diagnostics {
         /// <param name="ex">An exception to be dumped to the logging stream.</param>
         /// <param name="message">A text description of the exception that is being explored</param>
         /// <param name="message2">Any further associated information</param>
+        /// <param name="meth">The Method Name</param>
+        /// <param name="pth">The caller path</param>
+        /// <param name="ln">The Line Number</param>
         private void InternalDumpException(Exception ex, string message, string message2, string meth, string pth, int ln) {
 
 #region entry code
@@ -271,6 +283,9 @@ namespace Plisky.Diagnostics {
         /// <param name="contextText">A context string describing the hash table</param>
         /// <param name="internalCall">A boolean to flag if method is being called internall i.e. as part of another dump method</param>
         /// <param name="secondaryMessage">Further contextual information</param>
+        /// <param name="meth">The Method Name</param>
+        /// <param name="pth">The caller path</param>
+        /// <param name="ln">The Line Number</param>
         private void InternalDumpHashTable(Hashtable ht, string contextText, string secondaryMessage, bool internalCall, string meth, string pth, int ln) {
 
 

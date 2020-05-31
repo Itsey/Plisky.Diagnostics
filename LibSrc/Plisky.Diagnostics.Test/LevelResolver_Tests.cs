@@ -3,12 +3,11 @@
     using Plisky.Diagnostics;
     using System;
     using System.Diagnostics;
-    //using Plisky.Test;
     using System.Threading;
     using Xunit;
 
-    public class ResolverTests {
-
+    public class LevelResolver_Tests {
+        // Note - Resolver is static therefore you have to clear up after each test that uses the resolver to prevent side effects occuring
 
         [Fact(DisplayName = nameof(SourceLevel_ContstrucorVerboseIncludesSubLevels1))]
         public void SourceLevel_ContstrucorVerboseIncludesSubLevels1() {
@@ -40,45 +39,58 @@
         }
 
         [Fact(DisplayName = nameof(Resolver_Exploratory1))]
-        [Trait("age","fresh")]
+        [Trait("age", "fresh")]
         public void Resolver_Exploratory1() {
-            Bilge b = new Bilge();            
+            Bilge b = new Bilge();
             Assert.True(b.CurrentTraceLevel == TraceLevel.Off);
         }
 
 
         [Fact(DisplayName = nameof(Resolver_GetsName))]
         public void Resolver_GetsName() {
-            const string INAME = "InstanceName";           
-            Bilge.SetConfigurationResolver((nm, def) => {
-                Assert.Equal(INAME, nm);
-                return SourceLevels.Off;
-            });
-            Bilge b = new Bilge(INAME);
+            try {
+                const string INAME = "InstanceName";
+                Bilge.SetConfigurationResolver((nm, def) => {
+                    Assert.Equal(INAME, nm);
+                    return SourceLevels.Off;
+                });
+                Bilge b = new Bilge(INAME);
+
+
+            } finally {
+                Bilge.ClearConfigurationResolver();
+            }
         }
 
         [Fact(DisplayName = nameof(Resolver_GetsInitialValue))]
         public void Resolver_GetsInitialValue() {
-            const string INAME = "InstanceName";
-           
-            Bilge.SetConfigurationResolver((nm, def) => {
-                Assert.Equal<SourceLevels>(SourceLevels.Critical, def);
-                return SourceLevels.Off;
-            });
+            try {
+                const string INAME = "InstanceName";
 
-            Bilge b = new Bilge(INAME, tl: SourceLevels.Critical);
+                Bilge.SetConfigurationResolver((nm, def) => {
+                    Assert.Equal<SourceLevels>(SourceLevels.Critical, def);
+                    return SourceLevels.Off;
+                });
+
+                Bilge b = new Bilge(INAME, tl: SourceLevels.Critical);
+            } finally {
+                Bilge.ClearConfigurationResolver();
+            }
         }
 
 
-        [Fact(DisplayName = nameof(Resolver_OverwritesConstructor))]        
+        [Fact(DisplayName = nameof(Resolver_OverwritesConstructor))]
         public void Resolver_OverwritesConstructor() {
-           
-            Bilge.SetConfigurationResolver((nm, def) => {
-                return SourceLevels.Verbose;
-            });
-            Bilge b = new Bilge();
+            try {
+                Bilge.SetConfigurationResolver((nm, def) => {
+                    return SourceLevels.Verbose;
+                });
+                Bilge b = new Bilge();
 
-            Assert.Equal(SourceLevels.Verbose, b.ActiveTraceLevel);
+                Assert.Equal(SourceLevels.Verbose, b.ActiveTraceLevel);
+            } finally {
+                Bilge.ClearConfigurationResolver();
+            }
         }
 
 

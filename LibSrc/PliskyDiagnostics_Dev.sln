@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics", "Plisky.Diagnostics\Plisky.Diagnostics.csproj", "{53C50174-FB06-4127-8E23-E077EBD5BD91}"
 EndProject
@@ -17,10 +17,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PliskyTester", "PliskyTester\PliskyTester.csproj", "{4A476B6D-A64E-41D7-AE8B-ACEBA8005018}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsoleCore31", "TestConsoleCore\TestConsoleCore31.csproj", "{60C8A015-FF6D-4A11-BAAF-8198D3E4597C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestConsoleShared", "TestConsoleShared\TestConsoleShared.shproj", "{2F1BD31E-EA5D-4D8F-81C8-2B58AC0BD052}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		BilgeCore\BilgeCore.projitems*{18c26c0c-4c5c-47d1-9872-cae3f5b2eca0}*SharedItemsImports = 13
+		TestConsoleShared\TestConsoleShared.projitems*{2f1bd31e-ea5d-4d8f-81c8-2b58ac0bd052}*SharedItemsImports = 13
 		BilgeCore\BilgeCore.projitems*{53c50174-fb06-4127-8e23-e077ebd5bd91}*SharedItemsImports = 4
+		TestConsoleShared\TestConsoleShared.projitems*{60c8a015-ff6d-4a11-baaf-8198d3e4597c}*SharedItemsImports = 5
 		BilgeListeners\BilgeListeners.projitems*{7eebc5cc-1f72-4d49-a29d-3a29af4acb6b}*SharedItemsImports = 13
 		BilgeListeners\BilgeListeners.projitems*{b2e59dac-b8cf-42ee-ad8d-6c210336c186}*SharedItemsImports = 4
 	EndGlobalSection
@@ -60,6 +66,12 @@ Global
 		{4A476B6D-A64E-41D7-AE8B-ACEBA8005018}.Develop|Any CPU.Build.0 = Debug|Any CPU
 		{4A476B6D-A64E-41D7-AE8B-ACEBA8005018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A476B6D-A64E-41D7-AE8B-ACEBA8005018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60C8A015-FF6D-4A11-BAAF-8198D3E4597C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60C8A015-FF6D-4A11-BAAF-8198D3E4597C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60C8A015-FF6D-4A11-BAAF-8198D3E4597C}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
+		{60C8A015-FF6D-4A11-BAAF-8198D3E4597C}.Develop|Any CPU.Build.0 = Debug|Any CPU
+		{60C8A015-FF6D-4A11-BAAF-8198D3E4597C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60C8A015-FF6D-4A11-BAAF-8198D3E4597C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -56,13 +56,15 @@
     <Compile Include="..\_Dependencies\versions\CommonInfoDiags.cs">
       <Link>Properties\CommonInfoDiags.cs</Link>
     </Compile>
-    <Compile Include="Bilge\ConfigSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\..\Fsync\plisky_keyfile.snk">
       <Link>plisky_keyfile.snk</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bilge\" />
   </ItemGroup>
   <Import Project="..\BilgeCore\BilgeCore.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

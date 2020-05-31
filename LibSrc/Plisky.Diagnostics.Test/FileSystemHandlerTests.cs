@@ -1,4 +1,5 @@
-﻿using Plisky.Diagnostics.Listeners;
+﻿using Plisky.Diagnostics.Copy;
+using Plisky.Diagnostics.Listeners;
 using Plisky.Helpers;
 using System;
 using System.IO;
@@ -12,7 +13,7 @@ namespace Plisky.Diagnostics.Test {
 
 
         [Fact]
-        [Trait("xunit", "fresh")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void SimpleHandler_WellKnownFile() {
             string wellKnownLogfileName = "bilgedefault.log";
             string expectedDestination = Path.Combine(Path.GetTempPath(), wellKnownLogfileName);
@@ -22,7 +23,7 @@ namespace Plisky.Diagnostics.Test {
 
 
         [Fact]
-        [Trait("xunit", "fresh")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void SimpleHandler_AppendsDate() {
             string wellKnownLogfileName = "bilgedefault.log";
             string expectedDestination = Path.Combine(Path.GetTempPath(), wellKnownLogfileName);

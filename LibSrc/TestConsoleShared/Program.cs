@@ -17,6 +17,19 @@ namespace Plisky.Diagnostics.Test {
     class Program {
         static void Main(string[] args) {
 
+            Bilge.AddMessageHandler(new TCPHandler("127.0.0.1", 9060));
+            Bilge.Alert.Online("TestClient");
+
+
+            PerformanceTest p = new PerformanceTest();
+            p.AnalysisBatchVsNoBatch();
+            //p.ExecuteTest();
+            p.WriteOutput();
+            
+
+            Bilge.ForceFlush();
+            return; 
+
 #if CORE
             // Due to the dependency on configurations and the different ways that you can configure a core service this is not
             // implemented within Bilge even as a default but is documented instead.
@@ -102,7 +115,7 @@ namespace Plisky.Diagnostics.Test {
             }
             b.Flush();
             return;
-            b.AddHandler(new TCPHandler("127.0.0.1", 9060));
+           
             b.AddHandler(new SimpleTraceFileHandler(@"c:\temp\"));
             if (traceSwitchTests) {
                 Console.WriteLine("Actual Trace Level : " + b.ActiveTraceLevel.ToString());

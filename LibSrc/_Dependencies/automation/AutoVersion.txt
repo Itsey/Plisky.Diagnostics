@@ -1,0 +1,7 @@
+﻿**/PliskyDiagnostics/LibSrc/**/CommonAssembly*.cs|NetAssembly
+**/PliskyDiagnostics/LibSrc/**/CommonAssembly*.cs|NetFile
+**/PliskyDiagnostics/LibSrc/**/CommonAssembly*.cs|NetInformational
+**/PliskyDiagnostics/LibSrc/**/Plisky.DiagnosticsStd2.csproj|StdAssembly
+**/PliskyDiagnostics/LibSrc/**/Plisky.DiagnosticsStd2.csproj|StdInformational
+**/PliskyDiagnostics/LibSrc/**/Plisky.DiagnosticsStd2.csproj|StdFile
+**/PliskyDiagnostics/LibSrc/**/GitReleaseSync.cmd|TextFile

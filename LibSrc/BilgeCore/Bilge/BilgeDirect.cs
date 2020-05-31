@@ -22,7 +22,6 @@ namespace Plisky.Diagnostics {
             mmd.CommandType = TraceCommandTypes.Custom;
             mmd.Body = body;
             mmd.FurtherDetails = further;
-            mmd.Body = body;
             
 
             if (IsWriting) {

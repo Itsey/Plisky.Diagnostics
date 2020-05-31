@@ -1,4 +1,5 @@
-﻿using Plisky.Diagnostics.Listeners;
+﻿using Plisky.Diagnostics.Copy;
+using Plisky.Diagnostics.Listeners;
 using System.Threading;
 using Xunit;
 
@@ -7,7 +8,7 @@ namespace Plisky.Diagnostics.Test {
 
 
         [Fact(DisplayName = nameof(TestProcessStart))]
-      
+        [Trait(Traits.Style, Traits.Exploratory)]
         public void TestProcessStart() {
             TCPHandler h = new TCPHandler("127.0.0.1", 9060);
             Bilge sut = TestHelper.GetBilge();
@@ -25,7 +26,7 @@ namespace Plisky.Diagnostics.Test {
 
 
         [Fact]
-        [Trait("XUnit", "usecase")]
+        [Trait(Traits.Style, Traits.Exploratory)]
         public void WriteToMex() {
             TCPHandler h = new TCPHandler("127.0.0.1", 9060);
             Bilge sut = TestHelper.GetBilge();
@@ -44,6 +45,7 @@ namespace Plisky.Diagnostics.Test {
 
 
         [Fact]
+        [Trait(Traits.Style, Traits.Exploratory)]
         public void DiagnosticStringIsValid() {
             Bilge sut = TestHelper.GetBilge();
             sut.AddHandler(new TCPHandler("192.168.1.7", 9060));

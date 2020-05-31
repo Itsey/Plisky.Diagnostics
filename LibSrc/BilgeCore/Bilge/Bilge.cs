@@ -23,37 +23,8 @@ namespace Plisky.Diagnostics {
         }
 
 
-        public static void SetConfigurationResolver(Func<string, SourceLevels, SourceLevels> lr){
-            levelResolver = lr;
-        }
-
-
         private ConfigSettings activeConfig;
 
-
-        /// <summary>
-        /// gets or Sets the current level for tracing - this will use the TraceLevel enum to determine which of the logging functions
-        /// will write data out.  The order of increasing data is off, error, warning, info, verbose.
-        /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the trace level is set outside of the defined ranges.</exception>
-        public TraceLevel CurrentTraceLevel {
-            get { return activeConfig.GetLegacyTraceLevel(); }
-            set {
-                SetTraceLevel(value);
-            }
-        }
-
-        public SourceLevels ActiveTraceLevel {
-            get { return activeConfig.activeTraceLevel; }
-            set { SetTraceLevel(value); }
-        }
-
-        public bool IsCleanInitialise() {
-            if (!BilgeRouter.Router.IsClean()) {
-                return false;
-            }
-            return true;
-        }
 
         private void SetTraceLevel(SourceLevels value) {
             if (activeConfig.activeTraceLevel == value) { return; }
@@ -68,9 +39,67 @@ namespace Plisky.Diagnostics {
             this.Verbose.IsWriting = (activeConfig.activeTraceLevel & SourceLevels.Verbose) == SourceLevels.Verbose;
         }
         private void SetTraceLevel(TraceLevel value) {
-            SetTraceLevel(Bilge.ConvertTraceLevel(value));            
+            SetTraceLevel(Bilge.ConvertTraceLevel(value));
         }
 
+
+        /// <summary>
+        /// BACKCOMPAT - Legacy Method For Compatibility - Gets or Sets the current level for tracing - this will use the TraceLevel enum to determine which of the logging functions
+        /// will write data out.  The order of increasing data is off, error, warning, info, verbose.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if the trace level is set outside of the defined ranges.</exception>
+        [Obsolete("Replaced by ActiveTraceLevel, switching to using SourceLevels rather than TraceLevels")]
+        public TraceLevel CurrentTraceLevel {
+            get { return activeConfig.GetLegacyTraceLevel(); }
+            set {
+                SetTraceLevel(value);
+            }
+        }
+
+        public SourceLevels ActiveTraceLevel {
+            get { return activeConfig.activeTraceLevel; }
+            set { SetTraceLevel(value); }
+        }
+
+#if DEBUG
+
+        /// <summary>
+        /// Used for unit esting only, are we in an initialised state>?
+        /// </summary>
+        /// <returns>True if bilge freshly initialised</returns>
+        public bool IsCleanInitialise() {
+            if (!BilgeRouter.Router.IsClean()) {
+                return false;
+            }
+            return true;
+        }
+
+#endif
+
+        /// <summary>
+        /// Sets up a configuraiton resolver that is called for every new instance of Bilge.  This will be called with the instance name
+        /// and the current trace level of the instance.  The return is your new desireds trace level.  This can be used to turn on logging
+        /// based on configuration or any other external factor with minimal impact on your code base.
+        /// </summary>
+        /// <param name="lr"></param>
+        public static void SetConfigurationResolver(Func<string, SourceLevels, SourceLevels> lr) {
+            levelResolver = lr;
+        }
+
+        /// <summary>
+        /// Removes the static configuration resolver to ensure that resolution returns to the default.  Note any instances that have been
+        /// configured by the resolver will remain configured.  This clear will only affect new instances.
+        /// </summary>
+        public static void ClearConfigurationResolver() {
+            levelResolver = DefaultLevelResolver;
+        }
+
+        /// <summary>
+        /// Converts a TraceLevel into a SourceLevels, to allow you to continue to use old code that supports trace levels and work with the change to source
+        /// levels within Bilge, used by the legacy support for CurrentTraceLevel.
+        /// </summary>
+        /// <param name="value">The TraceLevel to use</param>
+        /// <returns>Opinionated conversion to SourceLevel.</returns>
         public static SourceLevels ConvertTraceLevel(TraceLevel value) {
 
             SourceLevels result = SourceLevels.Off;
@@ -86,6 +115,11 @@ namespace Plisky.Diagnostics {
             return result;
         }
 
+        /// <summary>
+        /// Provides alerting, specific methods for alerting, writes to the stream irrespective of the trace level.  Most slowdown elements are disabled
+        /// and specific method types are provided for alerting, such as applicaiton online, offline etc.  
+        /// </summary>
+        public static BilgeAlert Alert { get; } = new BilgeAlert();
 
         /// <summary>
         /// Bilge provides developer level trace to provide runtime diagnostics to developers.  
@@ -105,14 +139,14 @@ namespace Plisky.Diagnostics {
             }
 
             Assert = new BilgeAssert(BilgeRouter.Router, activeConfig);
-            Info = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Information | SourceLevels.Error | SourceLevels.Critical );
+            Info = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Information | SourceLevels.Error | SourceLevels.Critical);
             Verbose = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.All);
             Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Warning | SourceLevels.Error | SourceLevels.Critical);
-            Error = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Error | SourceLevels.Critical );
+            Error = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Error | SourceLevels.Critical);
             Critical = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Critical);
             Direct = new BilgeDirect(BilgeRouter.Router, activeConfig);
             Util = new BilgeUtil(BilgeRouter.Router, activeConfig);
-            
+
             var level = levelResolver(selectedInstanceContext, tl);
             SetTraceLevel(level);
         }
@@ -154,6 +188,9 @@ namespace Plisky.Diagnostics {
         /// but it is sitll subject to settings such as write on fail and queueing.
         /// </summary>
         public BilgeDirect Direct { get; private set; }
+
+
+
 
         public bool WriteOnFail {
             get {
@@ -226,7 +263,12 @@ namespace Plisky.Diagnostics {
             }
         }
 
+
         public void Flush() {
+            Bilge.ForceFlush();
+        }
+
+        public static void ForceFlush() {
 
             BilgeRouter.Router.FlushMessages();
 

@@ -33,8 +33,6 @@ namespace Plisky.Diagnostics {
 
         }
 
-        private string mname = null;
-
         public string MachineNameCache { get; private set; }
 
 

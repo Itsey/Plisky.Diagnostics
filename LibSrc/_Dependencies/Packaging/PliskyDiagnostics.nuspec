@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plisky Diagnostics Library - featuring Bilge and Piffle, offering comprehensive trace and error handling facilities to applications.</description>
     <releaseNotes>
+      XXX-VERSION-XXX - Added Alerting level, AppOnline and Init From File and environment variable.
       2.8.2 - Flush Fix, flush only worked under load.
       2.8.1 - Listeners Fix, SimpleFileListener Fix 2.8.0 Superceeded.
       2.8.0 - INTERFACE BREAK.... TraceLevel is now SourceLevels, new Feature Bilge.SetConfigurationResolver allows SourceSwitches and TraceSwitches.
@@ -20,6 +21,12 @@
     </releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>trace logger logging logs application app bilge plisky piffle error diagnostics</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0" />
+      <group targetFramework=".NETFramework4.5.2" />
+      <group targetFramework=".NETFramework4.7" />
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics40\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net40\" />

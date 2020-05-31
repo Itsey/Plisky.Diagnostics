@@ -188,9 +188,10 @@
                 Thread.CurrentThread.Name = "Bilge>>RouterQueueDispatcher";
                 Thread.CurrentThread.IsBackground = true;
 
-                
+
 
                 while ((!shutdownRequested) && (!System.Environment.HasShutdownStarted)) {
+
                     ClearCompletedActiveTasks();
 
                     if (messageQueue.Count == 0) {
@@ -213,33 +214,36 @@
 
                     // WriteOnFail means only write when failure occured-  at this point we reset.
                     if (FailureOccuredForWrite) { FailureOccuredForWrite = false; }
+                    lock (activeTasks) {
 
-                    //Message Batching support - group messages up together to send either by number or milliseconds or both
-                    if ((MessageBatchCapacity > 0) || (MessageBatchDelay > 0)) {
+                        //Message Batching support - group messages up together to send either by number or milliseconds or both
+                        if ((MessageBatchCapacity > 0) || (MessageBatchDelay > 0)) {
 
-                        if ((elapsedTimer?.ElapsedMilliseconds <= MessageBatchDelay) && (messageQueue.Count < MessageBatchCapacity)) {
-                            continue;
-                        }
-
-                    }
-
-
-                    while ((messageQueue.Count > 0) && (!System.Environment.HasShutdownStarted)) {
-
-                        var copyOfCurrentMessages = messageQueue.ToArray();
-                        activeTasks.Add(RouteMessage(copyOfCurrentMessages));
-
-                        int countOfCopiedMessages = copyOfCurrentMessages.Length;
-                        while (countOfCopiedMessages > 0) {
-                            if (messageQueue.Count == 0) {
-                                Emergency.Diags.Log("This shouldnt occur, we have already copied the items;");
-                                break;
+                            if ((elapsedTimer?.ElapsedMilliseconds <= MessageBatchDelay) && (messageQueue.Count < MessageBatchCapacity)) {
+                                continue;
                             }
-                            while (!messageQueue.TryDequeue(out var mpp)) ;
-                            countOfCopiedMessages--;
+
                         }
-                        
+
+
+                        while ((messageQueue.Count > 0) && (!System.Environment.HasShutdownStarted)) {
+
+                            var copyOfCurrentMessages = messageQueue.ToArray();
+                            activeTasks.Add(RouteMessage(copyOfCurrentMessages));
+
+                            int countOfCopiedMessages = copyOfCurrentMessages.Length;
+                            while (countOfCopiedMessages > 0) {
+                                if (messageQueue.Count == 0) {
+                                    Emergency.Diags.Log("This shouldnt occur, we have already copied the items;");
+                                    break;
+                                }
+                                while (!messageQueue.TryDequeue(out var mpp)) ;
+                                countOfCopiedMessages--;
+                            }
+
+                        }
                     }
+
                 }
 
                 // Destroy resources associated with the high perf implementation

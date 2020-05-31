@@ -56,17 +56,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ResolverTests.cs" />
-    <Compile Include="FullUseCaseTests.cs" />
+    <Compile Include="AlertFeatureTests.cs" />
+    <Compile Include="LevelResolver_Tests.cs" />
     <Compile Include="InMemoryHandlerTests.cs" />
-    <Compile Include="MockEmergencyDiagnostics.cs" />
+    <Compile Include="Mocks\MockEmergencyDiagnostics.cs" />
     <Compile Include="BasicInterfaceTests.cs" />
     <Compile Include="RegressionTests.cs" />
     <Compile Include="ExploratoryAndUserStoryTests.cs" />
     <Compile Include="FileSystemHandlerTests.cs" />
-    <Compile Include="MockMessageHandler.cs" />
+    <Compile Include="Mocks\MockMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelper.cs" />
+    <Compile Include="Support\TestHelper.cs" />
+    <Compile Include="Support\TraitsCopy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plisky.Diagnostics.Listeners\Plisky.Diagnostics.Listeners.csproj">

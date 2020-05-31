@@ -121,7 +121,7 @@ namespace Plisky.Diagnostics.Test {
         internal void AssertManagedThreadId(int managedThreadId) {
             ManagedThreadIdMustBe = managedThreadId.ToString();
         }
-
+         
         public Task HandleMessageAsync(MessageMetadata[] msg) {
             LastMessageBatchSize = msg.Length;
             foreach (var m in msg) {

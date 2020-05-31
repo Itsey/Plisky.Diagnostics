@@ -320,11 +320,13 @@ namespace Plisky.Diagnostics {
             return (((uint)tct & SECTIONCOMMANDS) == (uint)tct);
         }
 
+#pragma warning disable CS3003 // Type is not CLS-compliant
         public const uint TRACECOMMANDS = 0x00000070;
         public const uint RESOURCECOMMANDS = 0x001C0000;
         public const uint EXCEPTIONCOMMANDS = 0x0000F000;
         public const uint LOGCOMMANDS = 0x00000007;
         public const uint SECTIONCOMMANDS = 0x00030000;
+#pragma warning restore CS3003 // Type is not CLS-compliant
     }
 
     // #pragma warning restore 0169

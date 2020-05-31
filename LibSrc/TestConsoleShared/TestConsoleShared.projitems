@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DirectWriting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PerformanceTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModularWriting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Program.cs" />
   </ItemGroup>

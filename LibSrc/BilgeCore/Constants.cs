@@ -13,30 +13,110 @@ namespace Plisky.Diagnostics {
     /// </summary>
     [Flags]
     public enum TraceCommandTypes : uint {
+        /// <summary>
+        /// Standard Log Messages
+        /// </summary>
         LogMessage = 0x00000001,
+        /// <summary>
+        /// Verbose Log Messages
+        /// </summary>
         LogMessageVerb = 0x00000002,
+        /// <summary>
+        /// Minimal Log Messages
+        /// </summary>
         LogMessageMini = 0x00000004,
+        /// <summary>
+        /// Internal Messages
+        /// </summary>
         InternalMsg = 0x00000008,
+        /// <summary>
+        /// Trace Messages, Enter
+        /// </summary>
         TraceMessageIn = 0x00000010,
+        /// <summary>
+        /// Trace Messages, Exit
+        /// </summary>
         TraceMessageOut = 0x00000020,
+        /// <summary>
+        /// Trace Messages - Other
+        /// </summary>
         TraceMessage = 0x00000040,
+        /// <summary>
+        /// Assertion Failure
+        /// </summary>
         AssertionFailed = 0x00000080,
+        /// <summary>
+        /// Further Details to an existing message
+        /// </summary>
         MoreInfo = 0x00000100,
+        /// <summary>
+        /// Trace Display Commands Only
+        /// </summary>
         CommandOnly = 0x00000200,
+        /// <summary>
+        /// Errors
+        /// </summary>
         ErrorMsg = 0x00000400,
+        /// <summary>
+        /// Warnings
+        /// </summary>
         WarningMsg = 0x00000800,
+        /// <summary>
+        /// Exception Block OF Info
+        /// </summary>
         ExceptionBlock = 0x00001000,  // used for exception type flag
+        /// <summary>
+        /// Exception Meta Data
+        /// </summary>
         ExceptionData = 0x00002000,
+        /// <summary>
+        /// Exception Block Start
+        /// </summary>
         ExcStart = 0x00004000,
+        /// <summary>
+        /// Exception Block End
+        /// </summary>
         ExcEnd = 0x00008000,
+        /// <summary>
+        /// Section Start
+        /// </summary>
         SectionStart = 0x00010000,
+        /// <summary>
+        /// Section End
+        /// </summary>
         SectionEnd = 0x00020000,
+        /// <summary>
+        /// Resource Consumption - Developer Trace
+        /// </summary>
         ResourceEat = 0x00040000,
+        /// <summary>
+        /// Resource Release - Developer Trace
+        /// </summary>
         ResourcePuke = 0x00080000,
+        /// <summary>
+        /// Resource Current Value - Developer Trace
+        /// </summary>
         ResourceCount = 0x00100000,
+        /// <summary>
+        /// Standard Message Type
+        /// </summary>
         Standard = 0x00200000,
+        /// <summary>
+        /// XML Formattted Command Message
+        /// </summary>
         CommandXML = 0x00400000,
+        /// <summary>
+        /// Custom and Third party messages
+        /// </summary>
         Custom = 0x00800000,
+        /// <summary>
+        /// Alerting and Notification
+        /// </summary>
+        Alert = 0x010000000,
+
+        /// <summary>
+        /// Unknown, error or invalid configuration.
+        /// </summary>
         Unknown = 0x00000000
     };
 
@@ -109,6 +189,7 @@ namespace Plisky.Diagnostics {
                 case TraceCommandTypes.ResourcePuke: return Constants.RESOURCEPUKE;
                 case TraceCommandTypes.ResourceCount: return Constants.RESOURCECOUNT;
                 case TraceCommandTypes.CommandXML: return Constants.MSGFMT_XMLCOMMAND;
+                case TraceCommandTypes.Alert: return Constants.MSGFMT_ALERT;
                 case TraceCommandTypes.Custom: return Constants.MSGFMT_CUSTOM;
                 
             }
@@ -249,6 +330,7 @@ namespace Plisky.Diagnostics {
         public const string COMMANDONLY = "#CMD#";
         public const string MSGFMT_XMLCOMMAND = "#XCM#";
         public const string MSGFMT_CUSTOM = "#CUS#";
+        public const string MSGFMT_ALERT = "#ALT#";
         public const string ERRORMSG = "#ERR#";
         public const string WARNINGMSG = "#WRN#";
         public const string EXCEPTIONBLOCK = "#EXC#";

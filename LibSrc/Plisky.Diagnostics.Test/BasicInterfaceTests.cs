@@ -1,6 +1,7 @@
 ﻿namespace Plisky.Diagnostics.Test {
 
     using Plisky.Diagnostics;
+    using Plisky.Diagnostics.Copy;
     using System;
     using System.Diagnostics;
     //using Plisky.Test;
@@ -43,7 +44,7 @@
         //[Trait(Traits.Style, Traits.Unit)]
         public void MessageBatching_Works_Default1() {
             Bilge sut = TestHelper.GetBilge();
-            sut.CurrentTraceLevel = System.Diagnostics.TraceLevel.Info;
+            sut.ActiveTraceLevel = SourceLevels.Information;
             var mmh = new MockMessageHandler();
             sut.AddHandler(mmh);
 
@@ -141,7 +142,7 @@
 
 
         [Fact]
-        [Trait("age", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Enter_WritesMethodName() {
             Bilge sut = TestHelper.GetBilge();
             var mmh = new MockMessageHandler();
@@ -158,12 +159,13 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Exit_WritesMethodName() {
 
             var mmh = new MockMessageHandler();
             mmh.SetMethodNameMustContain(nameof(Exit_WritesMethodName));
             Bilge sut = TestHelper.GetBilge();
+            sut.ActiveTraceLevel = SourceLevels.Verbose;
             sut.AddHandler(mmh);
             sut.Info.X();
 
@@ -176,7 +178,7 @@
 
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Bilge_EnterSection_TracesSection() {
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge(tl:SourceLevels.Verbose);
@@ -191,7 +193,7 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Bilge_LeaveSection_TracesSection() {
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge(tl:SourceLevels.Verbose);
@@ -209,7 +211,7 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Assert_True_DoesNothingIfTrue() {
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge();
@@ -220,6 +222,7 @@
         }
 
         [Fact]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Assert_True_DoesFailsIfFalse() {
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge();
@@ -234,7 +237,7 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Assert_False_FailsIfTrue() {
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge();
@@ -247,7 +250,7 @@
         }
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Assert_False_DoesNothingIfFalse() {
             var mmh = new MockMessageHandler();
             Bilge sut = new Bilge();
@@ -259,12 +262,13 @@
 
 
         [Fact]
-        [Trait("xunit", "regression")]
+        [Trait(Traits.Age, Traits.Regression)]
         public void Flow_WritesMethodNameToMessage() {
             MockMessageHandler mmh = new MockMessageHandler();
             mmh.SetMethodNameMustContain(nameof(Flow_WritesMethodNameToMessage));
             mmh.SetMustContainForBody(nameof(Flow_WritesMethodNameToMessage));
             var sut = TestHelper.GetBilge();
+            sut.ActiveTraceLevel = SourceLevels.Verbose;
             sut.AddHandler(mmh);
 
             sut.Info.Flow();
