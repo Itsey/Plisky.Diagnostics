@@ -2,8 +2,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Remoting.Messaging;
+    using System.Runtime.CompilerServices;    
     using System.Text;
 
 
@@ -16,7 +15,7 @@
         private DateTime onlineAt;
         private string AlertContextId = "Alerting";
 
-        public Dictionary<string, string> alertingContexts { get; set; }
+        private Dictionary<string, string> alertingContexts { get; set; }
 
 
         internal BilgeAlert() {

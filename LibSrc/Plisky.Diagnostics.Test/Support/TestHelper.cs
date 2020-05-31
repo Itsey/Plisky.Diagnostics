@@ -15,7 +15,9 @@ namespace Plisky.Diagnostics.Test {
                 result = new Bilge(resetDefaults: true);
             }
 
+#if DEBUG
             Assert.True(result.IsCleanInitialise(), "Unclean!");
+#endif
             if (setTrace) {
                 result.CurrentTraceLevel = System.Diagnostics.TraceLevel.Info;
             }
