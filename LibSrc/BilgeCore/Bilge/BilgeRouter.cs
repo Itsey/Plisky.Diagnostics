@@ -74,6 +74,14 @@ namespace Plisky.Diagnostics {
             return ActualGetHandlerStatuses();
         }
 
+        internal IEnumerable<IBilgeMessageHandler> GetHandlers() {
+            if (handlers==null) { yield break; }
+
+            foreach(var f in handlers) {
+                yield return f;
+            }
+        }
+
         internal void QueueMessage(MessageMetadata mm) {
             ActualAddMessage(mm);
         }
@@ -95,8 +103,13 @@ namespace Plisky.Diagnostics {
         internal bool IsClean() {
             return ActualIsClean();
         }
+
+
         public void ClearEverything() {
+            Shutdown();
             ActualClearEverything();
+            handlers = null;
+            ReInitialise();
         }
     }
 

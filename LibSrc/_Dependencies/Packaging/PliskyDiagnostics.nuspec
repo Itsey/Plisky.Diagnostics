@@ -11,7 +11,12 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plisky Diagnostics Library - featuring Bilge and Piffle, offering comprehensive trace and error handling facilities to applications.</description>
     <releaseNotes>
-      XXX-VERSION-XXX - Added Alerting level, AppOnline and Init From File and environment variable.
+      XXX-VERSION-XXX
+      +Added Alerting level, 
+      +AppOnline 
+      +Added Init From File and environment variable. 
+      +Statics for configuring and adding handlers (reduce duplicates etc)
+                 
       2.8.2 - Flush Fix, flush only worked under load.
       2.8.1 - Listeners Fix, SimpleFileListener Fix 2.8.0 Superceeded.
       2.8.0 - INTERFACE BREAK.... TraceLevel is now SourceLevels, new Feature Bilge.SetConfigurationResolver allows SourceSwitches and TraceSwitches.

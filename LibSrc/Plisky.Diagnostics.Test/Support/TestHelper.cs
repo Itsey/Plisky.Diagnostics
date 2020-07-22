@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Plisky.Diagnostics.Test {
     public class TestHelper {
-        public static Bilge GetBilge(string context = null, bool setTrace = true) {
+        public static Bilge GetBilgeAndClearDown(string context = null, bool setTrace = true) {
             Bilge result;
             if (context != null) {
                 result = new Bilge(context, resetDefaults: true);

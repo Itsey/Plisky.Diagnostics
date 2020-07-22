@@ -15,7 +15,7 @@ namespace Plisky.Diagnostics.Test {
         [Trait(Traits.Age, Traits.Fresh)]
         [Trait(Traits.Style, Traits.Unit)]
         public void BasicAlert_GetsWritten_TraceOff() {
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
 
             var mmh = new MockMessageHandler();
             sut.AddHandler(mmh);

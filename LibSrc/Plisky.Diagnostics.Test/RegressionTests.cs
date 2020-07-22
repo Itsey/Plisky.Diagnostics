@@ -35,7 +35,7 @@
                 ied.Log("START OD");
                 TestObject to = new TestObject();
                 to.stringvalue = "arfle barfle gloop";
-                Bilge sut = TestHelper.GetBilge();
+                Bilge sut = TestHelper.GetBilgeAndClearDown();
                 ied.Log("Before Anything Done");
                 var mmh = new MockMessageHandler();
                 sut.AddHandler(mmh);
@@ -66,7 +66,7 @@
         [Trait(Traits.Age, Traits.Regression)]
         public void Default_TraceLevelIsOff() {
             MockMessageHandler mmh = new MockMessageHandler();
-            Bilge b = TestHelper.GetBilge(setTrace:false);
+            Bilge b = TestHelper.GetBilgeAndClearDown(setTrace:false);
             Assert.Equal<TraceLevel>(TraceLevel.Off, b.CurrentTraceLevel);
         }
 
@@ -74,7 +74,7 @@
         [Trait(Traits.Age, Traits.Regression)]
         public void VerboseNotLogged_IfNotVerbose() {
             MockMessageHandler mmh = new MockMessageHandler();
-            Bilge b = TestHelper.GetBilge(setTrace: false);
+            Bilge b = TestHelper.GetBilgeAndClearDown(setTrace: false);
             b.CurrentTraceLevel = TraceLevel.Info;
             b.AddHandler(mmh);
             b.Verbose.Log("Msg");
@@ -84,7 +84,7 @@
         [Fact]
         [Trait(Traits.Age, Traits.Regression)]
         public void WriteOnFail_DefaultsFalse() {
-            Bilge b = TestHelper.GetBilge();
+            Bilge b = TestHelper.GetBilgeAndClearDown();
             Assert.False(b.WriteOnFail, "The write on fail must default to false");
         }
 
@@ -92,7 +92,7 @@
         [Trait(Traits.Age, Traits.Regression)]
         public void QueuedMessagesNotWrittenIfWriteOnFailSet() {
             MockMessageHandler mmh = new MockMessageHandler();
-            Bilge b = TestHelper.GetBilge();
+            Bilge b = TestHelper.GetBilgeAndClearDown();
             b.AddHandler(mmh);
             b.WriteOnFail = true;
             WriteASeriesOfMessages(b);
@@ -103,7 +103,7 @@
         [Trait(Traits.Age, Traits.Regression)]
         public void QueuedMessagesWritten_AfterFlush() {
             MockMessageHandler mmh = new MockMessageHandler();
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
             sut.AddHandler(mmh);
             sut.WriteOnFail = true;
             WriteASeriesOfMessages(sut);
@@ -122,7 +122,7 @@
         [Trait(Traits.Age, Traits.Regression)]
         public void InfoNotLogged_IfNotInfo() {
             MockMessageHandler mmh = new MockMessageHandler();
-            Bilge b = TestHelper.GetBilge();
+            Bilge b = TestHelper.GetBilgeAndClearDown();
             b.CurrentTraceLevel = TraceLevel.Warning;
             b.AddHandler(mmh);
 
@@ -144,7 +144,7 @@
         [Trait(Traits.Age, Traits.Regression)]
         public void NothingWrittenWhenTraceOff() {
             MockMessageHandler mmh = new MockMessageHandler();
-            var sut = TestHelper.GetBilge();
+            var sut = TestHelper.GetBilgeAndClearDown();
             sut.CurrentTraceLevel = TraceLevel.Off;
             sut.AddHandler(mmh);
 
@@ -163,7 +163,7 @@
         public void MultiHandlers_RecieveMultiMessages() {
             var mmh1 = new MockMessageHandler();
             var mmh2 = new MockMessageHandler();
-            var sut = TestHelper.GetBilge();
+            var sut = TestHelper.GetBilgeAndClearDown();
             sut.AddHandler(mmh1);
             sut.AddHandler(mmh2);
 
@@ -182,7 +182,7 @@
             MockMessageHandler mmh = new MockMessageHandler();
             string context = "xxCtxtxx";
             mmh.AssertContextIs(context);
-            Bilge sut = TestHelper.GetBilge(context);
+            Bilge sut = TestHelper.GetBilgeAndClearDown(context);
             sut.AddHandler(mmh);
 
             sut.Info.Log("Message should have context");
@@ -201,7 +201,7 @@
             MockMessageHandler mmh = new MockMessageHandler();
             mmh.AssertProcessId(testProcId);
             mmh.AssertManagedThreadId(Thread.CurrentThread.ManagedThreadId);
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
 
             sut.AddHandler(mmh);
             sut.Info.Log("Message Written");
@@ -218,7 +218,7 @@
         public void MethodName_MatchesThisMethodName() {
             MockMessageHandler mmh = new MockMessageHandler();
             mmh.SetMethodNameMustContain(nameof(MethodName_MatchesThisMethodName));
-            Bilge b = TestHelper.GetBilge();
+            Bilge b = TestHelper.GetBilgeAndClearDown();
             b.AddHandler(mmh);
             b.Info.Log("This is a message");
             b.Flush();// (true);

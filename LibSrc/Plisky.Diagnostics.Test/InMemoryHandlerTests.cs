@@ -14,7 +14,7 @@ namespace Plisky.Diagnostics.Test {
         [Trait("xunit", "fresh")]
         public void InMemory_HoldsOntoMessages() {
             var imh = new InMemoryHandler();
-            var sut = TestHelper.GetBilge();
+            var sut = TestHelper.GetBilgeAndClearDown();
             sut.AddHandler(imh);
             sut.Info.Log("This is a message.");
             sut.Flush();
@@ -27,7 +27,7 @@ namespace Plisky.Diagnostics.Test {
         [Trait("xunit", "fresh")]
         public void InMemory_RetrieveClearsMessages() {
             var imh = new InMemoryHandler();
-            var sut = TestHelper.GetBilge();
+            var sut = TestHelper.GetBilgeAndClearDown();
             sut.AddHandler(imh);
             sut.Info.Log("This is a message.");
             sut.Flush();
@@ -41,7 +41,7 @@ namespace Plisky.Diagnostics.Test {
         public void InMemory_LimitMessages_Works() {
             var imh = new InMemoryHandler();
             imh.MaxQueueDepth = 10;
-            var sut = TestHelper.GetBilge();
+            var sut = TestHelper.GetBilgeAndClearDown();
             sut.AddHandler(imh);
             for (int i = 0; i < 100; i++) {
                 sut.Info.Log("This is a message.");

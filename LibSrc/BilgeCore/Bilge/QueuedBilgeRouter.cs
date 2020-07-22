@@ -77,13 +77,13 @@
         }
 
         internal override void ActualClearEverything() {
-            Shutdown();
+            
             WriteToHandlerOnlyOnFail = false;
             FailureOccuredForWrite = false;
             lastUsedHandler = -1;
             messageQueue = new ConcurrentQueue<MessageMetadata>();
-            handlers = null;
-            ReInitialise();
+           
+
         }
 
         protected override void ActualAddMessage(MessageMetadata mm) {

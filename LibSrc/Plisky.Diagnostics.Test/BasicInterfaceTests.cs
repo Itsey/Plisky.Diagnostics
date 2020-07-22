@@ -2,8 +2,10 @@
 
     using Plisky.Diagnostics;
     using Plisky.Diagnostics.Copy;
+    using Plisky.Diagnostics.Listeners;
     using System;
     using System.Diagnostics;
+    using System.Linq;
     //using Plisky.Test;
     using System.Threading;
     using Xunit;
@@ -18,15 +20,138 @@
             b.Warning.Log("Test message");
         }
 
+        [Fact(DisplayName = nameof(GetHandlers_DefaultReturnsAll))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void GetHandlers_DefaultReturnsAll() {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            Bilge.AddHandler(new MockMessageHandler());
+            Bilge.AddHandler(new MockMessageHandler());
+            Bilge.AddHandler(new MockMessageHandler());
+            Bilge.AddHandler(new MockMessageHandler());
+
+            Assert.Equal(4, Bilge.GetHandlers().Count());
+        }
+
+        [Fact(DisplayName = nameof(GetHandlers_FilterReturnsNamed))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void GetHandlers_FilterReturnsNamed() {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            Bilge.AddHandler(new MockMessageHandler("arfle"));
+            Bilge.AddHandler(new MockMessageHandler("barfle"));
+            var count = Bilge.GetHandlers("arf*").Count();
+
+            Assert.Equal(1, count);
+        }
+
+
+
+        [Fact(DisplayName = nameof(AddHandler_DoesAddHandler))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void AddHandler_DoesAddHandler() {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            bool worked = Bilge.AddHandler(new MockMessageHandler());            
+            var count = Bilge.GetHandlers().Count();
+
+            Assert.True(worked);
+            Assert.Equal(1, count);
+        }
+
+
+        [Fact(DisplayName = nameof(AddHandler_DuplicateAddsTwoHandlers))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void AddHandler_DuplicateAddsTwoHandlers() {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            bool worked = Bilge.AddHandler(new MockMessageHandler());
+            worked &= Bilge.AddHandler(new MockMessageHandler());
+
+            Assert.True(worked);
+            var ct = Bilge.GetHandlers().Count();
+            Assert.Equal(2, ct);
+        }
+
+
+        [Fact(DisplayName = nameof(AddHandler_DuplicateByNameFailsOnSecond))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void AddHandler_DuplicateByNameFailsOnSecond() {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            Bilge.AddHandler(new MockMessageHandler());
+            Bilge.AddHandler(new MockMessageHandler());
+
+            var ct = Bilge.GetHandlers().Count();
+            Assert.Equal(2, Bilge.GetHandlers().Count());
+        }
+
+        [Fact(DisplayName = nameof(AddHandler_SingleType_DoesNotAddSecond))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void AddHandler_SingleType_DoesNotAddSecond () {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            Bilge.AddHandler(new MockMessageHandler(),HandlerAddOptions.SingleType);
+            Bilge.AddHandler(new MockMessageHandler(),HandlerAddOptions.SingleType);
+            var ct = Bilge.GetHandlers().Count();
+
+            Assert.Equal(1, ct);
+        }
+
+        [Fact(DisplayName = nameof(AddHandler_SingleType_AddsDifferentTypes))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void AddHandler_SingleType_AddsDifferentTypes() {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            Bilge.AddHandler(new MockMessageHandler(), HandlerAddOptions.SingleType);
+            Bilge.AddHandler(new InMemoryHandler(), HandlerAddOptions.SingleType);
+            var ct = Bilge.GetHandlers().Count();
+
+            Assert.Equal(2, ct);
+        }
+
+        [Fact(DisplayName = nameof(AddHandler_SingleName_AddsDifferentNames))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void AddHandler_SingleName_AddsDifferentNames() {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            Bilge.AddHandler(new MockMessageHandler("arfle"), HandlerAddOptions.SingleName);
+            Bilge.AddHandler(new MockMessageHandler("barfle"), HandlerAddOptions.SingleName);
+            var ct = Bilge.GetHandlers().Count();
+
+            Assert.Equal(2, ct);
+        }
+
+        [Fact(DisplayName = nameof(AddHandler_SingleName_DoesNotAddSecondName))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        public void AddHandler_SingleName_DoesNotAddSecondName() {
+            _ = TestHelper.GetBilgeAndClearDown();
+
+            Bilge.AddHandler(new MockMessageHandler("arfle"), HandlerAddOptions.SingleName);
+            Bilge.AddHandler(new MockMessageHandler("arfle"), HandlerAddOptions.SingleName);
+            var ct = Bilge.GetHandlers().Count();
+
+            Assert.Equal(1, ct);
+        }
+
 
 
         [Fact(DisplayName = nameof(DirectWrite_IsPossible))]
-        //[Trait(Traits.Age, Traits.Fresh)]
-        //[Trait(Traits.Style, Traits.Unit)]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
         public void DirectWrite_IsPossible() {
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
             sut.DisableMessageBatching();
-            sut.CurrentTraceLevel = TraceLevel.Verbose;
+            sut.ActiveTraceLevel = SourceLevels.Verbose;          
 
             var mmh = new MockMessageHandler();
             sut.AddHandler(mmh);
@@ -40,10 +165,10 @@
 
 
         [Fact(DisplayName = nameof(MessageBatching_Works_Default1))]
-        /// [Trait(Traits.Age, Traits.Fresh)]
-        //[Trait(Traits.Style, Traits.Unit)]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
         public void MessageBatching_Works_Default1() {
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
             sut.ActiveTraceLevel = SourceLevels.Information;
             var mmh = new MockMessageHandler();
             sut.AddHandler(mmh);
@@ -63,7 +188,7 @@
         public void MessageBatching_Works_Enabled() {
             const int MESSAGE_BATCHSIZE = 10;
 
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
 
             sut.SetMessageBatching(MESSAGE_BATCHSIZE, 500000);
 
@@ -101,7 +226,7 @@
         public void MessageBatching_Works_Timed() {
             const int MESSAGE_BATCHSIZE = 10000;
 
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
 
             sut.SetMessageBatching(MESSAGE_BATCHSIZE, 250);
 
@@ -144,7 +269,7 @@
         [Fact]
         [Trait(Traits.Age, Traits.Regression)]
         public void Enter_WritesMethodName() {
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
             var mmh = new MockMessageHandler();
             sut.AddHandler(mmh);
             sut.Info.E();
@@ -164,7 +289,7 @@
 
             var mmh = new MockMessageHandler();
             mmh.SetMethodNameMustContain(nameof(Exit_WritesMethodName));
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
             sut.ActiveTraceLevel = SourceLevels.Verbose;
             sut.AddHandler(mmh);
             sut.Info.X();
@@ -267,7 +392,7 @@
             MockMessageHandler mmh = new MockMessageHandler();
             mmh.SetMethodNameMustContain(nameof(Flow_WritesMethodNameToMessage));
             mmh.SetMustContainForBody(nameof(Flow_WritesMethodNameToMessage));
-            var sut = TestHelper.GetBilge();
+            var sut = TestHelper.GetBilgeAndClearDown();
             sut.ActiveTraceLevel = SourceLevels.Verbose;
             sut.AddHandler(mmh);
 

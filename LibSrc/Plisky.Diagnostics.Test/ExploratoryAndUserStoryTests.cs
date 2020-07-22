@@ -11,7 +11,7 @@ namespace Plisky.Diagnostics.Test {
         [Trait(Traits.Style, Traits.Exploratory)]
         public void TestProcessStart() {
             TCPHandler h = new TCPHandler("127.0.0.1", 9060);
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
             sut.AddHandler(h);
 
             sut.Util.Online("Tester");
@@ -29,7 +29,7 @@ namespace Plisky.Diagnostics.Test {
         [Trait(Traits.Style, Traits.Exploratory)]
         public void WriteToMex() {
             TCPHandler h = new TCPHandler("127.0.0.1", 9060);
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
             sut.AddHandler(h);
 
             sut.Info.Log("Hellow cruiel world");
@@ -47,7 +47,7 @@ namespace Plisky.Diagnostics.Test {
         [Fact]
         [Trait(Traits.Style, Traits.Exploratory)]
         public void DiagnosticStringIsValid() {
-            Bilge sut = TestHelper.GetBilge();
+            Bilge sut = TestHelper.GetBilgeAndClearDown();
             sut.AddHandler(new TCPHandler("192.168.1.7", 9060));
             sut.Info.Log("Hi");
             sut.Info.Log("Hi");

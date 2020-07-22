@@ -8,24 +8,27 @@ namespace Plisky.Diagnostics {
 
     public class Bilge {
 
-        private static Func<string, SourceLevels, SourceLevels> levelResolver = DefaultLevelResolver;
+        // OBSOLETE >>> REMOVE NEXT MAJOR VER
 
-        private static SourceLevels DefaultLevelResolver(string source, SourceLevels beforeModification) {
-
-            SourceLevels result = beforeModification;
-#if NETSTD2
-            
-#else
-
-#endif
-
-            return result;
+        /// <summary>
+        /// BACKCOMPAT - Legacy Method For Compatibility - Gets or Sets the current level for tracing - this will use the TraceLevel enum to determine which of the logging functions
+        /// will write data out.  The order of increasing data is off, error, warning, info, verbose.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if the trace level is set outside of the defined ranges.</exception>
+        [Obsolete("Replaced by ActiveTraceLevel, switching to using SourceLevels rather than TraceLevels")]
+        public TraceLevel CurrentTraceLevel {
+            get { return activeConfig.GetLegacyTraceLevel(); }
+            set {
+                SetTraceLevel(value);
+            }
         }
 
 
+        // OBSOLETE ^^^^^
+
+        // Private
         private ConfigSettings activeConfig;
-
-
+        private static Func<string, SourceLevels, SourceLevels> levelResolver = DefaultLevelResolver;
         private void SetTraceLevel(SourceLevels value) {
             if (activeConfig.activeTraceLevel == value) { return; }
             if (!Enum.IsDefined(typeof(SourceLevels), value)) {
@@ -42,20 +45,33 @@ namespace Plisky.Diagnostics {
             SetTraceLevel(Bilge.ConvertTraceLevel(value));
         }
 
+        private static SourceLevels DefaultLevelResolver(string source, SourceLevels beforeModification) {
 
-        /// <summary>
-        /// BACKCOMPAT - Legacy Method For Compatibility - Gets or Sets the current level for tracing - this will use the TraceLevel enum to determine which of the logging functions
-        /// will write data out.  The order of increasing data is off, error, warning, info, verbose.
-        /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the trace level is set outside of the defined ranges.</exception>
-        [Obsolete("Replaced by ActiveTraceLevel, switching to using SourceLevels rather than TraceLevels")]
-        public TraceLevel CurrentTraceLevel {
-            get { return activeConfig.GetLegacyTraceLevel(); }
-            set {
-                SetTraceLevel(value);
+            SourceLevels result = beforeModification;
+#if NETSTD2
+            
+#else
+
+#endif
+
+            return result;
+        }
+
+        // Public
+        public const string BILGE_INSTANCE_CONTEXT_STR = "bc-ctxt";
+        public const string BILGE_SESSION_CONTEXT_STR = "bc-sess-ctxt";
+
+        public IEnumerable<Tuple<string,string>> GetContexts() {
+            foreach(var l in activeConfig.metaContexts.Keys) {
+                yield return new Tuple<string, string>(l, activeConfig.metaContexts[l]);
             }
         }
 
+   
+
+        /// <summary>
+        /// Establishes the active trace level, using a SourceLevel.  Passing a source leve to this sets the trace level for this instance of Bilge.
+        /// </summary>
         public SourceLevels ActiveTraceLevel {
             get { return activeConfig.activeTraceLevel; }
             set { SetTraceLevel(value); }
@@ -81,9 +97,9 @@ namespace Plisky.Diagnostics {
         /// and the current trace level of the instance.  The return is your new desireds trace level.  This can be used to turn on logging
         /// based on configuration or any other external factor with minimal impact on your code base.
         /// </summary>
-        /// <param name="lr"></param>
-        public static void SetConfigurationResolver(Func<string, SourceLevels, SourceLevels> lr) {
-            levelResolver = lr;
+        /// <param name="configurationResolver"></param>
+        public static void SetConfigurationResolver(Func<string, SourceLevels, SourceLevels> configurationResolver) {
+            levelResolver = configurationResolver;
         }
 
         /// <summary>
@@ -115,11 +131,7 @@ namespace Plisky.Diagnostics {
             return result;
         }
 
-        /// <summary>
-        /// Provides alerting, specific methods for alerting, writes to the stream irrespective of the trace level.  Most slowdown elements are disabled
-        /// and specific method types are provided for alerting, such as applicaiton online, offline etc.  
-        /// </summary>
-        public static BilgeAlert Alert { get; } = new BilgeAlert();
+
 
         /// <summary>
         /// Bilge provides developer level trace to provide runtime diagnostics to developers.  
@@ -151,6 +163,15 @@ namespace Plisky.Diagnostics {
             SetTraceLevel(level);
         }
 
+        /// <summary>
+        /// Provides alerting, specific methods for alerting, writes to the stream irrespective of the trace level.  Most slowdown elements are disabled
+        /// and specific method types are provided for alerting, such as applicaiton online, offline etc.  
+        /// </summary>
+        public static BilgeAlert Alert { get; } = new BilgeAlert();
+
+        /// <summary>
+        /// Provies access to Bilge Utility functions and debugging and diagnostic helper methods.
+        /// </summary>
         public BilgeUtil Util { get; private set; }
 
         /// <summary>
@@ -181,6 +202,10 @@ namespace Plisky.Diagnostics {
         /// </summary>
         public BilgeWriter Critical { get; private set; }
 
+        /// <summary>
+        /// Provides assertion capabilities, runtime checks that should only really be performed during development builds or to validate that something which
+        /// should be handled elsewhere in code has really been handled.
+        /// </summary>
         public BilgeAssert Assert { get; private set; }
 
         /// <summary>
@@ -238,17 +263,7 @@ namespace Plisky.Diagnostics {
         }
 
 
-        public const string BILGE_INSTANCE_CONTEXT_STR = "bc-ctxt";
-        public const string BILGE_SESSION_CONTEXT_STR = "bc-sess-ctxt";
-
-        /// <summary>
-        /// Adds a context name value pair to every singe message that is routed through this instance of bilge.
-        /// </summary>
-        /// <param name="context">Context Name - e.g. userSession</param>
-        /// <param name="value">Context Value - e.g. 123456</param>
-        public void AddContext(string context, string value) {
-
-        }
+      
         /// <summary>
         /// This method shuts down bilge but it is the only way to be sure that all of your messages have left the
         /// internal queuing system.  Once this method has run Bilge is completely broken and no more trace can be
@@ -265,8 +280,11 @@ namespace Plisky.Diagnostics {
 
 
         public void Flush() {
-            Bilge.ForceFlush();
+            Bilge.ForceFlush();            
         }
+
+
+        // **** Static ****
 
         public static void ForceFlush() {
 
@@ -279,8 +297,88 @@ namespace Plisky.Diagnostics {
             BilgeRouter.Router.Shutdown();
         }
 
+        [Obsolete("Replaced by AddHandler,takes Options.  Migrate your code to AddHandler(hnd, HandlerOptions.Duplicates) for compat.")]
         public static void AddMessageHandler(IBilgeMessageHandler ibmh) {
             BilgeRouter.Router.AddHandler(ibmh);
+        }
+
+        /// <summary>
+        /// Adds a Handler based on the handler options - handler options can either check for matching types, or matching names, and can 
+        /// refuse to add if a matching type or name is added.  Default is to allow as many duplicate handlers as you wish.
+        /// </summary>
+        /// <param name="ibmh">The handler to add</param>
+        /// <param name="hao">The approach to take with duplicates</param>
+        /// <returns></returns>
+        public static bool AddHandler(IBilgeMessageHandler ibmh, HandlerAddOptions hao = HandlerAddOptions.Duplicates) {
+            switch (hao) {
+                
+                case HandlerAddOptions.SingleType:
+                    foreach (var n in GetHandlers()) {
+                        if (n.GetType() == ibmh.GetType()) {
+                            return false;
+                        }
+                    };
+                    break;
+                case HandlerAddOptions.SingleName:
+                    var mn = ibmh.Name.ToLower();
+                    foreach (var n in GetHandlers()) {
+                        if (n.Name.ToLower() == mn) {
+                            return false;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
+            BilgeRouter.Router.AddHandler(ibmh);
+            return true;
+        }
+
+        public static void ClearMessageHandlers() {
+            BilgeRouter.Router.FlushMessages();
+            BilgeRouter.Router.ClearEverything();
+        }
+
+        /// <summary>
+        /// Gets all of the message handlers with some very basic filtering capability, this is not usually required by most implementations but can
+        /// be useful when allowing for things like dynamic configuration of message handlers.  The filter string can either start or end with an  *
+        /// to indicate that the name should be an exact match (no *) or end with (*text) or start with (text*) a matching text filter.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public static IEnumerable<IBilgeMessageHandler> GetHandlers(string filter = "*") {
+            string nameMatchStart = null;
+            string nameMatchEnd = null;
+
+            if (filter.StartsWith("*")) {
+                nameMatchEnd = filter.Substring(1);
+            } else if (filter.EndsWith("*")) {
+                nameMatchStart= filter.Substring(0, filter.Length - 1);
+            }
+
+            foreach (var nextHandler in BilgeRouter.Router.GetHandlers()) {
+
+                if (!string.IsNullOrEmpty(nextHandler.Name)) {
+                    if (!string.IsNullOrEmpty(nameMatchStart)) {
+                        if (nextHandler.Name.StartsWith(nameMatchStart)) {
+                            yield return nextHandler;
+                        }
+                    } else if (!string.IsNullOrEmpty(nameMatchEnd)) {
+                        if (nextHandler.Name.EndsWith(nameMatchEnd)) {
+                            yield return nextHandler;
+                        }
+                    } else {
+                        yield return nextHandler;
+                    }
+                } else {
+                    yield return nextHandler;
+                }
+
+                
+            }
+
         }
     }
 }

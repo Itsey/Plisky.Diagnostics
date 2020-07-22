@@ -19,10 +19,11 @@ namespace Plisky.Diagnostics.Test {
         public string ManagedThreadIdMustBe { get; private set; }
 
         public int Priority => 100;
-        public string Name => nameof(MockMessageHandler);
+        public string Name { get; set; }
         public int AssertionMessageCount = 0;
 
-        public MockMessageHandler() {
+        public MockMessageHandler(string nme = nameof(MockMessageHandler)) {
+            Name = nme;
             LastMessageBatchSize = 0;
         }
 
