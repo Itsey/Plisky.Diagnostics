@@ -5,52 +5,50 @@ using System.Text;
 
 namespace Plisky.Diagnostics.Test {
     public class ModularWriting {
-        public Module1 m1 = new Module1();
-        public Module2 m2 = new Module2();
-        public Module3 m3 = new Module3();
+        Bilge b = new Bilge("outerModule");
+        Module[] mods;
 
 
-        public ModularWriting() {
+
+
+
+        public ModularWriting(int modCount = 3) {
+            mods = new Module[modCount];
+            for (int i = 0; i < modCount; i++) {
+                mods[i] = new Module(modCount.ToString());
+            }
 
         }
 
 
         public void DoWrite() {
-            for(int i=0; i<10; i++) {
-                m1.WriteStuff();
+            for (int i = 0; i < 100; i++) {
+                foreach(var mo in mods) {
+                    mo.WriteStuff();
+                }
             }
+
         }
     }
 
 
-    public class Module1 {
+    public class Module {
+        protected string name;
         public Bilge b = new Bilge("module1");
 
         internal void WriteStuff() {
-            b.Info.Log("InfoLevelWriting Module 1");
-            b.Verbose.Log("Verbose LevelWriting Module 1");
-            b.Error.Log("Error LevelWriting Module 1");
+            b.Info.Log($"InfoLevelWriting {name}");
+            b.Verbose.Log($"Verbose LevelWriting {name}");
+            b.Error.Log($"Error LevelWriting {name}");
+            b.Warning.Log($"Warning level writing {name}");
+            b.Error.Dump(new Exception("Outer Error", new Exception("Inner Error")), $"Exception written {name}");
+        }
+
+        public Module(string nm) {
+            name = nm;
+
         }
     }
 
 
-    public class Module2 {
-        public Bilge b = new Bilge("module2");
-
-        internal void WriteStuff() {
-            b.Info.Log("InfoLevelWriting Module 2");
-            b.Verbose.Log("Verbose LevelWriting Module 2");
-            b.Error.Log("Error LevelWriting Module 2");
-        }
-    }
-
-    public class Module3 {
-        public Bilge b = new Bilge("module3");
-
-        internal void WriteStuff() {
-            b.Info.Log("InfoLevelWriting Module 3");
-            b.Verbose.Log("Verbose LevelWriting Module 3");
-            b.Error.Log("Error LevelWriting Module 3");
-        }
-    }
 }

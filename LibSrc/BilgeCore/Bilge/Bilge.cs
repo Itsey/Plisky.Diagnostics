@@ -151,11 +151,11 @@ namespace Plisky.Diagnostics {
             }
 
             Assert = new BilgeAssert(BilgeRouter.Router, activeConfig);
-            Info = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Information | SourceLevels.Error | SourceLevels.Critical);
-            Verbose = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.All);
-            Warning = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Warning | SourceLevels.Error | SourceLevels.Critical);
-            Error = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Error | SourceLevels.Critical);
-            Critical = new BilgeWriter(BilgeRouter.Router, activeConfig, SourceLevels.Critical);
+            Info = new InfoWriter(BilgeRouter.Router, activeConfig, SourceLevels.Information | SourceLevels.Error | SourceLevels.Critical);
+            Verbose = new VerboseWriter(BilgeRouter.Router, activeConfig, SourceLevels.All);
+            Warning = new WarningWriter(BilgeRouter.Router, activeConfig, SourceLevels.Warning | SourceLevels.Error | SourceLevels.Critical);
+            Error = new ErrorWriter(BilgeRouter.Router, activeConfig, SourceLevels.Error | SourceLevels.Critical);
+            Critical = new ErrorWriter(BilgeRouter.Router, activeConfig, SourceLevels.Critical);
             Direct = new BilgeDirect(BilgeRouter.Router, activeConfig);
             Util = new BilgeUtil(BilgeRouter.Router, activeConfig);
 

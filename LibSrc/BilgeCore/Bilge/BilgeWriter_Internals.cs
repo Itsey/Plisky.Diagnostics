@@ -14,11 +14,44 @@ namespace Plisky.Diagnostics {
     using System.Text;
     using System.Threading;
 
+    public class InfoWriter : BilgeWriter {
+
+        public InfoWriter(BilgeRouter router, ConfigSettings config, SourceLevels yourTraceLevel) : base(router, config, yourTraceLevel) {
+            baseCommandLevel = TraceCommandTypes.LogMessage;
+        }
+    }
+
+    public class ErrorWriter : BilgeWriter {
+
+        public ErrorWriter(BilgeRouter router, ConfigSettings config, SourceLevels yourTraceLevel) : base(router, config, yourTraceLevel) {
+            baseCommandLevel = TraceCommandTypes.ErrorMsg;
+        }
+    }
+
+    public class VerboseWriter : BilgeWriter {
+
+        public VerboseWriter(BilgeRouter router, ConfigSettings config, SourceLevels yourTraceLevel) : base(router, config, yourTraceLevel) {
+            baseCommandLevel = TraceCommandTypes.LogMessageVerb;
+        }
+    }
+
+    public class WarningWriter : BilgeWriter {
+
+        public WarningWriter(BilgeRouter router, ConfigSettings config, SourceLevels yourTraceLevel) : base(router, config, yourTraceLevel) {
+            baseCommandLevel = TraceCommandTypes.WarningMsg;
+        }
+    }
+
     public partial class BilgeWriter : BilgeConditionalRoutedBase {
-        
+        protected TraceCommandTypes baseCommandLevel = TraceCommandTypes.LogMessage;
+
+        protected void DefaultRouteMessage(string messageBody, string furtherInfo = null, string methodName = null, string fileName = null, int lineNumber = 0) {
+            ActiveRouteMessage(baseCommandLevel, messageBody, furtherInfo, methodName, fileName, lineNumber);
+        }
+
         private enum StreamDumpUptions { Hex, Tex, Workitout }; // TODO : Seriously?
 
-        internal BilgeWriter(BilgeRouter router, ConfigSettings config, SourceLevels yourTraceLevel) :base(router,config,yourTraceLevel) {
+        internal BilgeWriter(BilgeRouter router, ConfigSettings config, SourceLevels yourTraceLevel) : base(router, config, yourTraceLevel) {
         }
 
 
@@ -33,9 +66,9 @@ namespace Plisky.Diagnostics {
         /// <param name="meth">The Method Name</param>
         /// <param name="pth">The caller path</param>
         /// <param name="ln">The Line Number</param>
-        private void InternalDumpSecureString(SecureString ss, string message, string secondaryMessage,string meth, string pth, int ln) {
+        private void InternalDumpSecureString(SecureString ss, string message, string secondaryMessage, string meth, string pth, int ln) {
 
-#region entry code
+            #region entry code
 
             if (ss == null) {
                 ActiveRouteMessage(TraceCommandTypes.LogMessage, "SecureString value:<string was null>", message, meth, pth, ln);
@@ -43,10 +76,10 @@ namespace Plisky.Diagnostics {
             }
             if ((message == null) || (message.Length == 0)) { message = Constants.NFI; }
 
-#endregion
+            #endregion
 
             IntPtr ptr = Marshal.SecureStringToBSTR(ss);
-            ActiveRouteMessage(TraceCommandTypes.LogMessage, $"SecureString value: {Marshal.PtrToStringUni(ptr)}", message + Environment.NewLine + secondaryMessage);
+            DefaultRouteMessage($"SecureString value: {Marshal.PtrToStringUni(ptr)}", message + Environment.NewLine + secondaryMessage);
 
         }
 
@@ -62,7 +95,7 @@ namespace Plisky.Diagnostics {
         /// <param name="ln">The Line Number</param>
         private void InternalDumpArray(Array arr, string message, int limitSearchTo, string meth, string pth, int ln) {
 
-#region entry code
+            #region entry code
 
             if ((message == null) || (message.Length == 0)) {
                 message = Constants.NFI;
@@ -73,10 +106,10 @@ namespace Plisky.Diagnostics {
                 return;
             }
 
-#endregion
+            #endregion
 
 
-            ActiveRouteMessage(TraceCommandTypes.LogMessage, "DumpArray of " + arr.Length.ToString() + " elements ",message, meth, pth, ln);
+            DefaultRouteMessage("DumpArray of " + arr.Length.ToString() + " elements ", message, meth, pth, ln);
 
             int arrayIndex = 0;
             int endIndex = arr.Length;
@@ -111,7 +144,7 @@ namespace Plisky.Diagnostics {
         /// <param name="pth">The caller path</param>
         /// <param name="ln">The Line Number</param>
         private void InternalDumpEnumerable(IEnumerable ien, string message, string meth, string pth, int ln) {
-            ActiveRouteMessage(TraceCommandTypes.LogMessage, "Dump Enumerable type.", message, meth, pth, ln);
+            DefaultRouteMessage("Dump Enumerable type.", message, meth, pth, ln);
             int count = 0;
             foreach (object o in ien) {
                 count++;
@@ -131,7 +164,7 @@ namespace Plisky.Diagnostics {
         /// <param name="ln">The Line Number</param>
         private void InternalDumpException(Exception ex, string message, string message2, string meth, string pth, int ln) {
 
-#region entry code
+            #region entry code
 
             if ((message == null) || (message.Length == 0)) {
                 message = Constants.NFI;
@@ -139,11 +172,11 @@ namespace Plisky.Diagnostics {
 
             if (ex == null) {
 
-                ActiveRouteMessage(TraceCommandTypes.InternalMsg,"DumpException, Exception object was null", message, meth, pth, ln);
+                ActiveRouteMessage(TraceCommandTypes.InternalMsg, "DumpException, Exception object was null", message, meth, pth, ln);
                 return;
             }
 
-#endregion
+            #endregion
 
 
             ActiveRouteMessage(TraceCommandTypes.ExceptionBlock, message, message2, meth, pth, ln);
@@ -174,7 +207,7 @@ namespace Plisky.Diagnostics {
 
 
                 ActiveRouteMessage(TraceCommandTypes.ExcEnd, "", "");
-               inex = inex.InnerException;
+                inex = inex.InnerException;
             }
 
             ActiveRouteMessage(TraceCommandTypes.ExceptionData, Constants.EXCEPTIONENDTAG, "");
@@ -186,15 +219,15 @@ namespace Plisky.Diagnostics {
             // Non recursive object dump
             if (obj == null) {
                 titleForDump = titleForDump ?? string.Empty;
-                ActiveRouteMessage(TraceCommandTypes.LogMessage, titleForDump + "ObjectDump of NULL object", secondaryMessage,meth, pth, ln);
+                DefaultRouteMessage(titleForDump + "ObjectDump of NULL object", secondaryMessage, meth, pth, ln);
                 ActiveRouteMessage(TraceCommandTypes.MoreInfo, titleForDump + "ObjectDump End", "");
                 return;
             }
 
             if (titleForDump == null) {
-                ActiveRouteMessage(TraceCommandTypes.LogMessage, "ObjectDump of " + obj.ToString(), secondaryMessage, meth, pth, ln);
+                DefaultRouteMessage("ObjectDump of " + obj.ToString(), secondaryMessage, meth, pth, ln);
             } else {
-                ActiveRouteMessage(TraceCommandTypes.LogMessage, titleForDump, secondaryMessage + "\r\nObjectDump of " + obj.ToString(), meth, pth, ln);
+                DefaultRouteMessage(titleForDump, secondaryMessage + "\r\nObjectDump of " + obj.ToString(), meth, pth, ln);
             }
             string objectData = ObjectToString(obj);
 
@@ -210,13 +243,13 @@ namespace Plisky.Diagnostics {
         /// <returns>The c# specific typename corresponding to the .net type</returns>
         private string TranslateTypeNamesToCSharp(string typeName) {
 
-#region entry code
+            #region entry code
 
             if (string.IsNullOrEmpty(typeName)) {
                 return string.Empty;
             }
 
-#endregion
+            #endregion
 
             switch (typeName) {
                 // Do not change these out to nameof - that removes the namespace prefix
@@ -289,7 +322,7 @@ namespace Plisky.Diagnostics {
         private void InternalDumpHashTable(Hashtable ht, string contextText, string secondaryMessage, bool internalCall, string meth, string pth, int ln) {
 
 
-            TraceCommandTypes typeOfMessage = internalCall ? TraceCommandTypes.MoreInfo : TraceCommandTypes.LogMessage;
+            TraceCommandTypes typeOfMessage = internalCall ? TraceCommandTypes.MoreInfo : baseCommandLevel;
 
             if (ht == null) {
                 ActiveRouteMessage(typeOfMessage, "Hashtable Dump (" + contextText + ") : null", "", meth, pth, ln);
@@ -378,11 +411,11 @@ namespace Plisky.Diagnostics {
 
             // Special cases for empty and null streams.
             if (stm == null) {
-                ActiveRouteMessage(TraceCommandTypes.LogMessage, "Stream:: The stream is null", "Cannot perform Stream Dump.");
+                DefaultRouteMessage("Stream:: The stream is null", "Cannot perform Stream Dump.");
                 return;
             }
             if (stm.Length == 0) {
-                ActiveRouteMessage(TraceCommandTypes.LogMessage, "Stream:: The stream is Empty", "Cannot perform Stream Dump.");
+                DefaultRouteMessage("Stream:: The stream is Empty", "Cannot perform Stream Dump.");
                 return;
             }
 
@@ -400,7 +433,7 @@ namespace Plisky.Diagnostics {
 
             stm.Position = streamPositionBeforeDumpCalled;
 
-            ActiveRouteMessage(TraceCommandTypes.LogMessage, context + " stream dump (text).", "Stream::" + new string(theBuffer));
+            DefaultRouteMessage(context + " stream dump (text).", "Stream::" + new string(theBuffer));
             ActiveRouteMessage(TraceCommandTypes.MoreInfo, supportingInformation, " Stream Dump Length[" + stm.Length + "]PosFirst[" + streamPositionBeforeDumpCalled.ToString() + "]Type[" + stm.GetType().ToString() + "]");
         }
 
@@ -416,13 +449,13 @@ namespace Plisky.Diagnostics {
         /// <param name="supportingInformation">Further contextual information</param>
         private void InternalDumpStreamAsHex(Stream stm, long startingPosition, int charsToDump, string context, string supportingInformation) {
 
-#region entry code
+            #region entry code
 
 
             context = context ?? string.Empty;
             supportingInformation = supportingInformation ?? string.Empty;
 
-#endregion
+            #endregion
 
             // Special case for null or empty streams
             if ((stm == null) || (stm.Length == 0)) {
@@ -432,7 +465,7 @@ namespace Plisky.Diagnostics {
                 } else {
                     msg = "The stream has a length of 0.";
                 }
-                ActiveRouteMessage(TraceCommandTypes.LogMessage, "Stream:: " + msg, "Cannot perform Stream Dump.");
+                DefaultRouteMessage("Stream:: " + msg, "Cannot perform Stream Dump.");
                 return;
             }
 
@@ -453,7 +486,7 @@ namespace Plisky.Diagnostics {
             }
 
             stm.Position = currentPos;
-            ActiveRouteMessage(TraceCommandTypes.LogMessage, context + " stream dump (hex).", "Stream::" + sb.ToString());
+            DefaultRouteMessage(context + " stream dump (hex).", "Stream::" + sb.ToString());
             ActiveRouteMessage(TraceCommandTypes.MoreInfo, supportingInformation, " Stream Dump Length[" + stm.Length + "]PosFirst[" + currentPos.ToString() + "]Type[" + stm.GetType().ToString() + "]");
         }
 

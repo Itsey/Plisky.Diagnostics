@@ -16,19 +16,12 @@ using Microsoft.Extensions.Configuration;
 namespace Plisky.Diagnostics.Test {
     class Program {
         static void Main(string[] args) {
-
+            Bilge.AddMessageHandler(new ConsoleHandler());
             Bilge.AddMessageHandler(new TCPHandler("127.0.0.1", 9060));
             Bilge.Alert.Online("TestClient");
 
 
-            PerformanceTest p = new PerformanceTest();
-            p.AnalysisBatchVsNoBatch();
-            //p.ExecuteTest();
-            p.WriteOutput();
-            
 
-            Bilge.ForceFlush();
-            return; 
 
 #if CORE
             // Due to the dependency on configurations and the different ways that you can configure a core service this is not
@@ -54,7 +47,7 @@ namespace Plisky.Diagnostics.Test {
 
             });
 
-#else 
+#else
             Bilge.SetConfigurationResolver((instanceName, lvl) => {
 
                 // Logic -> Try Source Switch, Failing that Trace Switch, failing that SourceSwitch + Switch, Failing that TraceSwitch+Switch.
@@ -108,14 +101,36 @@ namespace Plisky.Diagnostics.Test {
             b.Verbose.Log("Hello Cruel World");
 
             bool traceSwitchTests = false;
-            bool bulkFileWriteTests = true;
+            bool bulkFileWriteTests = false;
+            bool perfTests = false;
+            bool basicWriteAllTest = true;
 
+            if (basicWriteAllTest) {
+                Bilge.SetConfigurationResolver((instanceName, lvl) => {
+                    return SourceLevels.Verbose;
+                });
+
+                ModularWriting mw = new ModularWriting();
+                mw.DoWrite();
+            }
             if (bulkFileWriteTests) {
                 ProductionLoggingTest(b);
             }
             b.Flush();
+
+            if (perfTests) {
+                PerformanceTest p = new PerformanceTest();
+                p.AnalysisBatchVsNoBatch();
+                //p.ExecuteTest();
+                p.WriteOutput();
+
+
+                Bilge.ForceFlush();
+
+            }
+            Console.ReadLine();
             return;
-           
+
             b.AddHandler(new SimpleTraceFileHandler(@"c:\temp\"));
             if (traceSwitchTests) {
                 Console.WriteLine("Actual Trace Level : " + b.ActiveTraceLevel.ToString());
@@ -158,12 +173,16 @@ namespace Plisky.Diagnostics.Test {
             Console.ReadLine();
         }
 
-        private static int runCount=0;
+        private static void DoWriteMostThings() {
+            throw new NotImplementedException();
+        }
+
+        private static int runCount = 0;
         private static void ProductionLoggingTest(Bilge b) {
             string fn = $"Log{DateTime.Now.Day}{DateTime.Now.Month}{DateTime.Now.Year}.Log";
             fn = Path.Combine(@"D:\Temp\_DelWorking\", fn);
-               
-                
+
+
             b.AddHandler(new FileSystemHandler(new FSHandlerOptions(fn)));
 
             for (int t = 0; t < 9; t++) {

@@ -31,6 +31,11 @@ namespace Plisky.Diagnostics.Test {
             //Interlocked.Increment(ref TotalMessagesRecieved);
         }
 
+        MessageMetadata lastMessageData;
+        internal MessageMetadata GetMostRecentMessage() {
+            return lastMessageData;
+        }
+
         public void AssertAllConditionsMetForAllMessages(bool assertSomeMessagesRecieved = true, bool allowSingleMatch = false) {
             if (assertSomeMessagesRecieved) {
                 Assert.True(TotalMessagesRecieved >0, "No messages written to the listener");
@@ -133,6 +138,7 @@ namespace Plisky.Diagnostics.Test {
                 lock (allMessagesRecieved) {
                     allMessagesRecieved.Add(m);
                 }
+                lastMessageData = m;
 
             }
 

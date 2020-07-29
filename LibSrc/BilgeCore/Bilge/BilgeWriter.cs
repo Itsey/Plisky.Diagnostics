@@ -220,17 +220,17 @@ namespace Plisky.Diagnostics {
         }
 
         public void Log(TraceSwitch ts, string v, string moreInfo = null, [CallerMemberName]string meth = null, [CallerFilePath] string pth = null, [CallerLineNumber]int ln = 0) {
-            ActiveRouteMessage(TraceCommandTypes.LogMessage, v, moreInfo, meth, pth, ln);
+            DefaultRouteMessage(v, moreInfo, meth, pth, ln);
         }
 
 
         public void Log(string v, string moreInfo = null, [CallerMemberName]string meth = null, [CallerFilePath] string pth = null, [CallerLineNumber]int ln = 0) {
-            ActiveRouteMessage(TraceCommandTypes.LogMessage, v, moreInfo, meth, pth, ln);
+            DefaultRouteMessage(v, moreInfo, meth, pth, ln);
         }
 
         public void Flow(string moreInfo = null, [CallerMemberName]string meth = null, [CallerFilePath] string pth = null, [CallerLineNumber]int ln = 0) {
             string msg = $"Flow [{meth}]";
-            ActiveRouteMessage(TraceCommandTypes.LogMessage, msg, moreInfo, meth, pth, ln);
+            DefaultRouteMessage(msg, moreInfo, meth, pth, ln);
         }
 #endif
 

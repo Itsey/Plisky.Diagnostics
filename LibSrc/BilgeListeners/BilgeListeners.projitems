@@ -9,7 +9,9 @@
     <Import_RootNamespace>BilgeListeners</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Formatters\ConsoleFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\AsyncTCPClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Handlers\ConsoleHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\InMemoryHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\ODSHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Handlers\DebugTCPHandler.cs" />

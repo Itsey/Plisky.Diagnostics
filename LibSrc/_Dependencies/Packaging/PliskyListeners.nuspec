@@ -11,9 +11,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Listeners to support the Plisky Diagnostic Library.</description>
     <releaseNotes>
-      XXX-VERSION-XXX - 
-      Synchronsised with Bilge.
-      
+      XXX-VERSION-XXX -      
+      + Console Listener Now Available
+            
       2.8.2 - Adding new FileSystemHandler
       2.8.1 - Removing broken FileSystemHandler
       2.8.0 - Compatibility with new feature release for Bilge, Added skeleton DebugTCPHandler.

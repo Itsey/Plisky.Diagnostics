@@ -20,6 +20,67 @@
             b.Warning.Log("Test message");
         }
 
+
+
+        [Theory(DisplayName = nameof(WriteMessage_ArrivesAsMessage))]
+        [Trait(Traits.Age, Traits.Fresh)]
+        [Trait(Traits.Style, Traits.Unit)]
+        [InlineData(TraceCommandTypes.LogMessage)]
+        [InlineData(TraceCommandTypes.LogMessageVerb)]
+        [InlineData(TraceCommandTypes.ErrorMsg)]
+        [InlineData(TraceCommandTypes.WarningMsg)]
+        public void WriteMessage_ArrivesAsMessage(TraceCommandTypes testCase) {
+            var sut = TestHelper.GetBilgeAndClearDown();
+            sut.ActiveTraceLevel = SourceLevels.Verbose;
+            var mmh = new MockMessageHandler();
+            sut.AddHandler(mmh);
+
+            
+            WriteCorrectTypeOfMessage(sut, testCase);
+            sut.Flush();
+            Thread.Sleep(10);
+
+            var msg = mmh.GetMostRecentMessage();
+
+            Assert.NotNull(msg);
+            Assert.Equal(testCase, msg.CommandType);
+        }
+
+        private void WriteCorrectTypeOfMessage(Bilge sut, TraceCommandTypes testCase) {
+            switch (testCase) {
+                case TraceCommandTypes.LogMessage: sut.Info.Log("Test"); break;
+                case TraceCommandTypes.LogMessageVerb: sut.Verbose.Log("Test"); break;
+                case TraceCommandTypes.TraceMessageIn: sut.Info.EnterSection("Test"); break;
+                case TraceCommandTypes.ErrorMsg: sut.Error.Log("Test"); break;
+                case TraceCommandTypes.WarningMsg: sut.Warning.Log("Test"); break;
+
+                case TraceCommandTypes.LogMessageMini:
+                case TraceCommandTypes.InternalMsg:
+                case TraceCommandTypes.TraceMessageOut:
+                case TraceCommandTypes.TraceMessage:
+                case TraceCommandTypes.AssertionFailed:
+                case TraceCommandTypes.MoreInfo:
+                case TraceCommandTypes.CommandOnly:
+                case TraceCommandTypes.ExceptionBlock:
+                case TraceCommandTypes.ExceptionData:
+                case TraceCommandTypes.ExcStart:
+                case TraceCommandTypes.ExcEnd:
+                case TraceCommandTypes.SectionStart:
+                case TraceCommandTypes.SectionEnd:
+                case TraceCommandTypes.ResourceEat:
+                case TraceCommandTypes.ResourcePuke:
+                case TraceCommandTypes.ResourceCount:
+                case TraceCommandTypes.Standard:
+                case TraceCommandTypes.CommandXML:
+                case TraceCommandTypes.Custom:
+                case TraceCommandTypes.Alert:
+                case TraceCommandTypes.Unknown:
+                default:
+                    throw new NotImplementedException();
+                    
+            }
+        }
+
         [Fact(DisplayName = nameof(GetHandlers_DefaultReturnsAll))]
         [Trait(Traits.Age, Traits.Fresh)]
         [Trait(Traits.Style, Traits.Unit)]
@@ -55,7 +116,7 @@
         public void AddHandler_DoesAddHandler() {
             _ = TestHelper.GetBilgeAndClearDown();
 
-            bool worked = Bilge.AddHandler(new MockMessageHandler());            
+            bool worked = Bilge.AddHandler(new MockMessageHandler());
             var count = Bilge.GetHandlers().Count();
 
             Assert.True(worked);
@@ -94,11 +155,11 @@
         [Fact(DisplayName = nameof(AddHandler_SingleType_DoesNotAddSecond))]
         [Trait(Traits.Age, Traits.Fresh)]
         [Trait(Traits.Style, Traits.Unit)]
-        public void AddHandler_SingleType_DoesNotAddSecond () {
+        public void AddHandler_SingleType_DoesNotAddSecond() {
             _ = TestHelper.GetBilgeAndClearDown();
 
-            Bilge.AddHandler(new MockMessageHandler(),HandlerAddOptions.SingleType);
-            Bilge.AddHandler(new MockMessageHandler(),HandlerAddOptions.SingleType);
+            Bilge.AddHandler(new MockMessageHandler(), HandlerAddOptions.SingleType);
+            Bilge.AddHandler(new MockMessageHandler(), HandlerAddOptions.SingleType);
             var ct = Bilge.GetHandlers().Count();
 
             Assert.Equal(1, ct);
@@ -151,7 +212,7 @@
         public void DirectWrite_IsPossible() {
             Bilge sut = TestHelper.GetBilgeAndClearDown();
             sut.DisableMessageBatching();
-            sut.ActiveTraceLevel = SourceLevels.Verbose;          
+            sut.ActiveTraceLevel = SourceLevels.Verbose;
 
             var mmh = new MockMessageHandler();
             sut.AddHandler(mmh);
@@ -306,22 +367,20 @@
         [Trait(Traits.Age, Traits.Regression)]
         public void Bilge_EnterSection_TracesSection() {
             var mmh = new MockMessageHandler();
-            Bilge sut = new Bilge(tl:SourceLevels.Verbose);
+            Bilge sut = new Bilge(tl: SourceLevels.Verbose);
             sut.AddHandler(mmh);
             mmh.SetMethodNameMustContain("monkeyfish");
             sut.Info.EnterSection("random sectiion", "monkeyfish");
             sut.Flush();
 
-
             mmh.AssertAllConditionsMetForAllMessages(true, true);
-
         }
 
         [Fact]
         [Trait(Traits.Age, Traits.Regression)]
         public void Bilge_LeaveSection_TracesSection() {
             var mmh = new MockMessageHandler();
-            Bilge sut = new Bilge(tl:SourceLevels.Verbose);
+            Bilge sut = new Bilge(tl: SourceLevels.Verbose);
 
             sut.AddHandler(mmh);
 
@@ -356,7 +415,7 @@
             sut.Assert.True(false);
 
             sut.Flush();
-            
+
 
             Assert.True(mmh.AssertionMessageCount > 0);
         }
