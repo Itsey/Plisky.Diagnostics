@@ -6,7 +6,7 @@
     <RootNamespace>Plisky.Diagnostics.Listeners</RootNamespace>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>C:\Files\Code\git\PliskyDiagnostics\LibSrc\_Dependencies\pliskyKeystore.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\_Dependencies\pliskyKeystore.snk</AssemblyOriginatorKeyFile>
     <Description>Plisky Diagnostic Listeners - Net Standard Edition.</Description>
     <AssemblyVersion>2.8</AssemblyVersion>
     <FileVersion>2.8.1.0</FileVersion>
