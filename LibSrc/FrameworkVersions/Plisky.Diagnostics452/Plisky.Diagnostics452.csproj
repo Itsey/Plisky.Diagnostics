@@ -32,10 +32,10 @@
     <DocumentationFile>bin\Release\Plisky.Diagnostics.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\..\..\..\..\Fsync\plisky_keyfile.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\_Dependencies\pliskyKeystore.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,8 +57,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\Fsync\plisky_keyfile.snk">
-      <Link>plisky_keyfile.snk</Link>
+    <None Include="..\..\_Dependencies\pliskyKeystore.snk">
+      <Link>pliskyKeystore.snk</Link>
     </None>
   </ItemGroup>
   <Import Project="..\..\BilgeCore\BilgeCore.projitems" Label="Shared" />

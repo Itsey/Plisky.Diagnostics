@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Plisky.Diagnostics</AssemblyName>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>D:\Fsync\plisky_keyfile.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\_Dependencies\pliskyKeystore.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <AssemblyVersion>2.8</AssemblyVersion>
     <FileVersion>2.8.2.0</FileVersion>
@@ -28,7 +28,9 @@
   <Import Project="..\..\BilgeCore\BilgeCore.projitems" Label="Shared" />
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\Fsync\plisky_keyfile.snk" Link="plisky_keyfile.snk" />
+    <None Include="..\..\_Dependencies\pliskyKeystore.snk">
+      <Link>pliskyKeystore.snk</Link>
+    </None>
   </ItemGroup>
 
 </Project>

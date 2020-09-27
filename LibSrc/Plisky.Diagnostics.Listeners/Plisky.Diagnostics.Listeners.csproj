@@ -32,10 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\..\..\..\Fsync\plisky_keyfile.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\_Dependencies\pliskyKeystore.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -62,11 +62,7 @@
       <Name>Plisky.Diagnostics</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\..\..\..\Fsync\plisky_keyfile.snk">
-      <Link>plisky_keyfile.snk</Link>
-    </None>
-  </ItemGroup>
+ 
   <Import Project="..\BilgeListeners\BilgeListeners.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

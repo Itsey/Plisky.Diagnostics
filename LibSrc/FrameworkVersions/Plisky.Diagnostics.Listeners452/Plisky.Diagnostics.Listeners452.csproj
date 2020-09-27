@@ -31,10 +31,10 @@
     <DocumentationFile>bin\Release\Plisky.Diagnostics.Listeners.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\..\..\..\..\Fsync\plisky_keyfile.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\_Dependencies\pliskyKeystore.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -65,8 +65,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\Fsync\plisky_keyfile.snk">
-      <Link>plisky_keyfile.snk</Link>
+    <None Include="..\..\_Dependencies\pliskyKeystore.snk">
+      <Link>pliskyKeystore.snk</Link>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
