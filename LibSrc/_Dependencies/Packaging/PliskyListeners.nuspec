@@ -27,14 +27,7 @@
     <copyright>Copyright 2020</copyright>
     <tags>trace logger logging logs application app bilge plisky piffle error diagnostics</tags>
   </metadata>
-  <dependencies>
-    <group targetFramework=".NETFramework4.0" />
-    <group targetFramework=".NETFramework4.5.2" />
-    <group targetFramework=".NETFramework4.6.2" />
-    <group targetFramework=".NETFramework4.8" />
-    <group targetFramework=".NETFramework4.7.2" />
-    <group targetFramework=".NETStandard2.0" />
-  </dependencies>
+
   <files>
     
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners40\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net40\" />
