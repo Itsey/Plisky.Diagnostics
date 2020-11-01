@@ -27,13 +27,33 @@
     <copyright>Copyright 2020</copyright>
     <tags>trace logger logging logs application app bilge plisky piffle error diagnostics</tags>
   </metadata>
+  <dependencies>
+    <group targetFramework=".NETFramework4.0" />
+    <group targetFramework=".NETFramework4.5.2" />
+    <group targetFramework=".NETFramework4.6.2" />
+    <group targetFramework=".NETFramework4.8" />
+    <group targetFramework=".NETFramework4.7.2" />
+    <group targetFramework=".NETStandard2.0" />
+  </dependencies>
   <files>
+    
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners40\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net40\" />
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners40\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net40\" />
+    
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net452\" />
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net452\" />
-    <file src="..\..\Plisky.Diagnostics.Listeners\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net47\" />
-    <file src="..\..\Plisky.Diagnostics.Listeners\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net47\" />
+
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net462\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net462\" />
+
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net472\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net472\" />
+
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Dll" target="lib\net48\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics.Listeners452\Bin\$configuration$\Plisky.Diagnostics.Listeners.Pdb" target="lib\net48\" />
+
+    
+
     <!-- Net Standard 2.0-->
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics.ListenersStd2\Bin\$configuration$\netstandard2.0\Plisky.Diagnostics.Listeners.Dll" target="lib\netstandard2.0\" />
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics.ListenersStd2\Bin\$configuration$\netstandard2.0\Plisky.Diagnostics.Listeners.Pdb" target="lib\netstandard2.0\" />

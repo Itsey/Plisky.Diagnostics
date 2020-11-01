@@ -11,7 +11,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Plisky Diagnostics Library - featuring Bilge and Piffle, offering comprehensive trace and error handling facilities to applications.</description>
     <releaseNotes>
-      XXX-VERSION-XXX      
+      XXX-VERSION-XXX
+      + Alert now returns a string with a summary title that can be used in other logging.
+      + Support for 462, 472, 48 Framework Versions Added.
       X Bug Fix - Correct information on trace level written to listeners for Error, Log, Verbose.
       
       2.8.6
@@ -34,7 +36,9 @@
     <dependencies>
       <group targetFramework=".NETFramework4.0" />
       <group targetFramework=".NETFramework4.5.2" />
-      <group targetFramework=".NETFramework4.7" />
+      <group targetFramework=".NETFramework4.6.2" />
+      <group targetFramework=".NETFramework4.8" />
+      <group targetFramework=".NETFramework4.7.2" />
       <group targetFramework=".NETStandard2.0" />
     </dependencies>
   </metadata>
@@ -42,13 +46,28 @@
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics40\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net40\" />
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics40\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net40\" />
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics40\Bin\$configuration$\Plisky.Diagnostics.xml" target="lib\net40\" />
+    
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net452\" />
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net452\" />
     <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.xml" target="lib\net452\" />
-    <!-- Most recent version -->
-    <file src="..\..\Plisky.Diagnostics\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net47\" />
-    <file src="..\..\Plisky.Diagnostics\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net47\" />
-    <file src="..\..\Plisky.Diagnostics\Bin\$configuration$\Plisky.Diagnostics.xml" target="lib\net47\" />
+
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net452\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net452\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.xml" target="lib\net452\" />
+
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net462\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net462\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.xml" target="lib\net462\" />
+
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net472\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net472\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.xml" target="lib\net472\" />
+
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Dll" target="lib\net48\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.Pdb" target="lib\net48\" />
+    <file src="..\..\FrameworkVersions\Plisky.Diagnostics452\Bin\$configuration$\Plisky.Diagnostics.xml" target="lib\net48\" />
+    
+    
     <!-- Net Standard 2.0-->
     <file src="..\..\FrameworkVersions\Plisky.DiagnosticsStd2\Bin\$configuration$\netstandard2.0\Plisky.Diagnostics.Dll" target="lib\netstandard2.0\" />
     <file src="..\..\FrameworkVersions\Plisky.DiagnosticsStd2\Bin\$configuration$\netstandard2.0\Plisky.Diagnostics.Pdb" target="lib\netstandard2.0\" />

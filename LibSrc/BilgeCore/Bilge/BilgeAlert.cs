@@ -56,26 +56,26 @@
         /// Alerting level call to indicate that an application is online and ready to begin processing.  Starts the uptime counter and sends basic telemetry to the
         /// trace stream.
         /// </summary>
-        /// <param name="AppName">An identifier for the application</param>
-        public void Online(string AppName) {
-            if (string.IsNullOrWhiteSpace(AppName)) {
-                AppName = "Unknown";
+        /// <param name="appName">An identifier for the application</param>
+        public string Online(string appName) {
+            if (string.IsNullOrWhiteSpace(appName)) {
+                appName = "Unknown";
             }
 
             string ver = GetVersionFromAssembly();
-            alertingContexts[Bilge.BILGE_INSTANCE_CONTEXT_STR] = AppName;
+            alertingContexts[Bilge.BILGE_INSTANCE_CONTEXT_STR] = appName;
             onlineAt = DateTime.Now;
-            string toWrite = $"{AppName} Online. v-{ver}. @{onlineAt}"; // [{rt.MachineNameCache}]";
+            string toWrite = $"{appName} Online. v-{ver}. @{onlineAt}"; // [{rt.MachineNameCache}]";
 
             Dictionary<string, string> avals = new Dictionary<string, string>();
             avals.Add("alert-name", "online");
             avals.Add("onelineAt", onlineAt.ToString());
             avals.Add("machine-name", rt.MachineNameCache);
-            avals.Add("app-name", AppName);
+            avals.Add("app-name", appName);
             avals.Add("app-ver", ver);
 
             AlertQueue(toWrite, avals);
-
+            return toWrite;
         }
 
         private string GetVersionFromAssembly() {
