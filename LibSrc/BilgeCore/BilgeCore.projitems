@@ -19,7 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\ConfigSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\HandlerAddOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMessageFormatter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Bilge\PrettyReadableFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\PrettyReadableFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\QueuedBilgeRouter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\SimpleTraceFileHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeRouter.cs" />
@@ -29,7 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBilgeMessageHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IEmergencyDiagnostics.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LegacyFlimFlamFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\LegacyFlimFlamFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageParts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageStructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InternalUtil.cs" />
@@ -37,5 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
+    <Folder Include="$(MSBuildThisFileDirectory)MessageFormatters\" />
   </ItemGroup>
 </Project>

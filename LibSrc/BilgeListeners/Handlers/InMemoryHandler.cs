@@ -7,7 +7,13 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// InMemoryHandler is, as suggested by the name a handler that stores the log data in memory to be retireved later.  Therefore it does not actually
+    /// write the data anyhwere.  It is up to the caller to retrieve the messages.  As such you should configure maximum queue depths to ensure that not
+    /// too many resources are consumed by old logs.
+    /// </summary>
     public class InMemoryHandler : IBilgeMessageHandler {
+
         private int messageIndex;
         private Queue<string> messages = new Queue<string>();
 
@@ -25,7 +31,7 @@ namespace Plisky.Diagnostics.Listeners {
             }
             return result;
         }
-        public PrettyReadableFormatter Formatter { get; private set; }
+        public IMessageFormatter Formatter { get; private set; }
 
         public int Priority => 5;
         public string Name => nameof(InMemoryHandler);
@@ -62,6 +68,12 @@ namespace Plisky.Diagnostics.Listeners {
 
         public string GetStatus() {
             return $"writing ok, current depth {GetMessageCount()} maxDepth {MaxQueueDepth}";
+        }
+
+        public void SetFormatter(IMessageFormatter fmt) {
+            if (fmt != null) {
+                Formatter = fmt;
+            }
         }
 
         public InMemoryHandler(int maxDepth = 5000) {

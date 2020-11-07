@@ -13,6 +13,7 @@
     <releaseNotes>
       XXX-VERSION-XXX -      
       + Console Listener Now Available
+      * Formatter name changed,InMemoryHandler formatter can now be set.
             
       2.8.2 - Adding new FileSystemHandler
       2.8.1 - Removing broken FileSystemHandler
