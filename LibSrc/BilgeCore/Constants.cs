@@ -198,7 +198,7 @@ namespace Plisky.Diagnostics {
         }
 
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Long switch statement but very simple to read")]
-        internal static TraceCommandTypes StringToTraceCommand(string theCmdText) {
+        public static TraceCommandTypes StringToTraceCommand(string theCmdText) {
             switch (theCmdText) {
                 case Constants.MSGFMT_LOG: return TraceCommandTypes.LogMessage;
                 case Constants.MSGFMT_LOGVERBOSE: return TraceCommandTypes.LogMessageVerb;

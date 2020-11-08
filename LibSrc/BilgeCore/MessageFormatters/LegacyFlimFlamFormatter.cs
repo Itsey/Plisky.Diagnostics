@@ -1,4 +1,4 @@
-﻿namespace Plisky.Diagnostics.Listeners {
+﻿namespace Plisky.Diagnostics {
     using Plisky.Plumbing;
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -6,72 +6,9 @@
     using System.Runtime.InteropServices;
     using System.Threading;
 
-    public class LegacyFlimFlamFormatter : IMessageFormatter {
-        private static string truncationCache = Constants.MESSAGETRUNCATE + "[" + Environment.MachineName + "][{0}" + Constants.TRUNCATE_DATAENDMARKER;
-
+    public class LegacyFlimFlamFormatter : BaseMessageFormatter {
+        protected override string ActualConvert(MessageMetadata msg) {
         
-
-        /// <summary>
-        /// This will take a single long string and return it as a series of truncated strings with the length that is
-        /// specified in theLength parameter used to do the chopping up.  There is nothing clever or special about this
-        /// routine it does not break on words or aynthing like that.
-        /// </summary>
-        /// <param name="theLongString">The string that is to be chopped up into smaller strings</param>
-        /// <param name="theLength">The length at which the smaller strings are to be created</param>
-        /// <returns></returns>
-        public static string[] MakeManyStrings(string theLongString, int theLength) {
-
-            #region entry code
-
-            if (theLongString == null) { return null; }
-            if (theLength <= 0) { throw new ArgumentException("theLength parameter cannot be <=0 for MakeManyStrings method"); }
-
-            #endregion
-
-            string[] result;
-
-            if (theLongString.Length <= theLength) {
-                // Special case where no splitting is necessary;
-                result = new string[1];
-                result[0] = theLongString;
-                return result;
-            }
-
-            double exactNoChops = (double)((double)theLongString.Length / (double)theLength);
-            int noChops = (int)Math.Ceiling(exactNoChops);
-
-            result = new string[noChops];
-
-            // All other cases where theLongString actually needs to be chopped up into smaller chunks
-            int remainingChars = theLongString.Length;
-            int currentOffset = 0;
-            int currentChopCount = 0;
-            while (remainingChars > theLength) {
-                result[currentChopCount++] = theLongString.Substring(currentOffset, theLength);
-                remainingChars -= theLength;
-                currentOffset += theLength;
-            }
-            result[currentChopCount] = theLongString.Substring(currentOffset, remainingChars);
-
-#if DEBUG
-            if (currentChopCount != (noChops - 1)) {
-                throw new NotSupportedException("This really should not happen");
-            }
-#endif
-
-            string truncJoinIdentifier = Thread.CurrentThread.GetHashCode().ToString();
-            string truncateStartIdentifier = string.Format(truncationCache, truncJoinIdentifier);
-            result[0] = result[0] + Constants.MESSAGETRUNCATE + truncJoinIdentifier + Constants.MESSAGETRUNCATE;
-            for (int i=1; i < result.Length-1; i++) {
-                result[i] = truncateStartIdentifier + result[i] + Constants.MESSAGETRUNCATE;
-            }
-            result[result.Length - 1] = truncateStartIdentifier + result[result.Length - 1];
-            return result;
-        }
-
-   
-
-        public string ConvertToString(MessageMetadata msg) {
             string result;
             MessageParts nextMsg = new MessageParts();
             msg.NullsToEmptyStrings();

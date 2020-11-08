@@ -50,7 +50,7 @@ namespace Plisky.Diagnostics.Listeners {
 
         public void HandleMessage(MessageMetadata msgMeta) {
             try {
-                string msg = Formatter.ConvertToString(msgMeta);
+                string msg = Formatter.Convert(msgMeta);
                 internalOutputDebugString(msg);
                 status = "ok";
             } catch (Exception ex) {

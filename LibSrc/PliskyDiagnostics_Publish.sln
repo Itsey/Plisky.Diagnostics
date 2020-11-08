@@ -3,17 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics", "Plisky.Diagnostics\Plisky.Diagnostics.csproj", "{53C50174-FB06-4127-8E23-E077EBD5BD91}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BilgeCore", "BilgeCore\BilgeCore.shproj", "{18C26C0C-4C5C-47D1-9872-CAE3F5B2ECA0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Dependencies", "_Dependencies\_Dependencies.csproj", "{6A505E98-EAE9-44A1-9B62-D30617367DC0}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BilgeListeners", "BilgeListeners\BilgeListeners.shproj", "{7EEBC5CC-1F72-4D49-A29D-3A29AF4ACB6B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.Listeners", "Plisky.Diagnostics.Listeners\Plisky.Diagnostics.Listeners.csproj", "{B2E59DAC-B8CF-42EE-AD8D-6C210336C186}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.Test", "Plisky.Diagnostics.Test\Plisky.Diagnostics.Test.csproj", "{62CA003A-038B-487F-83B5-FA4FE9C6E075}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PliskyTester", "PliskyTester\PliskyTester.csproj", "{4A476B6D-A64E-41D7-AE8B-ACEBA8005018}"
 EndProject
@@ -35,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole452", "Framework
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole450", "FrameworkVersions\TestConsole450\TestConsole450.csproj", "{10956870-334D-4812-9C1A-9D0300452CE4}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestConsoleShared", "TestConsoleShared\TestConsoleShared.shproj", "{2F1BD31E-EA5D-4D8F-81C8-2B58AC0BD052}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BilgeConsoleTester", "TestConsoleShared\BilgeConsoleTester.shproj", "{2F1BD31E-EA5D-4D8F-81C8-2B58AC0BD052}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsoleCore31", "TestConsoleCore\TestConsoleCore31.csproj", "{64730EF2-7780-4896-8F40-A6DB4298C283}"
 EndProject
@@ -51,6 +45,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.Listener
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.Listeners48", "FrameworkVersions\Plisky.Diagnostics.Listeners48\Plisky.Diagnostics.Listeners48.csproj", "{485E61E5-1871-47C3-89B2-B988E0EBFB98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.Test", "Plisky.Diagnostics.Test\Plisky.Diagnostics.Test.csproj", "{E4C18381-E626-499C-8731-3233E78AE270}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics", "Plisky.Diagnostics\Plisky.Diagnostics.csproj", "{C96FA974-5201-4994-901C-71511D3C275F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plisky.Diagnostics.Listeners", "Plisky.Diagnostics.Listeners\Plisky.Diagnostics.Listeners.csproj", "{42199B56-357A-43A2-A523-016D2E8EE518}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TestConsoleShared\TestConsoleShared.projitems*{10956870-334d-4812-9c1a-9d0300452ce4}*SharedItemsImports = 4
@@ -58,18 +58,18 @@ Global
 		BilgeCore\BilgeCore.projitems*{18c8ae86-c0d4-4878-8504-6ba9fd6139fe}*SharedItemsImports = 4
 		TestConsoleShared\TestConsoleShared.projitems*{2f1bd31e-ea5d-4d8f-81c8-2b58ac0bd052}*SharedItemsImports = 13
 		BilgeCore\BilgeCore.projitems*{38ffb496-9636-4349-85cb-e53cb03cb3c4}*SharedItemsImports = 4
+		BilgeListeners\BilgeListeners.projitems*{42199b56-357a-43a2-a523-016d2e8ee518}*SharedItemsImports = 5
 		BilgeListeners\BilgeListeners.projitems*{485e61e5-1871-47c3-89b2-b988e0ebfb98}*SharedItemsImports = 4
 		BilgeCore\BilgeCore.projitems*{4c7bf124-fd47-4799-8a50-f83f882a9483}*SharedItemsImports = 4
-		BilgeCore\BilgeCore.projitems*{53c50174-fb06-4127-8e23-e077ebd5bd91}*SharedItemsImports = 4
 		TestConsoleShared\TestConsoleShared.projitems*{5d25f9e6-04a2-4546-ab65-b44d878e668c}*SharedItemsImports = 4
 		TestConsoleShared\TestConsoleShared.projitems*{64730ef2-7780-4896-8f40-a6db4298c283}*SharedItemsImports = 5
 		BilgeListeners\BilgeListeners.projitems*{65127dfd-c0c1-4f5a-aea9-b1e395e3b72b}*SharedItemsImports = 4
 		BilgeListeners\BilgeListeners.projitems*{68d8a0d0-4e15-4b93-bd40-1b16e0b48b99}*SharedItemsImports = 4
 		BilgeListeners\BilgeListeners.projitems*{7eebc5cc-1f72-4d49-a29d-3a29af4acb6b}*SharedItemsImports = 13
 		BilgeCore\BilgeCore.projitems*{a4b66cf4-5baf-412b-813e-3b008642a0bf}*SharedItemsImports = 4
-		BilgeListeners\BilgeListeners.projitems*{b2e59dac-b8cf-42ee-ad8d-6c210336c186}*SharedItemsImports = 4
 		BilgeCore\BilgeCore.projitems*{bded7cc7-faf1-4455-8ac2-2b6bcc2aaa34}*SharedItemsImports = 5
 		BilgeListeners\BilgeListeners.projitems*{c2f58962-f7e0-455f-85b2-ecec2ed97942}*SharedItemsImports = 5
+		BilgeCore\BilgeCore.projitems*{c96fa974-5201-4994-901c-71511d3c275f}*SharedItemsImports = 5
 		BilgeListeners\BilgeListeners.projitems*{c9d8e72b-bc8e-44e3-8acc-434deb4cfda7}*SharedItemsImports = 4
 		BilgeListeners\BilgeListeners.projitems*{cb8b3022-7e29-4d08-86d1-93fe2c2617a1}*SharedItemsImports = 4
 		BilgeCore\BilgeCore.projitems*{fbf6b2c9-5e73-4f49-a5f3-ea0f57df8d68}*SharedItemsImports = 4
@@ -80,30 +80,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{53C50174-FB06-4127-8E23-E077EBD5BD91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53C50174-FB06-4127-8E23-E077EBD5BD91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53C50174-FB06-4127-8E23-E077EBD5BD91}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
-		{53C50174-FB06-4127-8E23-E077EBD5BD91}.Develop|Any CPU.Build.0 = Debug|Any CPU
-		{53C50174-FB06-4127-8E23-E077EBD5BD91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53C50174-FB06-4127-8E23-E077EBD5BD91}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A505E98-EAE9-44A1-9B62-D30617367DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A505E98-EAE9-44A1-9B62-D30617367DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A505E98-EAE9-44A1-9B62-D30617367DC0}.Develop|Any CPU.ActiveCfg = Develop|Any CPU
 		{6A505E98-EAE9-44A1-9B62-D30617367DC0}.Develop|Any CPU.Build.0 = Develop|Any CPU
 		{6A505E98-EAE9-44A1-9B62-D30617367DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A505E98-EAE9-44A1-9B62-D30617367DC0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2E59DAC-B8CF-42EE-AD8D-6C210336C186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2E59DAC-B8CF-42EE-AD8D-6C210336C186}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2E59DAC-B8CF-42EE-AD8D-6C210336C186}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2E59DAC-B8CF-42EE-AD8D-6C210336C186}.Develop|Any CPU.Build.0 = Debug|Any CPU
-		{B2E59DAC-B8CF-42EE-AD8D-6C210336C186}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2E59DAC-B8CF-42EE-AD8D-6C210336C186}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62CA003A-038B-487F-83B5-FA4FE9C6E075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62CA003A-038B-487F-83B5-FA4FE9C6E075}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62CA003A-038B-487F-83B5-FA4FE9C6E075}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
-		{62CA003A-038B-487F-83B5-FA4FE9C6E075}.Develop|Any CPU.Build.0 = Debug|Any CPU
-		{62CA003A-038B-487F-83B5-FA4FE9C6E075}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62CA003A-038B-487F-83B5-FA4FE9C6E075}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A476B6D-A64E-41D7-AE8B-ACEBA8005018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A476B6D-A64E-41D7-AE8B-ACEBA8005018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A476B6D-A64E-41D7-AE8B-ACEBA8005018}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
@@ -200,6 +182,24 @@ Global
 		{485E61E5-1871-47C3-89B2-B988E0EBFB98}.Develop|Any CPU.Build.0 = Debug|Any CPU
 		{485E61E5-1871-47C3-89B2-B988E0EBFB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{485E61E5-1871-47C3-89B2-B988E0EBFB98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C18381-E626-499C-8731-3233E78AE270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C18381-E626-499C-8731-3233E78AE270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C18381-E626-499C-8731-3233E78AE270}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C18381-E626-499C-8731-3233E78AE270}.Develop|Any CPU.Build.0 = Debug|Any CPU
+		{E4C18381-E626-499C-8731-3233E78AE270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C18381-E626-499C-8731-3233E78AE270}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C96FA974-5201-4994-901C-71511D3C275F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96FA974-5201-4994-901C-71511D3C275F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96FA974-5201-4994-901C-71511D3C275F}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96FA974-5201-4994-901C-71511D3C275F}.Develop|Any CPU.Build.0 = Debug|Any CPU
+		{C96FA974-5201-4994-901C-71511D3C275F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96FA974-5201-4994-901C-71511D3C275F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42199B56-357A-43A2-A523-016D2E8EE518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42199B56-357A-43A2-A523-016D2E8EE518}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42199B56-357A-43A2-A523-016D2E8EE518}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
+		{42199B56-357A-43A2-A523-016D2E8EE518}.Develop|Any CPU.Build.0 = Debug|Any CPU
+		{42199B56-357A-43A2-A523-016D2E8EE518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42199B56-357A-43A2-A523-016D2E8EE518}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

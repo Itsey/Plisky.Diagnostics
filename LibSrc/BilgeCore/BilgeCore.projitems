@@ -18,7 +18,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter_Internals.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\ConfigSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\HandlerAddOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\BilgeConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMessageFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\BaseMessageFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\MessageFormatterOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\MessageMetaDataTransport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\FlimFlamV2Formatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\PrettyReadableFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\QueuedBilgeRouter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\SimpleTraceFileHandler.cs" />
@@ -37,6 +42,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
-    <Folder Include="$(MSBuildThisFileDirectory)MessageFormatters\" />
   </ItemGroup>
 </Project>

@@ -41,7 +41,7 @@ namespace Plisky.Diagnostics.Listeners {
 
                 var sb = new StringBuilder();
                 for (int i = 0; i < msg.Length; i++) {
-                    sb.Append(formatter.ConvertToString(msg[i]));
+                    sb.Append(formatter.Convert(msg[i]));
                     sb.Append(Environment.NewLine);
                 }
 

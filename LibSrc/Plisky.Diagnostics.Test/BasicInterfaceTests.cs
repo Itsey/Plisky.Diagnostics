@@ -344,7 +344,8 @@
 
         }
 
-        [Fact]
+        
+        [Fact(DisplayName = nameof(Exit_WritesMethodName))]
         [Trait(Traits.Age, Traits.Regression)]
         public void Exit_WritesMethodName() {
 

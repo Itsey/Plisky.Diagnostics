@@ -13,47 +13,68 @@ namespace Plisky.Diagnostics.Listeners {
     /// too many resources are consumed by old logs.
     /// </summary>
     public class InMemoryHandler : IBilgeMessageHandler {
+        protected Queue<string> messages = new Queue<string>();
+        private uint uniqueMessageIndex;
 
-        private int messageIndex;
-        private Queue<string> messages = new Queue<string>();
 
         public int MaxQueueDepth { get; set; }
 
+        /// <summary>
+        /// Returns the oldest message, removing it from the queue if clear on get is set.
+        /// </summary>
+        /// <returns></returns>
         public string GetMessage() {
-            return messages.Dequeue();
+            if (messages.Count == 0) {
+                return null;
+            }
+
+            return ClearOnGet ? messages.Dequeue() : messages.Peek();
+
         }
 
         public string[] GetAllMessages() {
-            int currentCount = messages.Count;
-            string[] result = new string[messages.Count];
-            for(int i=0; i< currentCount; i++) {
-                result[i] = GetMessage();
+
+            var exm = messages;
+            if (ClearOnGet) {
+                messages = new Queue<string>();
             }
-            return result;
+
+            return exm.ToArray();
+
         }
         public IMessageFormatter Formatter { get; private set; }
 
         public int Priority => 5;
         public string Name => nameof(InMemoryHandler);
+        public bool ClearOnGet { get; set; }
 
         public async Task HandleMessageAsync(MessageMetadata[] msg) {
 
             var sb = new StringBuilder();
             foreach (var v in msg) {
-                sb.Append($"{messageIndex++} - ");
-                sb.Append(Formatter.ConvertToString(v));
+                uniqueMessageIndex++;
+                sb.Append(Formatter.ConvertWithReference(v, uniqueMessageIndex.ToString()));
                 messages.Enqueue(sb.ToString());
-                if (messages.Count>MaxQueueDepth) {
+                if (messages.Count > MaxQueueDepth) {
                     _ = messages.Dequeue();
                 }
                 sb.Clear();
             }
-            
+
 
         }
 
-            public void HandleMessage40(MessageMetadata[] msg) {
-            throw new NotImplementedException();
+        public void HandleMessage40(MessageMetadata[] msg) {
+            var sb = new StringBuilder();
+            foreach (var v in msg) {
+                uniqueMessageIndex++;
+                sb.Append(Formatter.ConvertWithReference(v, uniqueMessageIndex.ToString()));
+                messages.Enqueue(sb.ToString());
+                if (messages.Count > MaxQueueDepth) {
+                    _ = messages.Dequeue();
+                }
+                sb.Clear();
+            }
         }
 
         public int GetMessageCount() {
@@ -79,6 +100,7 @@ namespace Plisky.Diagnostics.Listeners {
         public InMemoryHandler(int maxDepth = 5000) {
             Formatter = new PrettyReadableFormatter();
             MaxQueueDepth = maxDepth;
+            ClearOnGet = true;
         }
 
     }

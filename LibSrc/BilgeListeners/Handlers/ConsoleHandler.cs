@@ -21,7 +21,7 @@ namespace Plisky.Diagnostics.Listeners {
 
             foreach (var v in msg) {
                 if (WriteConsolePreamble(v.CommandType)) {
-                    string writer = Formatter.ConvertToString(v);
+                    string writer = Formatter.Convert(v);
                     Console.WriteLine(writer);
                 }                
             }

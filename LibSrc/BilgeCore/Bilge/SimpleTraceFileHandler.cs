@@ -20,7 +20,7 @@ namespace Plisky.Diagnostics.Listeners {
         public async Task HandleMessageAsync(MessageMetadata[] msg) {
             var sb = new StringBuilder();
             foreach (var v in msg) {
-                sb.Append(Formatter.ConvertToString(v));
+                sb.Append(Formatter.Convert(v));
             }
             byte[] txt = Encoding.UTF8.GetBytes(sb.ToString());
             var tsk = fs.WriteAsync(txt, 0, txt.Length);
@@ -31,7 +31,7 @@ namespace Plisky.Diagnostics.Listeners {
         public void HandleMessage40(MessageMetadata[] msg) {
             StringBuilder sb = new StringBuilder();
             foreach (var v in msg) {
-                sb.Append(Formatter.ConvertToString(v));
+                sb.Append(Formatter.Convert(v));
             }
             byte[] txt = Encoding.UTF8.GetBytes(sb.ToString());
             fs.Write(txt, 0, txt.Length);

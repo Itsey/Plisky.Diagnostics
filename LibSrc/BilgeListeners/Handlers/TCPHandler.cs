@@ -25,7 +25,7 @@
 
         public async void HandleMessageAsync(MessageMetadata msgMeta) {
             try {
-                string msg = Formatter.ConvertToString(msgMeta);
+                string msg = Formatter.Convert(msgMeta);
                 await tcpClient.WriteToExternalSocket(msg);
                 status = "ok";
             } catch (Exception ex) {
@@ -50,7 +50,7 @@
  
                 var sb = new StringBuilder();
                 for (int i = 0; i < msg.Length; i++) {
-                    sb.Append(Formatter.ConvertToString(msg[i]));
+                    sb.Append(Formatter.Convert(msg[i]));
                     sb.Append(Constants.TCPEND_MARKERTAG);
                     if (msg[i].CommandType == TraceCommandTypes.AssertionFailed) {
                         assertFailFoud = true;
