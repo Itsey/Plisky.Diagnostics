@@ -1,5 +1,4 @@
-﻿
-
+﻿          
 namespace Plisky.Diagnostics.Listeners {
     using System;
     using System.Collections.Generic;
@@ -7,13 +6,13 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Text;
     using System.Threading.Tasks;
 
-    public class SimpleTraceFileHandler : IBilgeMessageHandler {
+    public class SimpleTraceFileHandler : BaseHandler, IBilgeMessageHandler {
         private WeakReference lastTask;
         private FileStream fs;
 
-        public PrettyReadableFormatter Formatter { get; private set; }
+        
 
-        public int Priority => 5;
+        
         public string Name => nameof(SimpleTraceFileHandler);
 
 

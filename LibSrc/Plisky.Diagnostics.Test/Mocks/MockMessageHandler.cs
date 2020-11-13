@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Plisky.Diagnostics.Listeners;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Plisky.Diagnostics.Test {
 
-    internal class MockMessageHandler : IBilgeMessageHandler {
+    internal class MockMessageHandler : BaseHandler, IBilgeMessageHandler {
         private List<MessageMetadata> allMessagesRecieved = new List<MessageMetadata>();
 
         private string ContextMustBe = null;
@@ -18,13 +19,14 @@ namespace Plisky.Diagnostics.Test {
         public string ProcessIdMustBe { get; private set; }
         public string ManagedThreadIdMustBe { get; private set; }
 
-        public int Priority => 100;
+        
         public string Name { get; set; }
         public int AssertionMessageCount = 0;
 
         public MockMessageHandler(string nme = nameof(MockMessageHandler)) {
             Name = nme;
             LastMessageBatchSize = 0;
+            Priority = 100;
         }
 
         public void HandleMessage(MessageMetadata md) {
@@ -145,13 +147,6 @@ namespace Plisky.Diagnostics.Test {
             return Task.CompletedTask;
         }
 
-        public void Flush() {
-            
-        }
-
-        public void CleanUpResources() {
-            
-        }
 
         public string GetStatus() {
             return "hello";

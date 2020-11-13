@@ -7,7 +7,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class TCPHandler : IBilgeMessageHandler {
+    public class TCPHandler : BaseHandler, IBilgeMessageHandler {
         internal string target;
         internal string status = "Untouched";
         internal AsyncTCPClient tcpClient;
@@ -17,9 +17,6 @@
         public Exception LastFault { get; internal set; }
 
         
-        public LegacyFlimFlamFormatter Formatter { get; private set; }
-
-        public int Priority => 1;
         public string Name => nameof(TCPHandler);
 
 
@@ -78,12 +75,12 @@
         }
 
         public TCPHandler(string targetIp, int targetPort, bool harshFails = false) {
+            Priority = 1;
             try {
                 target = $"{targetIp}:{targetPort}";
                 failsAreHarsh = harshFails;
                 tcpClient = new AsyncTCPClient(targetIp, targetPort);
-                //client.initialize();
-                Formatter = new LegacyFlimFlamFormatter();
+                Formatter = DefaultFormatter(false);
             } catch (Exception ex) {
                 LastFault = ex;
                 throw;

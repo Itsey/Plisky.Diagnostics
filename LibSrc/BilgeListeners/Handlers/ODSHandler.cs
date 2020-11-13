@@ -8,7 +8,7 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Threading.Tasks;
 
     
-    public class ODSHandler : IBilgeMessageHandler {
+    public class ODSHandler : BaseHandler, IBilgeMessageHandler {
 
         [SuppressMessage("Microsoft.Usage", "CA2205:UseManagedEquivalentsOfWin32Api", Justification = "Want to send to ODS not to a debugger")]
         [DllImport("kernel32.dll", EntryPoint = "OutputDebugStringA", SetLastError = false)]
@@ -43,9 +43,7 @@ namespace Plisky.Diagnostics.Listeners {
         }
 
         private string status;
-        public LegacyFlimFlamFormatter Formatter { get; private set; }
 
-        public int Priority => 5;
         public string Name => nameof(ODSHandler);
 
         public void HandleMessage(MessageMetadata msgMeta) {
@@ -83,7 +81,7 @@ namespace Plisky.Diagnostics.Listeners {
         }
 
         public ODSHandler() {
-            Formatter = new LegacyFlimFlamFormatter();
+            Formatter = DefaultFormatter(true);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Plisky.Diagnostics.Test {
             } else {
                 result = new Bilge(resetDefaults: true);
             }
-
+            
 #if DEBUG
             Assert.True(result.IsCleanInitialise(), "Unclean!");
 #endif

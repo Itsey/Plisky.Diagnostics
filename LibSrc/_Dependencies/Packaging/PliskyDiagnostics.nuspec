@@ -12,6 +12,7 @@
     <description>Plisky Diagnostics Library - featuring Bilge and Piffle, offering comprehensive trace and error handling facilities to applications.</description>
     <releaseNotes>
       XXX-VERSION-XXX
+      + Allow use of Formatters on all default handlers.  New FlimFlam2 Formatter added.
       + Alert now returns a string with a summary title that can be used in other logging.
       + Support for 462, 472, 48 Framework Versions Added.
       X Bug Fix - Correct information on trace level written to listeners for Error, Log, Verbose.

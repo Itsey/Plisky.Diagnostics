@@ -4,13 +4,7 @@ using System.Text;
 
 namespace Plisky.Diagnostics.Listeners {
     
-    public class HandlerOptions {
-        public string InitialisationString { get; set; }
-
-        public HandlerOptions(string init) {
-            InitialisationString = init;
-        }
-    }
+ 
 
 
     public class FSHandlerOptions : HandlerOptions {
@@ -23,6 +17,17 @@ namespace Plisky.Diagnostics.Listeners {
 
         public FSHandlerOptions(string v) : base(v) {
         
+        }
+    }
+
+
+    public class InMemoryHandlerOptions : HandlerOptions {
+        public int MaxQueueDepth { get; set; }
+        public bool ClearOnGet { get;  set; }
+
+        public InMemoryHandlerOptions(int queueDepth=5000) : base("") {
+            MaxQueueDepth = queueDepth;
+            ClearOnGet = true;
         }
     }
 }

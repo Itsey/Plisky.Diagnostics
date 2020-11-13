@@ -8,16 +8,11 @@ namespace Plisky.Diagnostics.Listeners {
     using System.Text;
     using System.Threading.Tasks;
 
-    public class ConsoleHandler : IBilgeMessageHandler {
-
-
-        public ConsoleFormatter Formatter { get; private set; }
-
-        public int Priority => 10;
+    public class ConsoleHandler : BaseHandler, IBilgeMessageHandler {
+        
         public string Name => nameof(ConsoleHandler);
 
         public async Task HandleMessageAsync(MessageMetadata[] msg) {
-
 
             foreach (var v in msg) {
                 if (WriteConsolePreamble(v.CommandType)) {
@@ -106,19 +101,13 @@ namespace Plisky.Diagnostics.Listeners {
         }
 
       
-
-        public void Flush() {
-        }
-
-        public void CleanUpResources() {
-        }
-
         public string GetStatus() {
             return $"writing ok";
         }
 
         public ConsoleHandler() {
             Formatter = new ConsoleFormatter();
+            this.Priority = 10;
 
         }
 

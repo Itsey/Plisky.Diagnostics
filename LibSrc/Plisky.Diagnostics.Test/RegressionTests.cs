@@ -65,9 +65,8 @@
         [Fact]
         [Trait(Traits.Age, Traits.Regression)]
         public void Default_TraceLevelIsOff() {
-            MockMessageHandler mmh = new MockMessageHandler();
             Bilge b = TestHelper.GetBilgeAndClearDown(setTrace:false);
-            Assert.Equal<TraceLevel>(TraceLevel.Off, b.CurrentTraceLevel);
+            Assert.Equal<SourceLevels>(SourceLevels.Off, b.ActiveTraceLevel);
         }
 
         [Fact]
@@ -75,7 +74,7 @@
         public void VerboseNotLogged_IfNotVerbose() {
             MockMessageHandler mmh = new MockMessageHandler();
             Bilge b = TestHelper.GetBilgeAndClearDown(setTrace: false);
-            b.CurrentTraceLevel = TraceLevel.Info;
+            b.ActiveTraceLevel = SourceLevels.Information;
             b.AddHandler(mmh);
             b.Verbose.Log("Msg");
             Assert.Equal<int>(0, mmh.TotalMessagesRecieved);

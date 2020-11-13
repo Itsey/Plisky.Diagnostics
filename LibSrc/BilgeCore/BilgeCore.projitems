@@ -17,8 +17,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter_Net40.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeWriter_Internals.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\ConfigSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Bilge\HandlerAddOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HandlerSupport\BaseHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HandlerSupport\HandlerAddOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\BilgeConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HandlerSupport\HandlerOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMessageFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\BaseMessageFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\MessageFormatterOptions.cs" />
@@ -26,7 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\FlimFlamV2Formatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageFormatters\PrettyReadableFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\QueuedBilgeRouter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Bilge\SimpleTraceFileHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HandlerSupport\SimpleTraceFileHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\BilgeRouter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\MessageMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bilge\Bilge.cs" />
